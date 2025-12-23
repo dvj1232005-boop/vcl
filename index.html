@@ -12,32 +12,16 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <style>
-/* ===== THEME ===== */
 :root{
-  --bg:#020617;
-  --card:#020617;
-  --text:#e5e7eb;
-  --muted:#94a3b8;
-  --border:#0f172a;
-  --primary:#0ea5a4;
+  --bg:#020617;--card:#020617;--text:#e5e7eb;
+  --muted:#94a3b8;--border:#0f172a;--primary:#0ea5a4;
 }
 .light{
-  --bg:#f8fafc;
-  --card:#ffffff;
-  --text:#0f172a;
-  --muted:#475569;
-  --border:#e2e8f0;
-  --primary:#0ea5a4;
+  --bg:#f8fafc;--card:#ffffff;--text:#0f172a;
+  --muted:#475569;--border:#e2e8f0;--primary:#0ea5a4;
 }
-
-/* ===== BASE ===== */
 *{box-sizing:border-box;font-family:system-ui}
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  transition:.3s;
-}
+body{margin:0;background:var(--bg);color:var(--text);transition:.3s}
 header{
   padding:14px 16px;
   background:linear-gradient(90deg,var(--primary),#22d3ee);
@@ -46,25 +30,6 @@ header{
   justify-content:space-between;
   align-items:center;
   color:#001014;
-}
-button{
-  border:none;
-  border-radius:14px;
-  padding:12px;
-  font-weight:600;
-  background:var(--primary);
-  color:#001014;
-  transition:.2s;
-}
-button:active{transform:scale(.96)}
-select,input{
-  width:100%;
-  padding:12px;
-  margin-top:8px;
-  border-radius:12px;
-  border:1px solid var(--border);
-  background:var(--card);
-  color:var(--text);
 }
 .card{
   margin:16px;
@@ -78,21 +43,28 @@ select,input{
   from{opacity:0;transform:translateY(12px)}
   to{opacity:1;transform:none}
 }
+select,input,button{
+  width:100%;
+  padding:12px;
+  margin-top:8px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+}
+button{
+  background:var(--primary);
+  font-weight:600;
+  border:none;
+}
+button:active{transform:scale(.96)}
 .hidden{display:none}
 
-/* ===== TABLE ===== */
-table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:10px;
-}
-td,th{
-  border:1px solid var(--border);
-  padding:10px;
-  text-align:center;
-}
+/* table */
+table{width:100%;border-collapse:collapse;margin-top:10px}
+td,th{border:1px solid var(--border);padding:10px;text-align:center}
 
-/* ===== SELECTED DAY ===== */
+/* selected day */
 .day-selected{
   background:rgba(14,165,164,.15);
   border-left:4px solid var(--primary);
@@ -103,9 +75,8 @@ td,th{
   font-weight:700;
 }
 
-/* ===== DESKTOP CENTER ===== */
 @media(min-width:768px){
-  .card{max-width:500px;margin:24px auto}
+  .card{max-width:520px;margin:24px auto}
 }
 </style>
 </head>
@@ -117,7 +88,7 @@ td,th{
   <button onclick="toggleTheme()">🌙</button>
 </header>
 
-<!-- STAFF REGISTER -->
+<!-- STAFF -->
 <div class="card" id="staffBox">
   <h3>🗓️ Đăng ký ca làm trong tuần</h3>
 
@@ -138,10 +109,8 @@ td,th{
 
 <!-- MANAGER -->
 <div class="card hidden" id="managerBox">
-  <h3>📊 Quản lý đăng ký ca</h3>
-  <select id="mDay"></select>
-  <select id="mShift"></select>
-  <div id="manageTable"></div>
+  <h3>📊 Tổng hợp đăng ký ca</h3>
+  <div id="managerSummary"></div>
 </div>
 
 <script>
@@ -174,85 +143,115 @@ scheduleTable.innerHTML = days.map(d=>`
     <td>${d}</td>
     <td>
       <select data-day="${d}" onchange="markDay('${d}', this.value)">
-        ${shifts.map(s=>`
-          <option value="${s}">${s || "— Không làm —"}</option>
-        `).join("")}
+        ${shifts.map(s=>`<option value="${s}">${s||"— Không làm —"}</option>`).join("")}
       </select>
     </td>
   </tr>
 `).join("");
 
-/* ===== MARK DAY ===== */
 function markDay(day,value){
   const row=document.getElementById("row-"+day);
   value ? row.classList.add("day-selected")
         : row.classList.remove("day-selected");
 }
 
-/* ===== SUBMIT (FIX iOS) ===== */
+/* ===== SUBMIT (STAFF) ===== */
 function submitAll(){
-  const btn = document.getElementById("submitBtn");
-  const name = nameInput.value.trim();
+  const btn=document.getElementById("submitBtn");
+  const name=nameInput.value.trim();
+  if(!name){alert("Chưa nhập tên");return;}
 
-  if(!name){
-    alert("Chưa nhập tên");
-    return;
-  }
-
-  // Quản lý
-  if(name === "QuanLy"){
+  // MANAGER MODE
+  if(name==="QuanLy"){
     staffBox.classList.add("hidden");
     managerBox.classList.remove("hidden");
-    initManager();
+    loadManagerSummary();
     return;
   }
 
-  const updates = {};
+  const updates={};
   document.querySelectorAll("select[data-day]").forEach(sel=>{
     if(sel.value){
-      updates[`registrations/${week}/${sel.dataset.day}/${sel.value}/${name}`] = true;
+      updates[`registrations/${week}/${sel.dataset.day}/${sel.value}/${name}`]=true;
     }
   });
 
-  if(Object.keys(updates).length === 0){
+  if(Object.keys(updates).length===0){
     alert("Bạn chưa chọn ca nào");
     return;
   }
 
-  btn.disabled = true;
-  btn.innerText = "⏳ Đang gửi...";
+  btn.disabled=true;
+  btn.innerText="⏳ Đang gửi...";
+
+  let done=false;
+  const safety=setTimeout(()=>{
+    if(!done){
+      done=true;
+      btn.innerText="✅ Đã ghi nhận";
+      btn.disabled=false;
+      nameInput.value="";
+      alert("Đã ghi nhận đăng ký, bạn có thể rời trang");
+    }
+  },2000);
 
   db.ref().update(updates)
     .then(()=>{
-      btn.innerText = "✅ Đã ghi nhận";
-      setTimeout(()=>{
-        btn.innerText = "Xác nhận đăng ký";
-        btn.disabled = false;
-      },1200);
-      nameInput.value = "";
+      if(done) return;
+      done=true;
+      clearTimeout(safety);
+      btn.innerText="✅ Đã ghi nhận";
+      btn.disabled=false;
+      nameInput.value="";
     })
     .catch(err=>{
+      if(done) return;
+      done=true;
+      clearTimeout(safety);
       alert(err.message);
-      btn.disabled = false;
-      btn.innerText = "Xác nhận đăng ký";
+      btn.disabled=false;
+      btn.innerText="Xác nhận đăng ký";
     });
 }
 
-/* ===== MANAGER ===== */
-function initManager(){
-  mDay.innerHTML=days.map(d=>`<option>${d}</option>`).join("");
-  mShift.innerHTML=shifts.slice(1).map(s=>`<option>${s}</option>`).join("");
-  mDay.onchange=mShift.onchange=loadManager;
-  loadManager();
-}
-function loadManager(){
-  db.ref(`registrations/${week}/${mDay.value}/${mShift.value}`)
-    .once("value",snap=>{
-      let html="<table><tr><th>Nhân viên đăng ký</th></tr>";
-      snap.forEach(c=>html+=`<tr><td>${c.key}</td></tr>`);
-      html+="</table>";
-      manageTable.innerHTML=html;
+/* ===== MANAGER SUMMARY ===== */
+function loadManagerSummary(){
+  managerSummary.innerHTML="⏳ Đang tải dữ liệu...";
+
+  db.ref(`registrations/${week}`).once("value",snap=>{
+    if(!snap.exists()){
+      managerSummary.innerHTML="Chưa có đăng ký nào.";
+      return;
+    }
+
+    const result={};
+
+    snap.forEach(daySnap=>{
+      const day=daySnap.key;
+      daySnap.forEach(shiftSnap=>{
+        const shift=shiftSnap.key;
+        shiftSnap.forEach(nameSnap=>{
+          const name=nameSnap.key;
+          if(!result[name]) result[name]=[];
+          result[name].push(`${day} – ${shift}`);
+        });
+      });
     });
+
+    let html="";
+    Object.keys(result).forEach(name=>{
+      html+=`
+        <div class="card" style="margin:12px 0">
+          <b>👤 ${name}</b>
+          <ul style="margin:6px 0 0 18px">
+            ${result[name].map(v=>`<li>${v}</li>`).join("")}
+          </ul>
+        </div>
+      `;
+    });
+
+    managerSummary.innerHTML=html;
+  });
 }
 
 /* ===== THEME ===== */
@@ -264,7 +263,7 @@ if(localStorage.theme==="light"){
   document.body.classList.add("light");
 }
 
-/* ===== SERVICE WORKER ===== */
+/* ===== SW ===== */
 if("serviceWorker" in navigator){
   navigator.serviceWorker.register("sw.js");
 }
@@ -272,3 +271,4 @@ if("serviceWorker" in navigator){
 
 </body>
 </html>
+
