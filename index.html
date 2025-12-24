@@ -9,21 +9,24 @@
 <meta name="theme-color" content="#0b3c2d">
 
 <style>
-/* ================= 🎄 CHRISTMAS UI THEME ================= */
+/* =====================================================
+   🎄 PROMAX CHRISTMAS – FINTECH / iOS STYLE
+===================================================== */
 :root{
-  --bg1:#071a14;
+  --bg1:#050e0b;
   --bg2:#0b3c2d;
-  --bg3:#145a4a;
+  --bg3:#124f41;
   --card:rgba(255,255,255,.92);
+  --glass:rgba(255,255,255,.15);
   --text:#0f172a;
-  --accent:#c62828;
   --green:#1e7f6d;
+  --red:#c62828;
   --border:rgba(255,255,255,.35);
 }
 
 body{
   margin:0;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont;
+  font-family:-apple-system,BlinkMacSystemFont,system-ui;
   background:
     radial-gradient(circle at top,rgba(255,255,255,.18),transparent 40%),
     linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
@@ -34,109 +37,142 @@ body{
   overflow-x:hidden;
 }
 
-/* ================= ❄️ SNOW ================= */
+/* ================= ❄️ SNOW – MULTI LAYER ================= */
 .snow{
   position:fixed;
   top:-10px;
-  width:8px;
-  height:8px;
+  width:6px;
+  height:6px;
   background:white;
   border-radius:50%;
-  opacity:.9;
   pointer-events:none;
   animation: fall linear infinite;
-  z-index:1;
 }
-@keyframes fall{to{transform:translateY(110vh)}}
+.snow.slow{opacity:.3}
+.snow.mid{opacity:.6}
+.snow.fast{opacity:.9}
+
+@keyframes fall{
+  to{transform:translateY(110vh)}
+}
 
 /* ================= LAYOUT ================= */
 .container{
   width:100%;
-  max-width:420px;
-  padding:20px;
+  max-width:430px;
+  padding:22px;
   position:relative;
   z-index:2;
 }
 
+/* ================= CARD PROMAX ================= */
 .card{
   background:var(--card);
-  border-radius:26px;
-  padding:22px;
+  border-radius:28px;
+  padding:24px;
   box-shadow:
-    0 30px 60px rgba(0,0,0,.35),
+    0 40px 80px rgba(0,0,0,.45),
     inset 0 0 0 1px rgba(255,255,255,.6);
-  backdrop-filter:blur(10px);
+  backdrop-filter:blur(12px);
+  animation: cardIn .7s cubic-bezier(.22,1,.36,1);
+}
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(40px) scale(.96)}
+  to{opacity:1;transform:none}
 }
 
 /* ================= HEADER ================= */
-.header h2{
+.header{
+  margin-bottom:8px;
+}
+.header h1{
   margin:0;
-  font-size:20px;
+  font-size:22px;
+  letter-spacing:.3px;
+}
+.header .sub{
+  font-size:13px;
+  opacity:.6;
 }
 
-/* ================= FORM ================= */
+/* ================= INPUT ================= */
 input{
   width:100%;
-  padding:12px;
-  margin:14px 0;
-  border-radius:16px;
+  padding:14px;
+  margin:16px 0;
+  border-radius:18px;
   border:1px solid var(--border);
   font-size:15px;
+  background:rgba(255,255,255,.85);
 }
 
+/* ================= TABLE ================= */
 table{width:100%}
 td{padding:8px 0}
-.day{font-weight:600}
+.day{font-weight:700}
 
+/* ================= SELECT – PILL STYLE ================= */
 select{
   width:100%;
-  padding:10px;
-  border-radius:14px;
+  padding:12px;
+  border-radius:999px;
   border:1px solid var(--border);
   transition:.25s;
+  background:white;
 }
 select:not([value=""]){
   border-color:var(--green);
   box-shadow:0 0 0 2px rgba(30,127,109,.25);
 }
 
-/* ================= BUTTON ================= */
+/* ================= BUTTON PROMAX ================= */
 button{
-  margin-top:18px;
+  margin-top:22px;
   width:100%;
-  padding:15px;
+  padding:16px;
   border:none;
-  border-radius:20px;
+  border-radius:999px;
   font-size:16px;
   font-weight:700;
-  background:linear-gradient(135deg,#c62828,#e53935);
   color:white;
+  background:
+    linear-gradient(135deg,#b71c1c,#e53935);
+  box-shadow:
+    0 16px 40px rgba(198,40,40,.45);
   cursor:pointer;
-  box-shadow:0 14px 30px rgba(198,40,40,.4);
+  transition:.25s;
 }
+button:hover{transform:translateY(-1px)}
+button:active{transform:scale(.98)}
 button:disabled{
   opacity:.6;
   cursor:not-allowed;
 }
 
-/* ================= MANAGER VIEW ================= */
+/* ================= MANAGER DASH ================= */
 .manager-box{
-  margin-top:20px;
-  padding:16px;
-  border-radius:18px;
-  background:rgba(255,255,255,.9);
+  margin-top:22px;
+  padding:18px;
+  border-radius:22px;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,255,255,.85));
 }
 .manager-day{
-  margin-top:14px;
+  margin-top:16px;
   font-weight:800;
   color:var(--green);
 }
 .manager-shift{
-  margin-left:12px;
+  display:flex;
+  justify-content:space-between;
+  margin:6px 0 6px 10px;
 }
 .manager-count{
+  background:var(--green);
+  color:white;
+  padding:2px 10px;
+  border-radius:999px;
   font-size:12px;
-  opacity:.6;
 }
 
 /* ================= FOOTER ================= */
@@ -151,14 +187,14 @@ button:disabled{
 
 <body>
 
-<!-- ❄️ TUYẾT -->
+<!-- ❄️ TUYẾT PROMAX -->
 <script>
-for(let i=0;i<45;i++){
+for(let i=0;i<60;i++){
   const s=document.createElement("div");
-  s.className="snow";
+  s.className="snow "+(i%3===0?"slow":i%3===1?"mid":"fast");
   s.style.left=Math.random()*100+"vw";
-  s.style.animationDuration=6+Math.random()*6+"s";
-  s.style.opacity=Math.random();
+  s.style.animationDuration=(i%3===0?12:i%3===1?8:5)+"s";
+  s.style.width=s.style.height=(i%3===0?8:i%3===1?6:4)+"px";
   document.body.appendChild(s);
 }
 </script>
@@ -166,14 +202,14 @@ for(let i=0;i<45;i++){
 <div class="container">
   <div class="card">
     <div class="header">
-      <h2>🎄 Đăng ký ca làm</h2>
+      <h1>🎄 Đăng ký ca làm</h1>
+      <div class="sub">Tuần hiện tại • An Quy Chế</div>
     </div>
 
     <input id="nameInput" placeholder="👤 Nhập tên (Quản lý nhập QuanLy)">
     <table id="scheduleTable"></table>
 
     <button id="submitBtn">🎅 Xác nhận đăng ký</button>
-    <div class="note">Ngày không làm có thể để trống.</div>
 
     <div id="managerBox" class="manager-box" style="display:none"></div>
   </div>
@@ -183,19 +219,19 @@ for(let i=0;i<45;i++){
   </div>
 </div>
 
-<!-- ================= LOGIC (GIỮ NGUYÊN) ================= -->
+<!-- ================= LOGIC – GIỮ NGUYÊN ================= -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import { getDatabase, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCK6yfVr9VBMGwhbvYMXkJqMoRjo4Om2LM",
-  authDomain: "an-quy.firebaseapp.com",
-  databaseURL: "https://an-quy-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "an-quy",
-  storageBucket: "an-quy.firebasestorage.app",
-  messagingSenderId: "672469940026",
-  appId: "1:672469940026:web:a38e5b15bbeb2361b84203"
+const firebaseConfig={
+  apiKey:"AIzaSyCK6yfVr9VBMGwhbvYMXkJqMoRjo4Om2LM",
+  authDomain:"an-quy.firebaseapp.com",
+  databaseURL:"https://an-quy-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"an-quy",
+  storageBucket:"an-quy.firebasestorage.app",
+  messagingSenderId:"672469940026",
+  appId:"1:672469940026:web:a38e5b15bbeb2361b84203"
 };
 
 const app=initializeApp(firebaseConfig);
@@ -266,7 +302,11 @@ btn.onclick=async()=>{
   Object.keys(map).forEach(d=>{
     box.innerHTML+=`<div class="manager-day">📅 ${d}</div>`;
     Object.keys(map[d]).forEach(c=>{
-      box.innerHTML+=`<div class="manager-shift">${c}: ${map[d][c].join(", ")} <span class="manager-count">(${map[d][c].length})</span></div>`;
+      box.innerHTML+=`
+        <div class="manager-shift">
+          <span>${c}: ${map[d][c].join(", ")}</span>
+          <span class="manager-count">${map[d][c].length}</span>
+        </div>`;
     });
   });
   btn.disabled=false;
@@ -289,6 +329,7 @@ if("serviceWorker" in navigator){
 </script>
 </body>
 </html>
+
 
 
 
