@@ -3,329 +3,140 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>An Quy Chế – Đăng ký ca làm</title>
+<title>🎄 An Quy Chế – Đăng ký ca</title>
 
-<!-- =====================================================
-     PWA
-===================================================== -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0b3c2d">
+<meta name="theme-color" content="#0b3d2e">
 
-<!-- =====================================================
-     DESIGN SYSTEM – PROMAX
-     Mục tiêu: nhất quán, mở rộng được, không chắp vá
-===================================================== -->
 <style>
-
 /* =====================================================
-   1. CSS RESET (gọn – đủ – không phá)
-===================================================== */
-*,*::before,*::after{
-  box-sizing:border-box;
-}
-html,body{
-  margin:0;
-  padding:0;
-}
-body{
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-}
-
-/* =====================================================
-   2. DESIGN TOKENS (BIẾN GỐC)
-   → TẤT CẢ UI SAU NÀY DÙNG TỪ ĐÂY
+   THEME GIÁNG SINH – MÙA ĐÔNG
 ===================================================== */
 :root{
-
-  /* ===== COLOR PALETTE ===== */
-  --color-bg-1:#050e0b;
-  --color-bg-2:#0b3c2d;
-  --color-bg-3:#124f41;
-
-  --color-surface:rgba(255,255,255,.92);
-  --color-glass:rgba(255,255,255,.15);
-
-  --color-text-main:#0f172a;
-  --color-text-muted:rgba(15,23,42,.6);
-
-  --color-green:#1e7f6d;
-  --color-red:#c62828;
-  --color-gold:#f4d160;
-
-  --color-border:rgba(255,255,255,.35);
-
-  /* ===== SPACING SYSTEM (8px grid) ===== */
-  --space-1:4px;
-  --space-2:8px;
-  --space-3:12px;
-  --space-4:16px;
-  --space-5:20px;
-  --space-6:24px;
-  --space-7:32px;
-  --space-8:40px;
-
-  /* ===== RADIUS ===== */
-  --radius-sm:8px;
-  --radius-md:14px;
-  --radius-lg:20px;
-  --radius-xl:28px;
-  --radius-pill:999px;
-
-  /* ===== SHADOW ===== */
-  --shadow-soft:0 10px 30px rgba(0,0,0,.15);
-  --shadow-strong:0 40px 80px rgba(0,0,0,.45);
-
-  /* ===== MOTION ===== */
-  --ease-main:cubic-bezier(.22,1,.36,1);
-  --duration-fast:.2s;
-  --duration-normal:.4s;
-  --duration-slow:.7s;
-
-  /* ===== Z-INDEX ===== */
-  --z-bg:0;
-  --z-snow:1;
-  --z-app:2;
-  --z-modal:10;
+  --bg:linear-gradient(180deg,#0b3d2e,#0f5132,#145a32);
+  --card:#fefefe;
+  --text:#0f172a;
+  --accent:#c62828;
+  --green:#1b5e20;
 }
-
-/* =====================================================
-   3. BODY – NỀN APP
-===================================================== */
 body{
-  font-family:-apple-system,BlinkMacSystemFont,system-ui;
-  color:var(--color-text-main);
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont;
+  background:var(--bg);
+  color:var(--text);
   min-height:100vh;
-
-  background:
-    radial-gradient(circle at top,
-      rgba(255,255,255,.18),
-      transparent 40%
-    ),
-    linear-gradient(135deg,
-      var(--color-bg-1),
-      var(--color-bg-2),
-      var(--color-bg-3)
-    );
-
   display:flex;
   justify-content:center;
-  overflow-x:hidden;
+}
+.container{
+  width:100%;
+  max-width:420px;
+  padding:22px;
+}
+.card{
+  background:var(--card);
+  border-radius:26px;
+  padding:22px;
+  box-shadow:0 30px 60px rgba(0,0,0,.35);
+  animation:fade .6s ease;
+}
+@keyframes fade{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:none}
+}
+.header h2{
+  margin:0;
+  font-size:22px;
+}
+.sub{
+  font-size:13px;
+  opacity:.7;
+  margin-top:4px;
+}
+input{
+  width:100%;
+  padding:14px;
+  margin:16px 0;
+  border-radius:16px;
+  border:1px solid #ddd;
+  font-size:15px;
+}
+table{
+  width:100%;
+  border-spacing:0 10px;
+  display:none;
+}
+td.day{
+  font-weight:600;
+}
+select{
+  width:100%;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid #ccc;
+}
+button{
+  margin-top:20px;
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:20px;
+  font-size:16px;
+  font-weight:700;
+  background:linear-gradient(135deg,#b71c1c,#e53935);
+  color:white;
+}
+button:disabled{
+  opacity:.6;
+}
+.note{
+  margin-top:12px;
+  font-size:13px;
+  opacity:.65;
+}
+.footer{
+  margin-top:22px;
+  text-align:center;
+  font-size:12px;
+  opacity:.6;
 }
 
 /* =====================================================
-   4. SNOW LAYER (sẽ animate ở PART 2)
+   TUYẾT RƠI
 ===================================================== */
 .snow{
   position:fixed;
   top:-10px;
-  width:6px;
-  height:6px;
-  background:white;
-  border-radius:50%;
-  pointer-events:none;
-  z-index:var(--z-snow);
-}
-
-/* =====================================================
-   5. APP CONTAINER
-===================================================== */
-.app{
-  width:100%;
-  max-width:430px;
-  padding:var(--space-6);
-  position:relative;
-  z-index:var(--z-app);
-}
-
-/* =====================================================
-   6. CARD – TRUNG TÂM UI
-===================================================== */
-.card{
-  background:var(--color-surface);
-  border-radius:var(--radius-xl);
-  padding:var(--space-6);
-
-  box-shadow:
-    var(--shadow-strong),
-    inset 0 0 0 1px rgba(255,255,255,.6);
-
-  backdrop-filter:blur(12px);
-  animation:cardEnter var(--duration-slow) var(--ease-main);
-}
-
-@keyframes cardEnter{
-  from{
-    opacity:0;
-    transform:translateY(40px) scale(.96);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
-
-/* =====================================================
-   7. HEADER
-===================================================== */
-.header{
-  margin-bottom:var(--space-4);
-}
-.header h1{
-  margin:0;
-  font-size:22px;
-  letter-spacing:.3px;
-}
-.header .subtitle{
-  margin-top:var(--space-1);
-  font-size:13px;
-  color:var(--color-text-muted);
-}
-
-/* =====================================================
-   8. FORM ELEMENTS – BASE
-===================================================== */
-input{
-  width:100%;
-  padding:var(--space-4);
-  margin:var(--space-4) 0;
-
-  border-radius:var(--radius-lg);
-  border:1px solid var(--color-border);
-
-  font-size:15px;
-  background:rgba(255,255,255,.85);
-}
-
-input:focus{
-  outline:none;
-  border-color:var(--color-green);
-  box-shadow:0 0 0 2px rgba(30,127,109,.25);
-}
-
-/* =====================================================
-   9. TABLE SCHEDULE
-===================================================== */
-table{
-  width:100%;
-  border-collapse:collapse;
-}
-td{
-  padding:var(--space-2) 0;
-}
-.day{
-  font-weight:700;
-}
-
-/* =====================================================
-   10. SELECT – PILL STYLE
-===================================================== */
-select{
-  width:100%;
-  padding:var(--space-3);
-  border-radius:var(--radius-pill);
-  border:1px solid var(--color-border);
-  background:white;
-
-  transition:
-    border-color var(--duration-fast),
-    box-shadow var(--duration-fast);
-}
-
-select:not([value=""]){
-  border-color:var(--color-green);
-  box-shadow:0 0 0 2px rgba(30,127,109,.25);
-}
-
-/* =====================================================
-   11. BUTTON – PRIMARY
-===================================================== */
-button{
-  width:100%;
-  margin-top:var(--space-6);
-  padding:var(--space-4);
-
-  border:none;
-  border-radius:var(--radius-pill);
-
-  font-size:16px;
-  font-weight:700;
   color:white;
-
-  background:
-    linear-gradient(135deg,
-      #b71c1c,
-      #e53935
-    );
-
-  box-shadow:0 16px 40px rgba(198,40,40,.45);
-
-  cursor:pointer;
-  transition:
-    transform var(--duration-fast),
-    opacity var(--duration-fast);
-}
-
-button:hover{
-  transform:translateY(-1px);
-}
-button:active{
-  transform:scale(.98);
-}
-button:disabled{
-  opacity:.6;
-  cursor:not-allowed;
-}
-
-/* =====================================================
-   12. MANAGER BOX – BASE (render ở PART 4)
-===================================================== */
-.manager-box{
-  margin-top:var(--space-6);
-  padding:var(--space-5);
-  border-radius:var(--radius-lg);
-
-  background:
-    linear-gradient(135deg,
-      rgba(255,255,255,.95),
-      rgba(255,255,255,.85)
-    );
-}
-
-/* =====================================================
-   13. FOOTER
-===================================================== */
-.footer{
-  margin-top:var(--space-5);
-  text-align:center;
   font-size:12px;
-  color:rgba(255,255,255,.75);
+  animation:fall linear forwards;
+  pointer-events:none;
 }
-
+@keyframes fall{
+  to{
+    transform:translateY(110vh);
+    opacity:0;
+  }
+}
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="container">
   <div class="card">
-
-    <!-- ===== HEADER ===== -->
     <div class="header">
-      <h1>🎄 Đăng ký ca làm</h1>
-      <div class="subtitle">Tuần hiện tại • An Quy Chế</div>
+      <h2>🎄 Đăng ký ca làm</h2>
+      <div class="sub">Tuần hiện tại • An Quy Chế</div>
     </div>
 
-    <!-- ===== FORM ===== -->
-    <input id="nameInput" placeholder="👤 Nhập tên (Quản lý nhập QuanLy)">
+    <input id="name" placeholder="👤 Nhập tên (Quản lý nhập QuanLy)">
 
-    <table id="scheduleTable"></table>
+    <!-- BẢNG CA – BẮT BUỘC CÓ -->
+    <table id="schedule"></table>
 
     <button id="submitBtn">🎅 Xác nhận đăng ký</button>
-
-    <!-- Manager render -->
-    <div id="managerBox" class="manager-box" style="display:none"></div>
-
+    <div class="note">Ngày không làm có thể để trống.</div>
   </div>
 
   <div class="footer">
@@ -333,569 +144,132 @@ button:disabled{
   </div>
 </div>
 
-<!-- =====================================================
-     JS SẼ TIẾP TỤC Ở PART 2
-===================================================== -->
-<!-- ===================== PART 2 : CORE LOGIC ===================== -->
+<!-- ===================== FIREBASE + LOGIC ===================== -->
 <script type="module">
-/* ============================================================
-   1. TIỆN ÍCH THỜI GIAN – RESET ĐẦU TUẦN
-============================================================ */
-function getMondayTimestamp(date = new Date()){
-  const d = new Date(date);
-  const day = d.getDay(); // 0 = CN
-  const diff = (day === 0 ? -6 : 1) - day;
-  d.setDate(d.getDate() + diff);
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getDatabase, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+
+/* ================= FIREBASE CONFIG ================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyCK6yfVr9VBMGwhbvYMXkJqMoRjo4Om2LM",
+  authDomain: "an-quy.firebaseapp.com",
+  databaseURL: "https://an-quy-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "an-quy",
+  storageBucket: "an-quy.firebasestorage.app",
+  messagingSenderId: "672469940026",
+  appId: "1:672469940026:web:a38e5b15bbeb2361b84203"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+/* ================= DATA ================= */
+const days = ["T2","T3","T4","T5","T6","T7","CN"];
+const shifts = [
+  "C1","C2","C3",
+  "2C (C1+C2)",
+  "2C (C2+C3)",
+  "F1","F2"
+];
+
+const table = document.getElementById("schedule");
+
+/* ================= RENDER TABLE ================= */
+days.forEach(d=>{
+  table.innerHTML += `
+    <tr>
+      <td class="day">${d}</td>
+      <td>
+        <select id="${d}">
+          <option value="">— Không làm —</option>
+          ${shifts.map(s=>`<option value="${s}">${s}</option>`).join("")}
+        </select>
+      </td>
+    </tr>
+  `;
+});
+
+/* HIỆN BẢNG KHI NHẬP TÊN */
+document.getElementById("name").addEventListener("input",()=>{
+  table.style.display="table";
+});
+
+/* ================= RESET 0:00 THỨ 2 ================= */
+function mondayKey(){
+  const d=new Date();
+  const day=d.getDay();
+  const diff=(day===0?-6:1)-day;
+  d.setDate(d.getDate()+diff);
   d.setHours(0,0,0,0);
   return d.getTime();
 }
 
-function isNewWeek(){
-  const lastReset = localStorage.getItem("lastReset");
-  const monday = getMondayTimestamp();
-  if(!lastReset || Number(lastReset) < monday){
-    localStorage.setItem("lastReset", monday);
-    return true;
-  }
-  return false;
-}
-
-/* ============================================================
-   2. RESET DATA (CHẠY KHI CÓ NGƯỜI MỞ WEB)
-============================================================ */
-import { remove, child, get as fbGet } 
-from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
-
-async function resetIfNeeded(){
-  if(isNewWeek()){
-    try{
-      await remove(ref(db, "dangKy"));
-      console.log("✅ Reset dữ liệu tuần mới");
-    }catch(e){
-      console.warn("⚠️ Không reset được:", e.message);
-    }
+async function autoReset(){
+  const k=mondayKey();
+  const snap=await get(ref(db,"meta/lastReset"));
+  if(!snap.exists()||snap.val()<k){
+    await remove(ref(db,"dangKy"));
+    await set(ref(db,"meta/lastReset"),k);
   }
 }
-resetIfNeeded();
-
-/* ============================================================
-   3. RENDER GIAO DIỆN QUẢN LÝ (BẢNG TỔNG HỢP)
-============================================================ */
-function renderManagerBoard(data){
-  const managerBox = document.getElementById("managerBox");
-  managerBox.style.display = "block";
-  managerBox.innerHTML = "";
-
-  const title = document.createElement("h3");
-  title.innerText = "📊 Tổng hợp đăng ký theo ngày & ca";
-  managerBox.appendChild(title);
-
-  const map = {};
-
-  Object.keys(data).forEach(name=>{
-    const lich = data[name].lich || {};
-    Object.keys(lich).forEach(day=>{
-      const ca = lich[day];
-      map[day] ??= {};
-      map[day][ca] ??= [];
-      map[day][ca].push(name);
-    });
-  });
-
-  Object.keys(map).forEach(day=>{
-    const dayBlock = document.createElement("div");
-    dayBlock.style.marginTop = "16px";
-
-    dayBlock.innerHTML = `<strong>${day}</strong>`;
-    Object.keys(map[day]).forEach(ca=>{
-      const box = document.createElement("div");
-      box.style.margin = "6px 0";
-      box.style.padding = "8px";
-      box.style.borderRadius = "12px";
-      box.style.background = "rgba(0,168,168,.08)";
-      box.innerHTML = `
-        <b>${ca}</b>: 
-        <span>${map[day][ca].join(", ")}</span>
-      `;
-      dayBlock.appendChild(box);
-    });
-
-    managerBox.appendChild(dayBlock);
-  });
-}
-
-/* ============================================================
-   4. GHI ĐÈ SUBMIT CŨ – THÊM QUẢN LÝ PRO
-============================================================ */
-window.submitSchedule = async ()=>{
-  const name = document.getElementById("name").value.trim();
-  if(!name) return alert("❗ Chưa nhập tên");
-
-  if(name === "QuanLy"){
-    const snap = await fbGet(ref(db, "dangKy"));
-    if(!snap.exists()){
-      alert("Chưa có dữ liệu đăng ký");
-      return;
-    }
-    renderManagerBoard(snap.val());
-    return;
-  }
-
-  const lich = {};
-  ["T2","T3","T4","T5","T6","T7","CN"].forEach(d=>{
-    const v = document.getElementById(d).value;
-    if(v) lich[d] = v;
-  });
-
-  await set(ref(db, "dangKy/" + name), {
-    ten: name,
-    lich,
-    updatedAt: Date.now()
-  });
-
-  alert("🎉 Đã gửi đăng ký thành công");
-};
-
-/* ============================================================
-   5. TUYẾT RƠI GIÁNG SINH ❄️
-============================================================ */
-const snowContainer = document.createElement("div");
-snowContainer.style.position = "fixed";
-snowContainer.style.inset = "0";
-snowContainer.style.pointerEvents = "none";
-snowContainer.style.zIndex = "9999";
-document.body.appendChild(snowContainer);
-
-function createSnow(){
-  const snow = document.createElement("div");
-  snow.innerText = "❄️";
-  snow.style.position = "absolute";
-  snow.style.left = Math.random()*100 + "vw";
-  snow.style.fontSize = (12 + Math.random()*12) + "px";
-  snow.style.opacity = Math.random();
-  snow.style.top = "-20px";
-  snow.style.transition = "top linear";
-
-  snowContainer.appendChild(snow);
-
-  const duration = 5000 + Math.random()*5000;
-  setTimeout(()=>{
-    snow.style.top = "110vh";
-  },10);
-
-  setTimeout(()=>{
-    snow.remove();
-  }, duration);
-}
-setInterval(createSnow, 350);
-
-/* ============================================================
-   6. AUTO THEME NOEL (TRƯỚC 25/12)
-============================================================ */
-(function(){
-  const now = new Date();
-  if(now.getMonth() === 11 && now.getDate() <= 25){
-    document.body.classList.remove("dark");
-  }
-})();
-   /* =====================================================
-   PART 3 : MANAGER DASHBOARD + GROUP SHIFT VIEW
-   ===================================================== */
-
-/* ========= 1. CẤU TRÚC CA & NGÀY ========= */
-const DAY_LABELS = {
-  T2: "Thứ 2",
-  T3: "Thứ 3",
-  T4: "Thứ 4",
-  T5: "Thứ 5",
-  T6: "Thứ 6",
-  T7: "Thứ 7",
-  CN: "Chủ nhật"
-};
-
-const SHIFT_LABELS = {
-  C1: "Ca 1",
-  C2: "Ca 2",
-  C3: "Ca 3",
-  "2C_C1_C2": "2 Ca (C1 + C2)",
-  "2C_C2_C3": "2 Ca (C2 + C3)",
-  F1: "Full 1",
-  F2: "Full 2"
-};
-
-/* ========= 2. TẠO GIAO DIỆN QUẢN LÝ ========= */
-function renderManagerBox(){
-  const box = document.getElementById("managerBox");
-  box.style.display = "block";
-  box.innerHTML = `
-    <div class="manager-panel">
-      <h3>📊 Bảng tổng hợp đăng ký</h3>
-      <div id="managerContent">Đang tải dữ liệu…</div>
-    </div>
-  `;
-}
-
-/* ========= 3. TỔNG HỢP LỊCH THEO NGÀY / CA ========= */
-function buildSummary(data){
-  const summary = {};
-
-  // Khởi tạo cấu trúc
-  days.forEach(d=>{
-    summary[d] = {};
-    shifts.forEach(s=>{
-      summary[d][s.value] = [];
-    });
-  });
-
-  // Gom dữ liệu
-  data.forEach(emp=>{
-    const lich = emp.lich || {};
-    Object.keys(lich).forEach(day=>{
-      const ca = lich[day];
-      if(summary[day] && summary[day][ca]){
-        summary[day][ca].push(emp.ten);
-      }
-    });
-  });
-
-  return summary;
-}
-
-/* ========= 4. RENDER BẢNG QUẢN LÝ ========= */
-function renderManagerTable(summary){
-  let html = "";
-
-  Object.keys(summary).forEach(day=>{
-    html += `
-      <div class="day-block">
-        <h4>📅 ${DAY_LABELS[day]}</h4>
-    `;
-
-    Object.keys(summary[day]).forEach(shift=>{
-      const list = summary[day][shift];
-      if(list.length){
-        html += `
-          <div class="shift-row">
-            <span class="shift-name">${SHIFT_LABELS[shift]}</span>
-            <span class="emp-list">${list.join(", ")}</span>
-          </div>
-        `;
-      }
-    });
-
-    html += `</div>`;
-  });
-
-  document.getElementById("managerContent").innerHTML = html || "Chưa có dữ liệu";
-}
-
-/* ========= 5. LOAD DỮ LIỆU CHO QUẢN LÝ ========= */
-async function loadManagerData(){
-  renderManagerBox();
-
-  const snap = await get(ref(db,"dangKy"));
-  if(!snap.exists()){
-    document.getElementById("managerContent").innerText = "Chưa có ai đăng ký";
-    return;
-  }
-
-  const data = [];
-  snap.forEach(n=>{
-    data.push(n.val());
-  });
-
-  const summary = buildSummary(data);
-  renderManagerTable(summary);
-}
-
-/* ========= 6. GẮN VÀO FLOW CŨ ========= */
-const oldSubmit = window.submitSchedule;
-
-window.submitSchedule = async ()=>{
-  const name = document.getElementById("name").value.trim();
-  if(name === "QuanLy"){
-    await loadManagerData();
-    return;
-  }
-  await oldSubmit();
-};
-/* ============================================================
-   PART 4 – MANAGER DASHBOARD (TỔNG HỢP CA LÀM)
-   ============================================================ */
-
-/* ==== CSS cho Manager (inject bằng JS cho gọn) ==== */
-const managerStyle = document.createElement("style");
-managerStyle.innerHTML = `
-.manager-box{
-  margin-top:20px;
-  background:linear-gradient(135deg,#ecfeff,#ffffff);
-  border-radius:18px;
-  padding:16px;
-  box-shadow:0 12px 30px rgba(0,0,0,.12);
-}
-.manager-title{
-  font-weight:700;
-  font-size:18px;
-  margin-bottom:12px;
-}
-.manager-day{
-  margin-top:14px;
-}
-.manager-day h4{
-  margin:6px 0;
-  font-size:15px;
-}
-.shift-group{
-  background:#f1f5f9;
-  border-radius:12px;
-  padding:10px;
-  margin-bottom:8px;
-}
-.shift-name{
-  font-weight:600;
-  color:#0f766e;
-  margin-bottom:6px;
-}
-.staff-list{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-}
-.staff{
-  background:#14b8a6;
-  color:white;
-  padding:4px 10px;
-  border-radius:999px;
-  font-size:12px;
-}
-`;
-document.head.appendChild(managerStyle);
-
-/* ==== HÀM RENDER BẢNG QUẢN LÝ ==== */
-async function renderManagerDashboard(){
-  const box = document.getElementById("managerBox");
-  box.style.display = "block";
-  box.innerHTML = `<div class="manager-title">📊 Tổng hợp đăng ký ca</div>`;
-
-  const snap = await get(ref(db,"dangKy"));
-  if(!snap.exists()){
-    box.innerHTML += "<p>Chưa có dữ liệu.</p>";
-    return;
-  }
-
-  /* ===== TỔ CHỨC DỮ LIỆU =====
-     data[day][shift] = [ten, ten...]
-  */
-  const data = {};
-
-  snap.forEach(userSnap=>{
-    const { ten, lich } = userSnap.val();
-    if(!lich) return;
-
-    Object.keys(lich).forEach(day=>{
-      const shift = lich[day];
-      if(!data[day]) data[day] = {};
-      if(!data[day][shift]) data[day][shift] = [];
-      data[day][shift].push(ten);
-    });
-  });
-
-  /* ===== RENDER ===== */
-  Object.keys(data).forEach(day=>{
-    const dayDiv = document.createElement("div");
-    dayDiv.className = "manager-day";
-    dayDiv.innerHTML = `<h4>📅 ${day}</h4>`;
-
-    Object.keys(data[day]).forEach(shift=>{
-      const group = document.createElement("div");
-      group.className = "shift-group";
-
-      group.innerHTML = `
-        <div class="shift-name">⏰ ${shift}</div>
-        <div class="staff-list">
-          ${data[day][shift].map(name=>`
-            <div class="staff">${name}</div>
-          `).join("")}
-        </div>
-      `;
-
-      dayDiv.appendChild(group);
-    });
-
-    box.appendChild(dayDiv);
-  });
-}
-
-/* ==== GẮN VÀO LOGIC QUẢN LÝ ==== */
-const originalSubmit = window.submitSchedule;
-
-window.submitSchedule = async ()=>{
-  const name = document.getElementById("name").value.trim();
-
-  if(name === "QuanLy"){
-    await renderManagerDashboard();
-    return;
-  }
-
-  // gọi lại submit cũ cho nhân viên
-  await originalSubmit();
-};
-/* ============================================================
-   PART 5 – MANAGER PRO TOOLS
-   ============================================================ */
-
-/* ===== CONFIG SỐ NGƯỜI TỐI THIỂU / CA ===== */
-const REQUIRED_STAFF = {
-  "C1": 2,
-  "C2": 2,
-  "C3": 2,
-  "2C_C1_C2": 3,
-  "2C_C2_C3": 3,
-  "F1": 1,
-  "F2": 1
-};
-
-/* ===== UI FILTER BAR ===== */
-function renderManagerTools(container){
-  const tools = document.createElement("div");
-  tools.className = "manager-tools";
-  tools.innerHTML = `
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-      <select id="filterDay">
-        <option value="">📅 Tất cả ngày</option>
-        <option>T2</option><option>T3</option><option>T4</option>
-        <option>T5</option><option>T6</option><option>T7</option><option>CN</option>
-      </select>
-
-      <select id="filterShift">
-        <option value="">⏰ Tất cả ca</option>
-        <option>C1</option><option>C2</option><option>C3</option>
-        <option>2C_C1_C2</option><option>2C_C2_C3</option>
-        <option>F1</option><option>F2</option>
-      </select>
-
-      <button id="copyBtn">📋 Copy</button>
-      <button id="exportBtn">📄 Export CSV</button>
-    </div>
-  `;
-  container.appendChild(tools);
-}
-
-/* ===== NÂNG CẤP RENDER MANAGER ===== */
-async function renderManagerDashboardPro(){
-  const box = document.getElementById("managerBox");
-  box.style.display = "block";
-  box.innerHTML = `<div class="manager-title">📊 Tổng hợp đăng ký ca</div>`;
-
-  renderManagerTools(box);
-
-  const snap = await get(ref(db,"dangKy"));
-  if(!snap.exists()){
-    box.innerHTML += "<p>Chưa có dữ liệu.</p>";
-    return;
-  }
-
-  const data = {};
-  snap.forEach(u=>{
-    const { ten, lich } = u.val();
-    if(!lich) return;
-    Object.keys(lich).forEach(day=>{
-      const shift = lich[day];
-      if(!data[day]) data[day] = {};
-      if(!data[day][shift]) data[day][shift] = [];
-      data[day][shift].push(ten);
-    });
-  });
-
-  const content = document.createElement("div");
-  box.appendChild(content);
-
-  function renderFiltered(){
-    content.innerHTML = "";
-    const dFilter = document.getElementById("filterDay").value;
-    const sFilter = document.getElementById("filterShift").value;
-
-    Object.keys(data).forEach(day=>{
-      if(dFilter && dFilter !== day) return;
-
-      const dayDiv = document.createElement("div");
-      dayDiv.className = "manager-day";
-      dayDiv.innerHTML = `<h4>📅 ${day}</h4>`;
-
-      Object.keys(data[day]).forEach(shift=>{
-        if(sFilter && sFilter !== shift) return;
-
-        const staff = data[day][shift];
-        const required = REQUIRED_STAFF[shift] || 0;
-        const thiếu = staff.length < required;
-
-        const group = document.createElement("div");
-        group.className = "shift-group";
-        if(thiếu){
-          group.style.border = "2px solid #ef4444";
-        }
-
-        group.innerHTML = `
-          <div class="shift-name">
-            ⏰ ${shift}
-            ${thiếu ? `<span style="color:#ef4444">⚠️ Thiếu ${required - staff.length}</span>` : ""}
-          </div>
-          <div class="staff-list">
-            ${staff.map(n=>`<div class="staff">${n}</div>`).join("")}
-          </div>
-        `;
-        dayDiv.appendChild(group);
-      });
-
-      content.appendChild(dayDiv);
-    });
-  }
-
-  renderFiltered();
-
-  document.getElementById("filterDay").onchange = renderFiltered;
-  document.getElementById("filterShift").onchange = renderFiltered;
-
-  /* ===== COPY ===== */
-  document.getElementById("copyBtn").onclick = ()=>{
+autoReset();
+
+/* ================= SUBMIT ================= */
+document.getElementById("submitBtn").onclick=async()=>{
+  const name=document.getElementById("name").value.trim();
+  if(!name) return alert("⚠️ Chưa nhập tên");
+
+  /* QUẢN LÝ */
+  if(name==="QuanLy"){
+    const snap=await get(ref(db,"dangKy"));
+    if(!snap.exists()) return alert("Chưa có dữ liệu");
     let text="";
-    Object.keys(data).forEach(d=>{
-      Object.keys(data[d]).forEach(s=>{
-        text += `${d} - ${s}: ${data[d][s].join(", ")}\n`;
+    snap.forEach(n=>{
+      const lich=n.val().lich||{};
+      Object.keys(lich).forEach(d=>{
+        text+=`${d} • ${lich[d]} : ${n.key}\n`;
       });
     });
-    navigator.clipboard.writeText(text);
-    alert("Đã copy danh sách 📋");
-  };
-
-  /* ===== EXPORT CSV ===== */
-  document.getElementById("exportBtn").onclick = ()=>{
-    let csv="Ngày,Ca,Nhân viên\n";
-    Object.keys(data).forEach(d=>{
-      Object.keys(data[d]).forEach(s=>{
-        csv += `${d},${s},"${data[d][s].join(" | ")}"\n`;
-      });
-    });
-    const blob = new Blob([csv],{type:"text/csv"});
-    const a=document.createElement("a");
-    a.href=URL.createObjectURL(blob);
-    a.download="lich-ca.csv";
-    a.click();
-  };
-}
-
-/* ===== GHI ĐÈ QUẢN LÝ ===== */
-window.submitSchedule = async ()=>{
-  const name = document.getElementById("name").value.trim();
-  if(name === "QuanLy"){
-    await renderManagerDashboardPro();
+    alert(text);
     return;
   }
-  await originalSubmit();
+
+  const lich={};
+  days.forEach(d=>{
+    const el=document.getElementById(d);
+    if(el&&el.value) lich[d]=el.value;
+  });
+
+  if(Object.keys(lich).length===0){
+    alert("⚠️ Bạn chưa chọn ca nào");
+    return;
+  }
+
+  await set(ref(db,"dangKy/"+name),{
+    ten:name,
+    lich,
+    time:Date.now()
+  });
+
+  alert("🎉 Đăng ký thành công");
 };
 
-</script>
-<!-- =================== END PART 2 =================== -->
+/* ================= TUYẾT RƠI ================= */
+function snow(){
+  const s=document.createElement("div");
+  s.className="snow";
+  s.textContent="❄";
+  s.style.left=Math.random()*100+"vw";
+  s.style.animationDuration=3+Math.random()*4+"s";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),7000);
+}
+setInterval(snow,350);
 
+/* ================= SERVICE WORKER ================= */
+if("serviceWorker"in navigator){
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
 </body>
 </html>
