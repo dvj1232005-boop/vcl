@@ -1,6 +1,11 @@
-const CACHE_NAME = "an-quy-che-v2-christmas";
+/* =====================================================
+   SERVICE WORKER – AN QUY CHẾ
+   Chỉ cache file tĩnh, KHÔNG cache Firebase
+===================================================== */
 
-const FILES_TO_CACHE = [
+const CACHE_NAME = "an-quy-che-cache-v3";
+
+const STATIC_ASSETS = [
   "./",
   "./index.html",
   "./manifest.json"
@@ -10,7 +15,7 @@ const FILES_TO_CACHE = [
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(FILES_TO_CACHE);
+      return cache.addAll(STATIC_ASSETS);
     })
   );
   self.skipWaiting();
@@ -34,9 +39,14 @@ self.addEventListener("activate", event => {
 
 /* ===== FETCH ===== */
 self.addEventListener("fetch", event => {
+  // KHÔNG cache Firebase / API
+  if (event.request.url.includes("firebase")) {
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
+    caches.match(event.request).then(res => {
+      return res || fetch(event.request);
     })
   );
 });
