@@ -9,7 +9,6 @@
 <meta name="theme-color" content="#0b3c2d">
 
 <style>
-/* ================= 🎄 CHRISTMAS UI THEME ================= */
 :root{
   --bg1:#071a14;
   --bg2:#0b3c2d;
@@ -20,7 +19,6 @@
   --green:#1e7f6d;
   --border:rgba(255,255,255,.35);
 }
-
 body{
   margin:0;
   font-family:system-ui,-apple-system,BlinkMacSystemFont;
@@ -33,8 +31,6 @@ body{
   color:var(--text);
   overflow-x:hidden;
 }
-
-/* ================= ❄️ SNOW ================= */
 .snow{
   position:fixed;
   top:-10px;
@@ -48,8 +44,6 @@ body{
   z-index:1;
 }
 @keyframes fall{to{transform:translateY(110vh)}}
-
-/* ================= LAYOUT ================= */
 .container{
   width:100%;
   max-width:420px;
@@ -57,24 +51,15 @@ body{
   position:relative;
   z-index:2;
 }
-
 .card{
   background:var(--card);
   border-radius:26px;
   padding:22px;
-  box-shadow:
-    0 30px 60px rgba(0,0,0,.35),
-    inset 0 0 0 1px rgba(255,255,255,.6);
+  box-shadow:0 30px 60px rgba(0,0,0,.35),
+             inset 0 0 0 1px rgba(255,255,255,.6);
   backdrop-filter:blur(10px);
 }
-
-/* ================= HEADER ================= */
-.header h2{
-  margin:0;
-  font-size:20px;
-}
-
-/* ================= FORM ================= */
+.header h2{margin:0;font-size:20px}
 input{
   width:100%;
   padding:12px;
@@ -83,24 +68,15 @@ input{
   border:1px solid var(--border);
   font-size:15px;
 }
-
 table{width:100%}
 td{padding:8px 0}
 .day{font-weight:600}
-
 select{
   width:100%;
   padding:10px;
   border-radius:14px;
   border:1px solid var(--border);
-  transition:.25s;
 }
-select:not([value=""]){
-  border-color:var(--green);
-  box-shadow:0 0 0 2px rgba(30,127,109,.25);
-}
-
-/* ================= BUTTON ================= */
 button{
   margin-top:18px;
   width:100%;
@@ -112,14 +88,8 @@ button{
   background:linear-gradient(135deg,#c62828,#e53935);
   color:white;
   cursor:pointer;
-  box-shadow:0 14px 30px rgba(198,40,40,.4);
 }
-button:disabled{
-  opacity:.6;
-  cursor:not-allowed;
-}
-
-/* ================= MANAGER VIEW ================= */
+button:disabled{opacity:.6}
 .manager-box{
   margin-top:20px;
   padding:16px;
@@ -131,15 +101,8 @@ button:disabled{
   font-weight:800;
   color:var(--green);
 }
-.manager-shift{
-  margin-left:12px;
-}
-.manager-count{
-  font-size:12px;
-  opacity:.6;
-}
-
-/* ================= FOOTER ================= */
+.manager-shift{margin-left:12px}
+.manager-count{font-size:12px;opacity:.6}
 .copyright{
   margin-top:18px;
   text-align:center;
@@ -151,7 +114,6 @@ button:disabled{
 
 <body>
 
-<!-- ❄️ TUYẾT -->
 <script>
 for(let i=0;i<45;i++){
   const s=document.createElement("div");
@@ -173,8 +135,6 @@ for(let i=0;i<45;i++){
     <table id="scheduleTable"></table>
 
     <button id="submitBtn">🎅 Xác nhận đăng ký</button>
-    <div class="note">Ngày không làm có thể để trống.</div>
-
     <div id="managerBox" class="manager-box" style="display:none"></div>
   </div>
 
@@ -183,23 +143,14 @@ for(let i=0;i<45;i++){
   </div>
 </div>
 
-<!-- ================= LOGIC (GIỮ NGUYÊN) ================= -->
+<!-- ================= LOGIC ĐÃ SỬA AN TOÀN ================= -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import { getDatabase, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+import { firebaseConfig } from "./firebase-config.js"; // 🔐 API KEY Ở FILE RIÊNG
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCK6yfVr9VBMGwhbvYMXkJqMoRjo4Om2LM",
-  authDomain: "an-quy.firebaseapp.com",
-  databaseURL: "https://an-quy-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "an-quy",
-  storageBucket: "an-quy.firebasestorage.app",
-  messagingSenderId: "672469940026",
-  appId: "1:672469940026:web:a38e5b15bbeb2361b84203"
-};
-
-const app=initializeApp(firebaseConfig);
-const db=getDatabase(app);
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
 const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
 const SHIFTS=[
@@ -232,6 +183,7 @@ function getWeekKey(date){
  const y=new Date(Date.UTC(d.getUTCFullYear(),0,1));
  return d.getUTCFullYear()+"-W"+Math.ceil((((d-y)/86400000)+1)/7);
 }
+
 (async()=>{
  const now=new Date();
  const wk=getWeekKey(now);
