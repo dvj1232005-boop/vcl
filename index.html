@@ -103,13 +103,14 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
 
 <!-- INTRO -->
 <div id="intro">
-  <img src="logo.jpg" alt="An Quy Chế">
+  <img src="logo.JPG" alt="An Quy Chế">
 </div>
 
 <div class="container hidden" id="app">
   <div class="card">
     <h2>Đăng ký ca làm</h2>
     <div class="sub">Tuần hiện tại • An Quy Chế</div>
+    <div id="lockStatus" class="sub"></div>
 
     <input id="name" placeholder="Nhập tên nhân viên">
     <input id="pin" placeholder="Nhập mã PIN quản lý" class="hidden">
@@ -158,10 +159,26 @@ function isRegistrationLocked(){
   return false;
 }
 
+function updateLockStatus(){
+  const el = document.getElementById("lockStatus");
+  if(!el) return;
+
+  if(isRegistrationLocked()){
+    el.innerHTML = "⛔ Đang khóa đăng ký • Mở lại lúc 00:00 Thứ 2";
+    el.style.color = "#b91c1c";
+    el.style.fontWeight = "600";
+  }else{
+    el.innerHTML = "✅ Đang mở đăng ký • Khóa lúc 20:00 Thứ 6";
+    el.style.color = "#14532d";
+    el.style.fontWeight = "600";
+  }
+}
+
 /* INTRO END */
 setTimeout(()=>{
   document.getElementById("intro").remove();
   document.getElementById("app").classList.remove("hidden");
+  updateLockStatus();
 },2000);
 
 /* SNOW */
@@ -266,3 +283,4 @@ document.getElementById("clearBtn").onclick = async ()=>{
 </script>
 </body>
 </html>
+
