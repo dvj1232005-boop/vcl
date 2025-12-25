@@ -13,9 +13,8 @@
 <meta name="apple-mobile-web-app-title" content="AnQuyChe">
 <link rel="apple-touch-icon" href="icon-192.png">
 
-<!-- ===== BEGIN PDF EXPORT (ADD) ===== -->
+<!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<!-- ===== END PDF EXPORT (ADD) ===== -->
 
 <style>
 *{box-sizing:border-box}
@@ -112,9 +111,8 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
 
 <body>
 
-<!-- INTRO -->
 <div id="intro">
-  <img src="logo.jpg" alt="An Quy Chế">
+  <img src="logo.JPG" alt="An Quy Chế">
 </div>
 
 <div class="container hidden" id="app">
@@ -132,11 +130,7 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
 
   <div class="card section hidden" id="managerBox">
     <h2>Tổng hợp đăng ký ca làm</h2>
-
-    <!-- ===== BEGIN PDF EXPORT (ADD) ===== -->
     <button id="exportPdfBtn">📄 Xuất file PDF</button>
-    <!-- ===== END PDF EXPORT (ADD) ===== -->
-
     <button id="clearBtn">Xóa toàn bộ lịch tuần này</button>
     <div id="summary"></div>
   </div>
@@ -159,31 +153,26 @@ const db = getDatabase(app);
 const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
 const SHIFTS=["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
 
-/* ===== TIME LOCK ===== */
+/* TIME LOCK */
 function isRegistrationLocked(){
-  const now=new Date();
-  const d=now.getDay(),h=now.getHours(),m=now.getMinutes();
-  if(d===5 && (h>20||(h===20&&m>=0))) return true;
+  const n=new Date(),d=n.getDay(),h=n.getHours(),m=n.getMinutes();
+  if(d===5&&(h>20||(h===20&&m>=0))) return true;
   if(d===6||d===0) return true;
   return false;
 }
 
 function updateLockStatus(){
   const el=document.getElementById("lockStatus");
-  if(isRegistrationLocked()){
-    el.textContent="⛔ Đang khóa đăng ký • Mở lại lúc 00:00 Thứ 2";
-    el.style.color="#b91c1c";
-  }else{
-    el.textContent="✅ Đang mở đăng ký • Khóa lúc 20:00 Thứ 6";
-    el.style.color="#14532d";
-  }
+  el.textContent=isRegistrationLocked()
+    ?"⛔ Đang khóa đăng ký • Mở lại lúc 00:00 Thứ 2"
+    :"✅ Đang mở đăng ký • Khóa lúc 20:00 Thứ 6";
+  el.style.color=isRegistrationLocked()?"#b91c1c":"#14532d";
   el.style.fontWeight="600";
 }
 
-/* INTRO END */
 setTimeout(()=>{
-  document.getElementById("intro").remove();
-  document.getElementById("app").classList.remove("hidden");
+  intro.remove();
+  app.classList.remove("hidden");
   updateLockStatus();
 },2000);
 
@@ -206,24 +195,21 @@ DAYS.forEach(d=>{
     <select id="${d}">
       <option value="">Không đăng ký</option>
       ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
-    </select>
-  `;
+    </select>`;
 });
 
 /* SUBMIT */
-document.getElementById("submitBtn").onclick=async()=>{
-  const ten=document.getElementById("name").value.trim();
-  const pin=document.getElementById("pin");
-  if(!ten) return alert("Vui lòng nhập tên");
+submitBtn.onclick=async()=>{
+  const ten=name.value.trim();
+  if(!ten) return alert("Nhập tên");
 
-  if(ten.toLowerCase()!=="quanly" && isRegistrationLocked())
-    return alert("⛔ Đã khóa đăng ký. Mở lại 00:00 Thứ 2.");
+  if(ten.toLowerCase()!=="quanly"&&isRegistrationLocked())
+    return alert("⛔ Đã khóa đăng ký");
 
   if(ten.toLowerCase()==="quanly"){
     pin.classList.remove("hidden");
-    if(pin.value!=="2005") return alert("Mã PIN không đúng");
-    showManager();
-    return;
+    if(pin.value!=="2005") return alert("Sai PIN");
+    showManager(); return;
   }
 
   const lich={};
@@ -231,83 +217,90 @@ document.getElementById("submitBtn").onclick=async()=>{
     const v=document.getElementById(d).value;
     if(v) lich[d]=v;
   });
-  if(!Object.keys(lich).length) return alert("Bạn chưa đăng ký ca nào");
+  if(!Object.keys(lich).length) return alert("Chưa chọn ca");
 
   await set(ref(db,"dangKy/"+ten),{lich});
-  alert("Đã gửi đăng ký ca làm");
+  alert("Đã gửi đăng ký");
 };
 
 /* MANAGER */
 let cachedForPdf={};
 
 async function showManager(){
-  document.getElementById("managerBox").classList.remove("hidden");
-  const summary=document.getElementById("summary");
+  managerBox.classList.remove("hidden");
   summary.innerHTML="";
   cachedForPdf={};
 
   const snap=await get(ref(db,"dangKy"));
   if(!snap.exists()){
-    summary.innerHTML="<p>Chưa có dữ liệu đăng ký</p>";
-    return;
+    summary.innerHTML="<p>Chưa có dữ liệu</p>"; return;
   }
 
   snap.forEach(n=>{
-    const ten=n.key;
-    const lich=n.val().lich||{};
-    Object.entries(lich).forEach(([d,c])=>{
+    Object.entries(n.val().lich||{}).forEach(([d,c])=>{
       cachedForPdf[d]??={};
       cachedForPdf[d][c]??=[];
-      cachedForPdf[d][c].push(ten);
+      cachedForPdf[d][c].push(n.key);
     });
   });
 
-  DAYS.forEach(day=>{
-    if(!cachedForPdf[day]) return;
-    summary.innerHTML+=`<div class="day">${day}</div>`;
-    SHIFTS.forEach(shift=>{
-      if(!cachedForPdf[day][shift]) return;
+  DAYS.forEach(d=>{
+    if(!cachedForPdf[d]) return;
+    summary.innerHTML+=`<div class="day">${d}</div>`;
+    SHIFTS.forEach(s=>{
+      if(!cachedForPdf[d][s]) return;
       summary.innerHTML+=`
         <div class="shiftBox">
-          <b>${shift}</b><br>
-          ${cachedForPdf[day][shift].map(n=>`<span class="badge">${n}</span>`).join("")}
-        </div>
-      `;
+          <b>${s}</b><br>
+          ${cachedForPdf[d][s].map(n=>`<span class="badge">${n}</span>`).join("")}
+        </div>`;
     });
   });
 }
 
-/* ===== BEGIN PDF EXPORT (ADD) ===== */
-document.getElementById("exportPdfBtn").onclick=()=>{
-  const { jsPDF } = window.jspdf;
-  const doc=new jsPDF();
-  let y=10;
+/* PDF EXPORT – BEAUTIFUL + UNICODE */
+exportPdfBtn.onclick=()=>{
+  const { jsPDF }=window.jspdf;
+  const doc=new jsPDF({unit:"mm",format:"a4"});
+  doc.setFont("Times","normal");
 
-  doc.text("LỊCH ĐĂNG KÝ CA LÀM – AN QUY CHẾ",10,y);
+  let y=18;
+  doc.setFontSize(16);
+  doc.setFont("Times","bold");
+  doc.text("LỊCH ĐĂNG KÝ CA LÀM",105,y,{align:"center",encoding:"Identity-H"});
+  y+=8;
+  doc.setFontSize(11);
+  doc.text("AN QUY CHẾ",105,y,{align:"center",encoding:"Identity-H"});
   y+=10;
+  doc.line(15,y,195,y); y+=8;
 
-  DAYS.forEach(day=>{
-    if(!cachedForPdf[day]) return;
-    doc.text(day,10,y); y+=8;
+  DAYS.forEach(d=>{
+    if(!cachedForPdf[d]) return;
+    doc.setFontSize(13);
+    doc.setFont("Times","bold");
+    doc.text(d,15,y,{encoding:"Identity-H"}); y+=6;
+    doc.setFontSize(11);
+    doc.setFont("Times","normal");
 
-    SHIFTS.forEach(shift=>{
-      if(!cachedForPdf[day][shift]) return;
-      doc.text(
-        `- ${shift}: ${cachedForPdf[day][shift].join(", ")}`,
-        12,y
-      );
-      y+=8;
-      if(y>280){doc.addPage();y=10;}
+    SHIFTS.forEach(s=>{
+      if(!cachedForPdf[d][s]) return;
+      const lines=doc.splitTextToSize(
+        `• ${s}: ${cachedForPdf[d][s].join(", ")}`,165);
+      doc.text(lines,20,y,{encoding:"Identity-H"});
+      y+=lines.length*6;
+      if(y>270){doc.addPage();y=20;}
     });
+
+    y+=4; doc.line(20,y,190,y); y+=6;
   });
 
-  doc.save("lich-ca-lam.pdf");
+  doc.setFontSize(9);
+  doc.text("© 2025 An Quy Chế",105,290,{align:"center",encoding:"Identity-H"});
+  doc.save("lich-ca-lam-an-quy-che.pdf");
 };
-/* ===== END PDF EXPORT (ADD) ===== */
 
-/* CLEAR */
-document.getElementById("clearBtn").onclick=async()=>{
-  if(confirm("Xóa toàn bộ đăng ký của tuần này?")){
+clearBtn.onclick=async()=>{
+  if(confirm("Xóa toàn bộ?")){
     await remove(ref(db,"dangKy"));
     location.reload();
   }
@@ -315,4 +308,5 @@ document.getElementById("clearBtn").onclick=async()=>{
 </script>
 </body>
 </html>
+
 
