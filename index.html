@@ -84,47 +84,18 @@ button{
   margin:4px 4px 0 0;
 }
 
+/* SNOW */
+.snow{
+  position:fixed;
+  top:-10px;
+  color:white;
+  pointer-events:none;
+  animation:fall linear infinite;
+}
+@keyframes fall{to{transform:translateY(110vh)}}
+
 /* FOOTER */
 footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
-
-/* ===== SNOW ADVANCED ===== */
-#snow-layer{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  overflow:hidden;
-  z-index:5;
-}
-.snowflake{
-  position:absolute;
-  top:-10px;
-  color:rgba(255,255,255,.9);
-  font-size:14px;
-  filter:drop-shadow(0 0 4px rgba(255,255,255,.6));
-  animation:fall linear forwards;
-}
-@keyframes fall{
-  to{
-    transform:translate(var(--dx),110vh) rotate(360deg);
-    opacity:0;
-  }
-}
-.snow-toggle{
-  position:fixed;
-  bottom:18px;
-  right:18px;
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:rgba(255,255,255,.9);
-  box-shadow:0 6px 20px rgba(0,0,0,.25);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:20px;
-  cursor:pointer;
-  z-index:20;
-}
 </style>
 </head>
 
@@ -134,10 +105,6 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
 <div id="intro">
   <img src="logo.jpg" alt="An Quy Chế">
 </div>
-
-<!-- SNOW -->
-<div id="snow-layer"></div>
-<div class="snow-toggle" onclick="enableSnowMotion()">❄️</div>
 
 <div class="container hidden" id="app">
   <div class="card">
@@ -175,11 +142,38 @@ const db = getDatabase(app);
 const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
 const SHIFTS=["C1","C2","C3","2C(C1+C2)","2C(C2+C3)","F1","F2"];
 
+/* ===== TIME LOCK ===== */
+function isRegistrationLocked(){
+  const now = new Date();
+  const day = now.getDay(); // CN=0, T2=1,...T6=5,T7=6
+  const hour = now.getHours();
+  const minute = now.getMinutes();
+
+  // Thứ 6 từ 20:00 trở đi
+  if(day === 5 && (hour > 20 || (hour === 20 && minute >= 0))) return true;
+
+  // Thứ 7 & Chủ nhật
+  if(day === 6 || day === 0) return true;
+
+  return false;
+}
+
 /* INTRO END */
 setTimeout(()=>{
   document.getElementById("intro").remove();
   document.getElementById("app").classList.remove("hidden");
 },2000);
+
+/* SNOW */
+setInterval(()=>{
+  const s=document.createElement("div");
+  s.className="snow";
+  s.innerText="❄";
+  s.style.left=Math.random()*100+"vw";
+  s.style.animationDuration=3+Math.random()*3+"s";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),6000);
+},400);
 
 /* FORM */
 const form=document.getElementById("form");
@@ -195,18 +189,25 @@ DAYS.forEach(d=>{
 
 /* SUBMIT */
 document.getElementById("submitBtn").onclick = async ()=>{
-  const ten=document.getElementById("name").value.trim();
-  const pinInput=document.getElementById("pin");
+  const ten = document.getElementById("name").value.trim();
+  const pinInput = document.getElementById("pin");
 
   if(!ten) return alert("Vui lòng nhập tên");
 
+  // KHÓA ĐĂNG KÝ (NHÂN VIÊN)
+  if(ten.toLowerCase() !== "quanly" && isRegistrationLocked()){
+    return alert("⛔ Đã khóa đăng ký ca làm.\nHệ thống sẽ mở lại lúc 00:00 Thứ 2.");
+  }
+
+  // MANAGER
   if(ten.toLowerCase()==="quanly"){
     pinInput.classList.remove("hidden");
-    if(pinInput.value!=="2005") return alert("Mã PIN không đúng");
+    if(pinInput.value !== "2005") return alert("Mã PIN không đúng");
     showManager();
     return;
   }
 
+  // STAFF
   const lich={};
   DAYS.forEach(d=>{
     const v=document.getElementById(d).value;
@@ -220,13 +221,13 @@ document.getElementById("submitBtn").onclick = async ()=>{
   alert("Đã gửi đăng ký ca làm");
 };
 
-/* MANAGER */
+/* MANAGER VIEW */
 async function showManager(){
   document.getElementById("managerBox").classList.remove("hidden");
   const summary=document.getElementById("summary");
   summary.innerHTML="";
 
-  const snap=await get(ref(db,"dangKy"));
+  const snap = await get(ref(db,"dangKy"));
   if(!snap.exists()){
     summary.innerHTML="<p>Chưa có dữ liệu đăng ký</p>";
     return;
@@ -263,58 +264,5 @@ document.getElementById("clearBtn").onclick = async ()=>{
   }
 };
 </script>
-
-<!-- SNOW SCRIPT -->
-<script>
-const snowLayer=document.getElementById("snow-layer");
-let tiltX=0;
-let snowMotionEnabled=false;
-
-function createSnow(){
-  const snow=document.createElement("div");
-  snow.className="snowflake";
-  snow.textContent="❄";
-
-  const size=Math.random()*10+10;
-  const startX=Math.random()*window.innerWidth;
-  const drift=tiltX*40+(Math.random()*40-20);
-
-  snow.style.left=startX+"px";
-  snow.style.fontSize=size+"px";
-  snow.style.setProperty("--dx",drift+"px");
-
-  const duration=Math.random()*4+6;
-  snow.style.animationDuration=duration+"s";
-
-  snowLayer.appendChild(snow);
-  setTimeout(()=>snow.remove(),duration*1000);
-}
-
-setInterval(createSnow,350);
-
-function enableSnowMotion(){
-  if(snowMotionEnabled) return;
-
-  if(typeof DeviceOrientationEvent!=="undefined" &&
-     typeof DeviceOrientationEvent.requestPermission==="function"){
-    DeviceOrientationEvent.requestPermission().then(res=>{
-      if(res==="granted") startMotion();
-      else alert("Cần cho phép cảm biến để bật hiệu ứng tuyết");
-    });
-  }else{
-    startMotion();
-  }
-}
-
-function startMotion(){
-  snowMotionEnabled=true;
-  window.addEventListener("deviceorientation",e=>{
-    if(e.gamma!==null){
-      tiltX=Math.max(-1,Math.min(1,e.gamma/25));
-    }
-  });
-}
-</script>
-
 </body>
 </html>
