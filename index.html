@@ -13,6 +13,9 @@
 <meta name="apple-mobile-web-app-title" content="AnQuyChe">
 <link rel="apple-touch-icon" href="icon-192.png">
 
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
 *{box-sizing:border-box}
 body{
@@ -22,98 +25,26 @@ body{
   min-height:100vh;
 }
 .hidden{display:none}
-
-/* INTRO */
-#intro{
-  position:fixed;
-  inset:0;
-  background:#b91c1c;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-#intro img{
-  width:140px;
-  animation:pop 1s ease forwards;
-}
-@keyframes pop{
-  from{transform:scale(.7);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-
-/* LAYOUT */
 .container{max-width:420px;margin:auto;padding:20px}
-.card{
-  background:white;
-  border-radius:22px;
-  padding:20px;
-  box-shadow:0 25px 50px rgba(0,0,0,.25);
-}
-h2{margin:0 0 6px}
+.card{background:#fff;border-radius:22px;padding:20px;box-shadow:0 25px 50px rgba(0,0,0,.25)}
 .sub{font-size:13px;color:#555}
-
-/* FORM */
-input,select{
-  width:100%;
-  padding:12px;
-  margin:10px 0;
-  border-radius:14px;
-  border:1px solid #ccc;
-}
-button{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:16px;
-  background:#b91c1c;
-  color:white;
-  font-weight:600;
-  margin-top:14px;
-}
 .day{font-weight:700;margin-top:14px}
-
-/* MANAGER */
-.section{margin-top:18px}
-.shiftBox{
-  background:#f1f5f9;
-  border-radius:14px;
-  padding:10px;
-  margin:8px 0;
+button{
+  width:100%;padding:14px;border:none;border-radius:16px;
+  background:#b91c1c;color:#fff;font-weight:600;margin-top:10px
 }
 .badge{
-  display:inline-block;
-  background:#14532d;
-  color:white;
-  padding:6px 10px;
-  border-radius:999px;
-  font-size:13px;
-  margin:4px 4px 0 0;
+  display:inline-block;background:#14532d;color:#fff;
+  padding:6px 10px;border-radius:999px;font-size:13px;margin:4px
 }
-
-/* SNOW */
-.snow{
-  position:fixed;
-  top:-10px;
-  color:white;
-  pointer-events:none;
-  animation:fall linear infinite;
-}
-@keyframes fall{to{transform:translateY(110vh)}}
-
-/* FOOTER */
+.shiftBox{background:#f1f5f9;border-radius:14px;padding:10px;margin:8px 0}
 footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
 </style>
 </head>
 
 <body>
 
-<!-- INTRO -->
-<div id="intro">
-  <img src="logo.JPG" alt="An Quy Chế">
-</div>
-
-<div class="container hidden" id="app">
+<div class="container" id="app">
   <div class="card">
     <h2>Đăng ký ca làm</h2>
     <div class="sub">Tuần hiện tại • An Quy Chế</div>
@@ -121,14 +52,14 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
 
     <input id="name" placeholder="Nhập tên nhân viên">
     <input id="pin" placeholder="Nhập mã PIN quản lý" class="hidden">
-
     <div id="form"></div>
     <button id="submitBtn">Xác nhận đăng ký</button>
   </div>
 
-  <div class="card section hidden" id="managerBox">
-    <h2>Tổng hợp đăng ký ca làm</h2>
-    <button id="clearBtn">Xóa toàn bộ lịch tuần này</button>
+  <div class="card hidden" id="managerBox">
+    <h2>Tổng hợp đăng ký</h2>
+    <button onclick="exportPDF()">📄 Xuất PDF</button>
+    <button id="clearBtn">🗑️ Xóa toàn bộ lịch tuần này</button>
     <div id="summary"></div>
   </div>
 
@@ -139,136 +70,90 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
 import { getDatabase, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
-/* FIREBASE */
 const app = initializeApp({
   apiKey:"AIzaSyCK6yfVr9VBMGwhbvYMXkJqMoRjo4Om2LM",
   databaseURL:"https://an-quy-default-rtdb.asia-southeast1.firebasedatabase.app"
 });
 const db = getDatabase(app);
 
-/* DATA */
-const DAYS = ["T2","T3","T4","T5","T6","T7","CN"];
-const SHIFTS = ["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
+const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
+const SHIFTS=["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
+let cachedData={};
 
-/* ===== TIME LOCK ===== */
-function isRegistrationLocked(){
-  const n=new Date();
-  const d=n.getDay(), h=n.getHours(), m=n.getMinutes();
-  if(d===5 && (h>20 || (h===20 && m>=0))) return true;
-  if(d===6 || d===0) return true;
-  return false;
-}
-
-function updateLockStatus(){
-  const el=document.getElementById("lockStatus");
-  if(isRegistrationLocked()){
-    el.textContent="⛔ Đang khóa đăng ký • Mở lại lúc 00:00 Thứ 2";
-    el.style.color="#b91c1c";
-  }else{
-    el.textContent="✅ Đang mở đăng ký • Khóa lúc 20:00 Thứ 6";
-    el.style.color="#14532d";
-  }
-  el.style.fontWeight="600";
-}
-
-/* INTRO END */
-setTimeout(()=>{
-  document.getElementById("intro").remove();
-  document.getElementById("app").classList.remove("hidden");
-  updateLockStatus();
-},2000);
-
-/* SNOW */
-setInterval(()=>{
-  const s=document.createElement("div");
-  s.className="snow";
-  s.textContent="❄";
-  s.style.left=Math.random()*100+"vw";
-  s.style.animationDuration=3+Math.random()*3+"s";
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),6000);
-},400);
-
-/* FORM */
-const form=document.getElementById("form");
-DAYS.forEach(d=>{
-  form.innerHTML+=`
-    <div class="day">${d}</div>
-    <select id="${d}">
-      <option value="">Không đăng ký</option>
-      ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
-    </select>
-  `;
-});
-
-/* SUBMIT */
 document.getElementById("submitBtn").onclick=async()=>{
-  const ten=document.getElementById("name").value.trim();
-  const pin=document.getElementById("pin");
-  if(!ten) return alert("Vui lòng nhập tên");
+  const ten=name.value.trim();
+  if(!ten) return alert("Nhập tên");
 
-  if(ten.toLowerCase()!=="quanly" && isRegistrationLocked())
-    return alert("⛔ Đã khóa đăng ký. Mở lại 00:00 Thứ 2.");
-
-  if(ten.toLowerCase()==="quanly"){
+  if(ten==="quanly"){
     pin.classList.remove("hidden");
-    if(pin.value!=="2005") return alert("Mã PIN không đúng");
-    showManager();
-    return;
+    if(pin.value!=="2005") return alert("Sai PIN");
+    showManager();return;
   }
 
   const lich={};
   DAYS.forEach(d=>{
-    const v=document.getElementById(d).value;
-    if(v) lich[d]=v;
+    const s=document.getElementById(d)?.value;
+    if(s) lich[d]=s;
   });
-  if(!Object.keys(lich).length) return alert("Bạn chưa đăng ký ca nào");
-
+  if(!Object.keys(lich).length) return alert("Chưa chọn ca");
   await set(ref(db,"dangKy/"+ten),{lich});
-  alert("Đã gửi đăng ký ca làm");
+  alert("Đã gửi");
 };
 
-/* ===== MANAGER (FIX SẮP XẾP) ===== */
 async function showManager(){
-  document.getElementById("managerBox").classList.remove("hidden");
-  const summary=document.getElementById("summary");
+  managerBox.classList.remove("hidden");
   summary.innerHTML="";
-
   const snap=await get(ref(db,"dangKy"));
-  if(!snap.exists()){
-    summary.innerHTML="<p>Chưa có dữ liệu đăng ký</p>";
-    return;
-  }
+  cachedData={};
 
-  const sum={};
   snap.forEach(n=>{
     const ten=n.key;
-    const lich=n.val().lich||{};
-    Object.entries(lich).forEach(([d,c])=>{
-      sum[d]??={};
-      sum[d][c]??=[];
-      sum[d][c].push(ten);
+    Object.entries(n.val().lich||{}).forEach(([d,c])=>{
+      cachedData[d]??={};
+      cachedData[d][c]??=[];
+      cachedData[d][c].push(ten);
     });
   });
 
-  DAYS.forEach(day=>{
-    if(!sum[day]) return;
-    summary.innerHTML+=`<div class="day">${day}</div>`;
-    SHIFTS.forEach(shift=>{
-      if(!sum[day][shift]) return;
+  DAYS.forEach(d=>{
+    if(!cachedData[d]) return;
+    summary.innerHTML+=`<div class="day">${d}</div>`;
+    SHIFTS.forEach(s=>{
+      if(!cachedData[d][s]) return;
       summary.innerHTML+=`
         <div class="shiftBox">
-          <b>${shift}</b><br>
-          ${sum[day][shift].map(n=>`<span class="badge">${n}</span>`).join("")}
-        </div>
-      `;
+          <b>${s}</b><br>
+          ${cachedData[d][s].map(n=>`<span class="badge">${n}</span>`).join("")}
+        </div>`;
     });
   });
 }
 
-/* CLEAR */
-document.getElementById("clearBtn").onclick=async()=>{
-  if(confirm("Xóa toàn bộ đăng ký tuần này?")){
+/* ===== PDF EXPORT ===== */
+window.exportPDF=function(){
+  const { jsPDF } = window.jspdf;
+  const doc=new jsPDF();
+  let y=10;
+
+  doc.text("LỊCH ĐĂNG KÝ CA LÀM - AN QUY CHẾ",10,y); y+=10;
+
+  DAYS.forEach(d=>{
+    if(!cachedData[d]) return;
+    doc.text(d,10,y); y+=8;
+
+    SHIFTS.forEach(s=>{
+      if(!cachedData[d][s]) return;
+      doc.text(`- ${s}: ${cachedData[d][s].join(", ")}`,12,y);
+      y+=8;
+      if(y>280){ doc.addPage(); y=10; }
+    });
+  });
+
+  doc.save("lich-ca-lam.pdf");
+};
+
+clearBtn.onclick=async()=>{
+  if(confirm("Xóa toàn bộ?")){
     await remove(ref(db,"dangKy"));
     location.reload();
   }
