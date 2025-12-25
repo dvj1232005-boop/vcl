@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>An Quy Chế – Đăng ký ca làm</title>
 
-<meta name="theme-color" content="#0b3d2e">
+<meta name="theme-color" content="#9f1239">
 
 <!-- iOS PWA -->
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,36 +13,73 @@
 <meta name="apple-mobile-web-app-title" content="AnQuyChe">
 <link rel="apple-touch-icon" href="icon-192.png">
 
-<!-- jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <style>
 *{box-sizing:border-box}
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background:linear-gradient(180deg,#7f1d1d,#064e3b);
+  background:
+    radial-gradient(circle at top, rgba(255,215,0,.12), transparent 60%),
+    linear-gradient(180deg,#9f1239,#065f46);
   min-height:100vh;
+  overflow-x:hidden;
 }
 .hidden{display:none}
 
-/* INTRO */
+/* INTRO TET 2026 */
 #intro{
   position:fixed;
   inset:0;
-  background:#b91c1c;
+  background:
+    radial-gradient(circle at center, rgba(255,215,0,.25), transparent 60%),
+    linear-gradient(180deg,#9f1239,#7f1d1d);
   display:flex;
+  flex-direction:column;
   justify-content:center;
   align-items:center;
   z-index:9999;
+  overflow:hidden;
 }
+
 #intro img{
-  width:140px;
-  animation:pop 1s ease forwards;
+  width:150px;
+  animation:logoIn 1.6s ease forwards;
 }
-@keyframes pop{
-  from{transform:scale(.7);opacity:0}
-  to{transform:scale(1);opacity:1}
+
+#intro h1{
+  margin-top:18px;
+  font-size:26px;
+  letter-spacing:2px;
+  color:#fde68a;
+  opacity:0;
+  animation:textIn 1.8s ease forwards;
+  animation-delay:.8s;
+}
+
+#tetWish{
+  margin-top:14px;
+  font-size:14px;
+  color:#fde68a;
+  text-align:center;
+  max-width:260px;
+  line-height:1.5;
+  opacity:0;
+  filter:blur(2px);
+  transition:opacity 1.2s ease, filter 1.2s ease;
+}
+#tetWish.show{
+  opacity:1;
+  filter:blur(0);
+}
+
+@keyframes logoIn{
+  0%{transform:scale(.6) rotate(-8deg);opacity:0}
+  60%{transform:scale(1.05) rotate(2deg);opacity:1}
+  100%{transform:scale(1) rotate(0)}
+}
+@keyframes textIn{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
 /* LAYOUT */
@@ -94,15 +131,16 @@ button{
   margin:4px 4px 0 0;
 }
 
-/* SNOW */
-.snow{
+/* HOA MAI / HOA DAO */
+.flower{
   position:fixed;
   top:-10px;
-  color:white;
   pointer-events:none;
   animation:fall linear infinite;
 }
-@keyframes fall{to{transform:translateY(110vh)}}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(360deg)}
+}
 
 /* FOOTER */
 footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
@@ -111,8 +149,11 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
 
 <body>
 
+<!-- INTRO -->
 <div id="intro">
   <img src="logo.jpg" alt="An Quy Chế">
+  <h1>AN QUY CHẾ</h1>
+  <div id="tetWish"></div>
 </div>
 
 <div class="container hidden" id="app">
@@ -130,7 +171,6 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
 
   <div class="card section hidden" id="managerBox">
     <h2>Tổng hợp đăng ký ca làm</h2>
-    <button id="exportPdfBtn">📄 Xuất file PDF</button>
     <button id="clearBtn">Xóa toàn bộ lịch tuần này</button>
     <div id="summary"></div>
   </div>
@@ -160,7 +200,6 @@ function isRegistrationLocked(){
   if(d===6||d===0) return true;
   return false;
 }
-
 function updateLockStatus(){
   const el=document.getElementById("lockStatus");
   el.textContent=isRegistrationLocked()
@@ -170,23 +209,25 @@ function updateLockStatus(){
   el.style.fontWeight="600";
 }
 
-/* INTRO END – FIX HIỂN THỊ */
+/* INTRO END */
 setTimeout(()=>{
   document.getElementById("intro").remove();
   document.getElementById("app").classList.remove("hidden");
   updateLockStatus();
-},2000);
+},2600);
 
-/* SNOW */
+/* HOA MAI / HOA DAO RƠI */
 setInterval(()=>{
-  const s=document.createElement("div");
-  s.className="snow";
-  s.textContent="❄";
-  s.style.left=Math.random()*100+"vw";
-  s.style.animationDuration=3+Math.random()*3+"s";
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),6000);
-},400);
+  const f=document.createElement("div");
+  f.className="flower";
+  f.textContent=Math.random()>.5?"🌸":"🌼";
+  f.style.left=Math.random()*100+"vw";
+  f.style.fontSize=14+Math.random()*12+"px";
+  f.style.opacity=.85;
+  f.style.animationDuration=5+Math.random()*4+"s";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),9000);
+},500);
 
 /* FORM */
 const form=document.getElementById("form");
@@ -226,13 +267,10 @@ document.getElementById("submitBtn").onclick=async()=>{
 };
 
 /* MANAGER */
-let cachedForPdf={};
-
 async function showManager(){
   document.getElementById("managerBox").classList.remove("hidden");
   const summary=document.getElementById("summary");
   summary.innerHTML="";
-  cachedForPdf={};
 
   const snap=await get(ref(db,"dangKy"));
   if(!snap.exists()){
@@ -240,76 +278,52 @@ async function showManager(){
     return;
   }
 
+  const sum={};
   snap.forEach(n=>{
     Object.entries(n.val().lich||{}).forEach(([d,c])=>{
-      cachedForPdf[d]??={};
-      cachedForPdf[d][c]??=[];
-      cachedForPdf[d][c].push(n.key);
+      sum[d]??={};
+      sum[d][c]??=[];
+      sum[d][c].push(n.key);
     });
   });
 
   DAYS.forEach(d=>{
-    if(!cachedForPdf[d]) return;
+    if(!sum[d]) return;
     summary.innerHTML+=`<div class="day">${d}</div>`;
     SHIFTS.forEach(s=>{
-      if(!cachedForPdf[d][s]) return;
+      if(!sum[d][s]) return;
       summary.innerHTML+=`
         <div class="shiftBox">
           <b>${s}</b><br>
-          ${cachedForPdf[d][s].map(n=>`<span class="badge">${n}</span>`).join("")}
+          ${sum[d][s].map(n=>`<span class="badge">${n}</span>`).join("")}
         </div>`;
     });
   });
 }
 
-/* PDF EXPORT – UNICODE + ĐẸP */
-document.getElementById("exportPdfBtn").onclick=()=>{
-  const { jsPDF }=window.jspdf;
-  const doc=new jsPDF({unit:"mm",format:"a4"});
-  doc.setFont("Times","normal");
-
-  let y=18;
-  doc.setFontSize(16);
-  doc.setFont("Times","bold");
-  doc.text("LỊCH ĐĂNG KÝ CA LÀM",105,y,{align:"center",encoding:"Identity-H"});
-  y+=8;
-  doc.setFontSize(11);
-  doc.text("AN QUY CHẾ",105,y,{align:"center",encoding:"Identity-H"});
-  y+=10;
-  doc.line(15,y,195,y); y+=8;
-
-  DAYS.forEach(d=>{
-    if(!cachedForPdf[d]) return;
-    doc.setFontSize(13);
-    doc.setFont("Times","bold");
-    doc.text(d,15,y,{encoding:"Identity-H"}); y+=6;
-    doc.setFontSize(11);
-    doc.setFont("Times","normal");
-
-    SHIFTS.forEach(s=>{
-      if(!cachedForPdf[d][s]) return;
-      const lines=doc.splitTextToSize(
-        `• ${s}: ${cachedForPdf[d][s].join(", ")}`,165);
-      doc.text(lines,20,y,{encoding:"Identity-H"});
-      y+=lines.length*6;
-      if(y>270){doc.addPage();y=20;}
-    });
-
-    y+=4; doc.line(20,y,190,y); y+=6;
-  });
-
-  doc.setFontSize(9);
-  doc.text("© 2025 An Quy Chế",105,290,{align:"center",encoding:"Identity-H"});
-  doc.save("lich-ca-lam-an-quy-che.pdf");
-};
-
-/* CLEAR */
-document.getElementById("clearBtn").onclick=async()=>{
-  if(confirm("Xóa toàn bộ đăng ký của tuần này?")){
-    await remove(ref(db,"dangKy"));
-    location.reload();
-  }
-};
+/* RANDOM TET WISH */
+const tetWishes=[
+  "Chúc năm mới an khang, vạn sự hanh thông.",
+  "Xuân mới khởi sắc, mọi điều như ý.",
+  "Năm mới sức khỏe dồi dào, công việc thuận lợi.",
+  "Chúc một năm bình an và nhiều may mắn.",
+  "Xuân đến, vạn sự khởi sắc.",
+  "Năm mới vững bước, tương lai rộng mở.",
+  "Xuân an lành – Tết trọn niềm vui.",
+  "Chúc năm mới đủ đầy sức khỏe và niềm tin.",
+  "Năm mới khởi đầu tốt, cả năm hanh thông.",
+  "Xuân mới, lòng mới, hành trình mới.",
+  "Chúc bạn năm mới làm việc hiệu quả, sống an nhiên.",
+  "Năm mới đến, mong điều tốt ở lại.",
+  "Xuân này, chúc mọi điều đều đúng lúc.",
+  "Chúc năm mới tròn đầy và vững chắc.",
+  "Năm mới bình an từ trong suy nghĩ."
+];
+const wishEl=document.getElementById("tetWish");
+if(wishEl){
+  wishEl.textContent=tetWishes[Math.floor(Math.random()*tetWishes.length)];
+  setTimeout(()=>wishEl.classList.add("show"),600);
+}
 </script>
 </body>
 </html>
