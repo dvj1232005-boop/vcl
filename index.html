@@ -6,7 +6,6 @@
 <title>An Quy Chế – Đăng ký ca làm</title>
 
 <meta name="theme-color" content="#9f1239">
-
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="AnQuyChe">
@@ -25,7 +24,7 @@ body{
 }
 .hidden{display:none}
 
-/* ===== INTRO TET 2026 ===== */
+/* ===== INTRO ===== */
 #intro{
   position:fixed; inset:0;
   background:
@@ -37,7 +36,6 @@ body{
 }
 #intro img{width:150px;animation:logoIn 1.6s ease forwards}
 @keyframes logoIn{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
-
 #intro h1{
   margin-top:18px;font-size:22px;letter-spacing:2px;
   color:#fde68a;opacity:0;
@@ -45,7 +43,6 @@ body{
   animation-delay:1.2s;
 }
 @keyframes newYearIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-
 #tetWish{
   margin-top:14px;font-size:14px;color:#fde68a;
   text-align:center;max-width:260px;line-height:1.5;
@@ -110,23 +107,22 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
 
 <body>
 
-<!-- ===== INTRO ===== -->
+<!-- INTRO -->
 <div id="intro">
   <img src="logo.JPG" alt="An Quy Chế">
   <h1>CHÚC MỪNG NĂM MỚI 2026</h1>
   <div id="tetWish"></div>
 </div>
 
-<!-- ===== APP ===== -->
+<!-- APP -->
 <div class="container hidden" id="app">
   <div class="card">
     <h2>Đăng ký ca làm</h2>
     <div id="lockStatus" class="sub"></div>
 
-    <!-- NOTICE -->
     <div id="noticeBox" class="hidden" style="padding:14px;border-radius:14px;margin:14px 0">
       <div style="display:flex;align-items:center;gap:8px">
-        <span id="noticeIcon">⭐</span>
+        <span id="noticeIcon"></span>
         <b id="noticeTitle"></b>
       </div>
       <div id="noticeContent" style="margin-top:6px"></div>
@@ -140,7 +136,6 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
     <button id="submitBtn">Xác nhận đăng ký</button>
   </div>
 
-  <!-- MANAGER -->
   <div class="card section hidden" id="managerBox">
     <h2>Quản lý</h2>
     <div id="summary"></div>
@@ -183,6 +178,27 @@ const db = getDatabase(firebaseApp);
 const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
 const SHIFTS=["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
 
+/* FIX DOM */
+const submitBtn=document.getElementById("submitBtn");
+const nameInput=document.getElementById("name");
+const pinInput=document.getElementById("pin");
+const formEl=document.getElementById("form");
+const managerBox=document.getElementById("managerBox");
+const summary=document.getElementById("summary");
+const clearBtn=document.getElementById("clearBtn");
+const lockStatus=document.getElementById("lockStatus");
+
+const noticeBox=document.getElementById("noticeBox");
+const noticeIcon=document.getElementById("noticeIcon");
+const noticeTitle=document.getElementById("noticeTitle");
+const noticeContent=document.getElementById("noticeContent");
+const noticeNames=document.getElementById("noticeNames");
+const noticeType=document.getElementById("noticeType");
+const noticeInput=document.getElementById("noticeInput");
+const noticeNamesInput=document.getElementById("noticeNamesInput");
+const noticeToggle=document.getElementById("noticeToggle");
+const saveNoticeBtn=document.getElementById("saveNoticeBtn");
+
 /* LOCK */
 function isRegistrationLocked(){
   const n=new Date(),d=n.getDay(),h=n.getHours(),m=n.getMinutes();
@@ -205,6 +221,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     "Năm mới nhiều sức khỏe và niềm vui.",
     "Chúc một năm 2026 tròn đầy."
   ];
+  const tetWish=document.getElementById("tetWish");
   tetWish.textContent=wishes[Math.floor(Math.random()*wishes.length)];
   setTimeout(()=>tetWish.classList.add("show"),600);
 
@@ -219,8 +236,8 @@ document.addEventListener("DOMContentLoaded",()=>{
   }
 
   setTimeout(()=>{
-    intro.remove();
-    app.classList.remove("hidden");
+    document.getElementById("intro").remove();
+    document.getElementById("app").classList.remove("hidden");
     updateLockStatus();
     loadNotice();
   },5200);
@@ -228,7 +245,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 /* FORM */
 DAYS.forEach(d=>{
-  form.innerHTML+=`<div class="day">${d}</div>
+  formEl.innerHTML+=`<div class="day">${d}</div>
   <select id="${d}">
     <option value="">Không đăng ký</option>
     ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
@@ -237,24 +254,27 @@ DAYS.forEach(d=>{
 
 /* SUBMIT */
 submitBtn.onclick=async()=>{
-  const ten=name.value.trim();
-  if(!ten) return alert("Nhập tên");
+  const ten=nameInput.value.trim();
+  if(!ten) return alert("Vui lòng nhập tên");
 
   if(ten.toLowerCase()!=="quanly"&&isRegistrationLocked())
-    return alert("Đã khóa đăng ký");
+    return alert("⛔ Đã khóa đăng ký");
 
   if(ten.toLowerCase()==="quanly"){
-    pin.classList.remove("hidden");
-    if(pin.value!=="2005") return alert("Sai PIN");
+    pinInput.classList.remove("hidden");
+    if(pinInput.value!=="2005") return alert("Sai PIN");
     showManager();return;
   }
 
   const lich={};
-  DAYS.forEach(d=>{const v=document.getElementById(d).value;if(v) lich[d]=v});
+  DAYS.forEach(d=>{
+    const v=document.getElementById(d).value;
+    if(v) lich[d]=v;
+  });
   if(!Object.keys(lich).length) return alert("Chưa chọn ca");
 
   await set(ref(db,"dangKy/"+ten),{lich});
-  alert("Đã gửi");
+  alert("Đã gửi đăng ký");
 };
 
 /* NOTICE */
@@ -271,7 +291,6 @@ async function loadNotice(){
     type==="reward"?"notice-reward":
     type==="praise"?"notice-praise":"notice-remind"
   );
-
   noticeIcon.textContent=type==="reward"?"⭐":type==="praise"?"👏":"🔔";
   noticeTitle.textContent=type==="reward"?"Khen thưởng tuần":type==="praise"?"Ghi nhận tuần":"Nhắc nhở tích cực";
   noticeContent.textContent=content||"";
