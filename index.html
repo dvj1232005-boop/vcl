@@ -112,7 +112,7 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
 <body>
 
 <div id="intro">
-  <img src="logo.JPG" alt="An Quy Chế">
+  <img src="logo.jpg" alt="An Quy Chế">
 </div>
 
 <div class="container hidden" id="app">
@@ -143,11 +143,11 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebas
 import { getDatabase, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
 /* FIREBASE */
-const app = initializeApp({
+const firebaseApp = initializeApp({
   apiKey:"AIzaSyCK6yfVr9VBMGwhbvYMXkJqMoRjo4Om2LM",
   databaseURL:"https://an-quy-default-rtdb.asia-southeast1.firebasedatabase.app"
 });
-const db = getDatabase(app);
+const db = getDatabase(firebaseApp);
 
 /* DATA */
 const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
@@ -170,9 +170,10 @@ function updateLockStatus(){
   el.style.fontWeight="600";
 }
 
+/* INTRO END – FIX HIỂN THỊ */
 setTimeout(()=>{
-  intro.remove();
-  app.classList.remove("hidden");
+  document.getElementById("intro").remove();
+  document.getElementById("app").classList.remove("hidden");
   updateLockStatus();
 },2000);
 
@@ -199,16 +200,17 @@ DAYS.forEach(d=>{
 });
 
 /* SUBMIT */
-submitBtn.onclick=async()=>{
-  const ten=name.value.trim();
-  if(!ten) return alert("Nhập tên");
+document.getElementById("submitBtn").onclick=async()=>{
+  const ten=document.getElementById("name").value.trim();
+  const pin=document.getElementById("pin");
+  if(!ten) return alert("Vui lòng nhập tên");
 
-  if(ten.toLowerCase()!=="quanly"&&isRegistrationLocked())
-    return alert("⛔ Đã khóa đăng ký");
+  if(ten.toLowerCase()!=="quanly" && isRegistrationLocked())
+    return alert("⛔ Đã khóa đăng ký. Mở lại 00:00 Thứ 2.");
 
   if(ten.toLowerCase()==="quanly"){
     pin.classList.remove("hidden");
-    if(pin.value!=="2005") return alert("Sai PIN");
+    if(pin.value!=="2005") return alert("Mã PIN không đúng");
     showManager(); return;
   }
 
@@ -217,23 +219,25 @@ submitBtn.onclick=async()=>{
     const v=document.getElementById(d).value;
     if(v) lich[d]=v;
   });
-  if(!Object.keys(lich).length) return alert("Chưa chọn ca");
+  if(!Object.keys(lich).length) return alert("Bạn chưa đăng ký ca nào");
 
   await set(ref(db,"dangKy/"+ten),{lich});
-  alert("Đã gửi đăng ký");
+  alert("Đã gửi đăng ký ca làm");
 };
 
 /* MANAGER */
 let cachedForPdf={};
 
 async function showManager(){
-  managerBox.classList.remove("hidden");
+  document.getElementById("managerBox").classList.remove("hidden");
+  const summary=document.getElementById("summary");
   summary.innerHTML="";
   cachedForPdf={};
 
   const snap=await get(ref(db,"dangKy"));
   if(!snap.exists()){
-    summary.innerHTML="<p>Chưa có dữ liệu</p>"; return;
+    summary.innerHTML="<p>Chưa có dữ liệu</p>";
+    return;
   }
 
   snap.forEach(n=>{
@@ -258,8 +262,8 @@ async function showManager(){
   });
 }
 
-/* PDF EXPORT – BEAUTIFUL + UNICODE */
-exportPdfBtn.onclick=()=>{
+/* PDF EXPORT – UNICODE + ĐẸP */
+document.getElementById("exportPdfBtn").onclick=()=>{
   const { jsPDF }=window.jspdf;
   const doc=new jsPDF({unit:"mm",format:"a4"});
   doc.setFont("Times","normal");
@@ -299,8 +303,9 @@ exportPdfBtn.onclick=()=>{
   doc.save("lich-ca-lam-an-quy-che.pdf");
 };
 
-clearBtn.onclick=async()=>{
-  if(confirm("Xóa toàn bộ?")){
+/* CLEAR */
+document.getElementById("clearBtn").onclick=async()=>{
+  if(confirm("Xóa toàn bộ đăng ký của tuần này?")){
     await remove(ref(db,"dangKy"));
     location.reload();
   }
@@ -308,5 +313,6 @@ clearBtn.onclick=async()=>{
 </script>
 </body>
 </html>
+
 
 
