@@ -26,7 +26,7 @@ body{
 }
 .hidden{display:none}
 
-/* INTRO TET 2026 */
+/* ================= INTRO TET 2026 ================= */
 #intro{
   position:fixed;
   inset:0;
@@ -38,24 +38,89 @@ body{
   justify-content:center;
   align-items:center;
   z-index:9999;
-  overflow:hidden;
 }
 
 #intro img{
-  width:150px;
+  width:140px;
   animation:logoIn 1.6s ease forwards;
 }
 
+@keyframes logoIn{
+  from{transform:scale(.7);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* ===== HORSE SVG ===== */
+#horse{
+  margin-top:10px;
+  animation:horseMove 3.6s ease-in-out infinite;
+}
+#horse svg{
+  filter:drop-shadow(0 0 14px rgba(255,215,0,.5));
+}
+@keyframes horseMove{
+  0%{transform:translateX(-24px) scale(.96);opacity:.85}
+  50%{transform:translateX(0) scale(1);opacity:1}
+  100%{transform:translateX(24px) scale(.96);opacity:.85}
+}
+
+/* Horse legs */
+.leg{
+  fill:none;
+  stroke:#fde68a;
+  stroke-width:4;
+  stroke-linecap:round;
+  transform-origin:top center;
+  animation:legRun .9s ease-in-out infinite;
+}
+.leg.back{animation-delay:.45s}
+@keyframes legRun{
+  0%{transform:rotate(14deg)}
+  50%{transform:rotate(-14deg)}
+  100%{transform:rotate(14deg)}
+}
+
+/* Mane & tail */
+#mane{animation:maneWave 1.6s ease-in-out infinite;transform-origin:bottom left}
+#tail{animation:tailSwing 1.4s ease-in-out infinite;transform-origin:top right}
+@keyframes maneWave{0%{transform:rotate(6deg)}50%{transform:rotate(-6deg)}100%{transform:rotate(6deg)}}
+@keyframes tailSwing{0%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}100%{transform:rotate(-8deg)}}
+
+/* Draw effect */
+#horse path{
+  stroke-dasharray:600;
+  stroke-dashoffset:600;
+  animation:drawHorse 2.4s ease forwards;
+}
+@keyframes drawHorse{to{stroke-dashoffset:0}}
+
+/* ===== LIGHT STREAK ===== */
+#lightStreak{
+  animation:lightRun 2.6s ease-in-out infinite;
+  opacity:.85;
+}
+@keyframes lightRun{
+  0%{transform:translateX(-160px)}
+  50%{transform:translateX(160px)}
+  100%{transform:translateX(320px)}
+}
+
+/* ===== TEXT ===== */
 #intro h1{
-  margin-top:18px;
-  font-size:26px;
+  margin-top:16px;
+  font-size:22px;
   letter-spacing:2px;
   color:#fde68a;
   opacity:0;
-  animation:textIn 1.8s ease forwards;
-  animation-delay:.8s;
+  animation:newYearIn 1.8s ease forwards;
+  animation-delay:1.2s;
+}
+@keyframes newYearIn{
+  from{opacity:0;transform:translateY(14px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
+/* ===== TET WISH ===== */
 #tetWish{
   margin-top:14px;
   font-size:14px;
@@ -67,115 +132,132 @@ body{
   filter:blur(2px);
   transition:opacity 1.2s ease, filter 1.2s ease;
 }
-#tetWish.show{
-  opacity:1;
-  filter:blur(0);
-}
+#tetWish.show{opacity:1;filter:blur(0)}
 
-@keyframes logoIn{
-  0%{transform:scale(.6) rotate(-8deg);opacity:0}
-  60%{transform:scale(1.05) rotate(2deg);opacity:1}
-  100%{transform:scale(1) rotate(0)}
+/* ===== LI XI ===== */
+.lixi{
+  position:fixed;
+  top:-60px;
+  width:42px;
+  height:56px;
+  background:linear-gradient(180deg,#dc2626,#991b1b);
+  border-radius:8px;
+  box-shadow:
+    0 8px 16px rgba(0,0,0,.25),
+    0 0 12px rgba(255,215,0,.35);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#fde68a;
+  font-size:22px;
+  font-weight:700;
+  pointer-events:none;
+  animation:
+    liXiFall 2.6s ease-in forwards,
+    liXiGlow 1.4s ease-in-out infinite,
+    liXiRotate 2.2s ease-in-out infinite;
 }
-@keyframes textIn{
-  from{opacity:0;transform:translateY(12px)}
-  to{opacity:1;transform:translateY(0)}
+@keyframes liXiFall{to{transform:translateY(110vh);opacity:0}}
+@keyframes liXiGlow{
+  0%{box-shadow:0 8px 16px rgba(0,0,0,.25),0 0 8px rgba(255,215,0,.25)}
+  50%{box-shadow:0 8px 16px rgba(0,0,0,.25),0 0 18px rgba(255,215,0,.55)}
+  100%{box-shadow:0 8px 16px rgba(0,0,0,.25),0 0 8px rgba(255,215,0,.25)}
 }
-
-/* LAYOUT */
+@keyframes liXiRotate{
+  0%{transform:rotate(-4deg)}
+  50%{transform:rotate(4deg)}
+  100%{transform:rotate(-4deg)}
+}
+  
+/* ================= APP UI ================= */
 .container{max-width:420px;margin:auto;padding:20px}
-.card{
-  background:white;
-  border-radius:22px;
-  padding:20px;
-  box-shadow:0 25px 50px rgba(0,0,0,.25);
-}
+.card{background:#fff;border-radius:22px;padding:20px;box-shadow:0 25px 50px rgba(0,0,0,.25)}
 h2{margin:0 0 6px}
 .sub{font-size:13px;color:#555}
-
-/* FORM */
-input,select{
-  width:100%;
-  padding:12px;
-  margin:10px 0;
-  border-radius:14px;
-  border:1px solid #ccc;
-}
-button{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:16px;
-  background:#b91c1c;
-  color:white;
-  font-weight:600;
-  margin-top:14px;
-}
+input,select{width:100%;padding:12px;margin:10px 0;border-radius:14px;border:1px solid #ccc}
+button{width:100%;padding:14px;border:none;border-radius:16px;background:#b91c1c;color:#fff;font-weight:600;margin-top:14px}
 .day{font-weight:700;margin-top:14px}
-
-/* MANAGER */
 .section{margin-top:18px}
-.shiftBox{
-  background:#f1f5f9;
-  border-radius:14px;
-  padding:10px;
-  margin:8px 0;
-}
-.badge{
-  display:inline-block;
-  background:#14532d;
-  color:white;
-  padding:6px 10px;
-  border-radius:999px;
-  font-size:13px;
-  margin:4px 4px 0 0;
-}
-
-/* HOA MAI / HOA DAO */
-.flower{
-  position:fixed;
-  top:-10px;
-  pointer-events:none;
-  animation:fall linear infinite;
-}
-@keyframes fall{
-  to{transform:translateY(110vh) rotate(360deg)}
-}
-
-/* FOOTER */
+.shiftBox{background:#f1f5f9;border-radius:14px;padding:10px;margin:8px 0}
+.badge{display:inline-block;background:#14532d;color:#fff;padding:6px 10px;border-radius:999px;font-size:13px;margin:4px 4px 0 0}
 footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
 </style>
 </head>
 
 <body>
 
-<!-- INTRO -->
+<!-- ================= INTRO ================= -->
 <div id="intro">
   <img src="logo.JPG" alt="An Quy Chế">
-  <h1>AN QUY CHẾ</h1>
+
+  <div id="horse">
+    <svg viewBox="0 0 320 200" width="160" height="100"
+         xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        <linearGradient id="horseLight" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="rgba(255,215,0,0)"/>
+          <stop offset="50%" stop-color="rgba(255,215,0,.9)"/>
+          <stop offset="100%" stop-color="rgba(255,215,0,0)"/>
+        </linearGradient>
+        <mask id="horseMask">
+          <rect width="100%" height="100%" fill="black"/>
+          <use href="#body" fill="white"/>
+        </mask>
+      </defs>
+
+      <path id="body" d="
+        M40 120 Q80 70 140 80 Q170 55 210 75
+        Q255 85 280 115 L255 120
+        Q230 110 205 112 Q175 115 150 125
+        Q125 140 95 155 L80 150
+        Q95 135 105 125 Q75 130 40 120 Z"
+        fill="none" stroke="#fde68a" stroke-width="4"
+        stroke-linecap="round" stroke-linejoin="round"
+        filter="url(#glow)"/>
+
+      <rect id="lightStreak" x="-120" y="40" width="120" height="140"
+            fill="url(#horseLight)" mask="url(#horseMask)"/>
+
+      <path id="mane" d="M140 80 Q155 60 175 65 Q165 75 150 90"
+            fill="none" stroke="#fde68a" stroke-width="3" stroke-linecap="round"/>
+      <path id="tail" d="M80 150 Q60 170 50 185"
+            fill="none" stroke="#fde68a" stroke-width="3" stroke-linecap="round"/>
+
+      <path class="leg front" d="M130 125 L125 175"/>
+      <path class="leg front" d="M160 120 L165 175"/>
+      <path class="leg back" d="M200 115 L195 175"/>
+      <path class="leg back" d="M230 112 L235 170"/>
+    </svg>
+  </div>
+
+  <h1>CHÚC MỪNG NĂM MỚI 2026</h1>
   <div id="tetWish"></div>
 </div>
 
 <div class="container hidden" id="app">
   <div class="card">
     <h2>Đăng ký ca làm</h2>
-    <div class="sub">Tuần hiện tại • An Quy Chế</div>
     <div id="lockStatus" class="sub"></div>
-
     <input id="name" placeholder="Nhập tên nhân viên">
     <input id="pin" placeholder="Nhập mã PIN quản lý" class="hidden">
-
     <div id="form"></div>
     <button id="submitBtn">Xác nhận đăng ký</button>
   </div>
 
   <div class="card section hidden" id="managerBox">
-    <h2>Tổng hợp đăng ký ca làm</h2>
-    <button id="clearBtn">Xóa toàn bộ lịch tuần này</button>
+    <h2>Tổng hợp đăng ký</h2>
+    <button id="clearBtn">Xóa toàn bộ lịch</button>
     <div id="summary"></div>
   </div>
 
-  <footer>© 2025 An Quy Chế • Developed by Đào Đăng Tùng</footer>
+  <footer>© 2025 An Quy Chế • Đào Đăng Tùng</footer>
 </div>
 
 <script type="module">
@@ -193,7 +275,7 @@ const db = getDatabase(firebaseApp);
 const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
 const SHIFTS=["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
 
-/* TIME LOCK */
+/* LOCK */
 function isRegistrationLocked(){
   const n=new Date(),d=n.getDay(),h=n.getHours(),m=n.getMinutes();
   if(d===5&&(h>20||(h===20&&m>=0))) return true;
@@ -203,127 +285,103 @@ function isRegistrationLocked(){
 function updateLockStatus(){
   const el=document.getElementById("lockStatus");
   el.textContent=isRegistrationLocked()
-    ?"⛔ Đang khóa đăng ký • Mở lại lúc 00:00 Thứ 2"
-    :"✅ Đang mở đăng ký • Khóa lúc 20:00 Thứ 6";
+    ?"⛔ Đang khóa đăng ký • Mở lại 00:00 Thứ 2"
+    :"✅ Đang mở đăng ký • Khóa 20:00 Thứ 6";
   el.style.color=isRegistrationLocked()?"#b91c1c":"#14532d";
-  el.style.fontWeight="600";
 }
 
-/* INTRO END */
-setTimeout(()=>{
-  document.getElementById("intro").remove();
-  document.getElementById("app").classList.remove("hidden");
-  updateLockStatus();
-},2600);
+/* INTRO END + LI XI */
+(function(){
+  const wishes=[
+    "Xuân 2026 – Năm Ngọ, chúc bứt phá và tiến xa.",
+    "Năm mới an khang, mã đáo thành công.",
+    "Chúc năm mới 2026 mạnh mẽ tiến lên.",
+    "Xuân mới – khởi đầu hanh thông.",
+    "Năm Ngọ 2026, vững vàng và bền bỉ."
+  ];
+  const wishEl=document.getElementById("tetWish");
+  wishEl.textContent=wishes[Math.floor(Math.random()*wishes.length)];
+  setTimeout(()=>wishEl.classList.add("show"),600);
 
-/* HOA MAI / HOA DAO RƠI */
-setInterval(()=>{
-  const f=document.createElement("div");
-  f.className="flower";
-  f.textContent=Math.random()>.5?"🌸":"🌼";
-  f.style.left=Math.random()*100+"vw";
-  f.style.fontSize=14+Math.random()*12+"px";
-  f.style.opacity=.85;
-  f.style.animationDuration=5+Math.random()*4+"s";
-  document.body.appendChild(f);
-  setTimeout(()=>f.remove(),9000);
-},500);
+  for(let i=0;i<14;i++){
+    const lx=document.createElement("div");
+    lx.className="lixi";
+    lx.textContent="🧧";
+    lx.style.left=Math.random()*100+"vw";
+    lx.style.animationDelay=(Math.random()*0.8)+"s";
+    document.body.appendChild(lx);
+    setTimeout(()=>lx.remove(),3500);
+  }
+
+  setTimeout(()=>{
+    document.getElementById("intro").remove();
+    document.getElementById("app").classList.remove("hidden");
+    updateLockStatus();
+  },5200);
+})();
 
 /* FORM */
 const form=document.getElementById("form");
 DAYS.forEach(d=>{
-  form.innerHTML+=`
-    <div class="day">${d}</div>
-    <select id="${d}">
-      <option value="">Không đăng ký</option>
-      ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
-    </select>`;
+  form.innerHTML+=`<div class="day">${d}</div>
+  <select id="${d}">
+    <option value="">Không đăng ký</option>
+    ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
+  </select>`;
 });
 
 /* SUBMIT */
-document.getElementById("submitBtn").onclick=async()=>{
-  const ten=document.getElementById("name").value.trim();
-  const pin=document.getElementById("pin");
-  if(!ten) return alert("Vui lòng nhập tên");
+submitBtn.onclick=async()=>{
+  const ten=name.value.trim();
+  if(!ten) return alert("Nhập tên");
 
-  if(ten.toLowerCase()!=="quanly" && isRegistrationLocked())
-    return alert("⛔ Đã khóa đăng ký. Mở lại 00:00 Thứ 2.");
+  if(ten.toLowerCase()!=="quanly"&&isRegistrationLocked())
+    return alert("Đã khóa đăng ký");
 
   if(ten.toLowerCase()==="quanly"){
     pin.classList.remove("hidden");
-    if(pin.value!=="2005") return alert("Mã PIN không đúng");
-    showManager(); return;
+    if(pin.value!=="2005") return alert("Sai PIN");
+    showManager();return;
   }
 
   const lich={};
-  DAYS.forEach(d=>{
-    const v=document.getElementById(d).value;
-    if(v) lich[d]=v;
-  });
-  if(!Object.keys(lich).length) return alert("Bạn chưa đăng ký ca nào");
+  DAYS.forEach(d=>{const v=document.getElementById(d).value;if(v) lich[d]=v});
+  if(!Object.keys(lich).length) return alert("Chưa chọn ca");
 
   await set(ref(db,"dangKy/"+ten),{lich});
-  alert("Đã gửi đăng ký ca làm");
+  alert("Đã gửi");
 };
 
 /* MANAGER */
 async function showManager(){
-  document.getElementById("managerBox").classList.remove("hidden");
-  const summary=document.getElementById("summary");
+  managerBox.classList.remove("hidden");
   summary.innerHTML="";
-
   const snap=await get(ref(db,"dangKy"));
-  if(!snap.exists()){
-    summary.innerHTML="<p>Chưa có dữ liệu</p>";
-    return;
-  }
-
+  if(!snap.exists()){summary.innerHTML="Chưa có dữ liệu";return;}
   const sum={};
   snap.forEach(n=>{
     Object.entries(n.val().lich||{}).forEach(([d,c])=>{
-      sum[d]??={};
-      sum[d][c]??=[];
-      sum[d][c].push(n.key);
+      sum[d]??={}; sum[d][c]??=[]; sum[d][c].push(n.key);
     });
   });
-
   DAYS.forEach(d=>{
-    if(!sum[d]) return;
+    if(!sum[d])return;
     summary.innerHTML+=`<div class="day">${d}</div>`;
     SHIFTS.forEach(s=>{
-      if(!sum[d][s]) return;
-      summary.innerHTML+=`
-        <div class="shiftBox">
-          <b>${s}</b><br>
-          ${sum[d][s].map(n=>`<span class="badge">${n}</span>`).join("")}
-        </div>`;
+      if(!sum[d][s])return;
+      summary.innerHTML+=`<div class="shiftBox"><b>${s}</b><br>
+      ${sum[d][s].map(n=>`<span class="badge">${n}</span>`).join("")}</div>`;
     });
   });
 }
 
-/* RANDOM TET WISH */
-const tetWishes=[
-  "Chúc năm mới an khang, vạn sự hanh thông.",
-  "Xuân mới khởi sắc, mọi điều như ý.",
-  "Năm mới sức khỏe dồi dào, công việc thuận lợi.",
-  "Chúc một năm bình an và nhiều may mắn.",
-  "Xuân đến, vạn sự khởi sắc.",
-  "Năm mới vững bước, tương lai rộng mở.",
-  "Xuân an lành – Tết trọn niềm vui.",
-  "Chúc năm mới đủ đầy sức khỏe và niềm tin.",
-  "Năm mới khởi đầu tốt, cả năm hanh thông.",
-  "Xuân mới, lòng mới, hành trình mới.",
-  "Chúc bạn năm mới làm việc hiệu quả, sống an nhiên.",
-  "Năm mới đến, mong điều tốt ở lại.",
-  "Xuân này, chúc mọi điều đều đúng lúc.",
-  "Chúc năm mới tròn đầy và vững chắc.",
-  "Năm mới bình an từ trong suy nghĩ."
-];
-const wishEl=document.getElementById("tetWish");
-if(wishEl){
-  wishEl.textContent=tetWishes[Math.floor(Math.random()*tetWishes.length)];
-  setTimeout(()=>wishEl.classList.add("show"),600);
-}
+/* CLEAR */
+clearBtn.onclick=async()=>{
+  if(confirm("Xóa toàn bộ?")){
+    await remove(ref(db,"dangKy"));
+    location.reload();
+  }
+};
 </script>
 </body>
 </html>
