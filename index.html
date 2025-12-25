@@ -41,7 +41,7 @@ body{
 }
 
 #intro img{
-  width:140px;
+  width:150px;
   animation:logoIn 1.6s ease forwards;
 }
 
@@ -50,64 +50,8 @@ body{
   to{transform:scale(1);opacity:1}
 }
 
-/* ===== HORSE SVG ===== */
-#horse{
-  margin-top:10px;
-  animation:horseMove 3.6s ease-in-out infinite;
-}
-#horse svg{
-  filter:drop-shadow(0 0 14px rgba(255,215,0,.5));
-}
-@keyframes horseMove{
-  0%{transform:translateX(-24px) scale(.96);opacity:.85}
-  50%{transform:translateX(0) scale(1);opacity:1}
-  100%{transform:translateX(24px) scale(.96);opacity:.85}
-}
-
-/* Horse legs */
-.leg{
-  fill:none;
-  stroke:#fde68a;
-  stroke-width:4;
-  stroke-linecap:round;
-  transform-origin:top center;
-  animation:legRun .9s ease-in-out infinite;
-}
-.leg.back{animation-delay:.45s}
-@keyframes legRun{
-  0%{transform:rotate(14deg)}
-  50%{transform:rotate(-14deg)}
-  100%{transform:rotate(14deg)}
-}
-
-/* Mane & tail */
-#mane{animation:maneWave 1.6s ease-in-out infinite;transform-origin:bottom left}
-#tail{animation:tailSwing 1.4s ease-in-out infinite;transform-origin:top right}
-@keyframes maneWave{0%{transform:rotate(6deg)}50%{transform:rotate(-6deg)}100%{transform:rotate(6deg)}}
-@keyframes tailSwing{0%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}100%{transform:rotate(-8deg)}}
-
-/* Draw effect */
-#horse path{
-  stroke-dasharray:600;
-  stroke-dashoffset:600;
-  animation:drawHorse 2.4s ease forwards;
-}
-@keyframes drawHorse{to{stroke-dashoffset:0}}
-
-/* ===== LIGHT STREAK ===== */
-#lightStreak{
-  animation:lightRun 2.6s ease-in-out infinite;
-  opacity:.85;
-}
-@keyframes lightRun{
-  0%{transform:translateX(-160px)}
-  50%{transform:translateX(160px)}
-  100%{transform:translateX(320px)}
-}
-
-/* ===== TEXT ===== */
 #intro h1{
-  margin-top:16px;
+  margin-top:18px;
   font-size:22px;
   letter-spacing:2px;
   color:#fde68a;
@@ -120,7 +64,6 @@ body{
   to{opacity:1;transform:translateY(0)}
 }
 
-/* ===== TET WISH ===== */
 #tetWish{
   margin-top:14px;
   font-size:14px;
@@ -134,7 +77,7 @@ body{
 }
 #tetWish.show{opacity:1;filter:blur(0)}
 
-/* ===== LI XI ===== */
+/* ================= LI XI ================= */
 .lixi{
   position:fixed;
   top:-60px;
@@ -157,7 +100,10 @@ body{
     liXiGlow 1.4s ease-in-out infinite,
     liXiRotate 2.2s ease-in-out infinite;
 }
-@keyframes liXiFall{to{transform:translateY(110vh);opacity:0}}
+
+@keyframes liXiFall{
+  to{transform:translateY(110vh);opacity:0}
+}
 @keyframes liXiGlow{
   0%{box-shadow:0 8px 16px rgba(0,0,0,.25),0 0 8px rgba(255,215,0,.25)}
   50%{box-shadow:0 8px 16px rgba(0,0,0,.25),0 0 18px rgba(255,215,0,.55)}
@@ -168,8 +114,8 @@ body{
   50%{transform:rotate(4deg)}
   100%{transform:rotate(-4deg)}
 }
-  
-/* ================= APP UI ================= */
+
+/* ================= APP UI (GỐC) ================= */
 .container{max-width:420px;margin:auto;padding:20px}
 .card{background:#fff;border-radius:22px;padding:20px;box-shadow:0 25px 50px rgba(0,0,0,.25)}
 h2{margin:0 0 6px}
@@ -189,64 +135,19 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
 <!-- ================= INTRO ================= -->
 <div id="intro">
   <img src="logo.JPG" alt="An Quy Chế">
-
-  <div id="horse">
-    <svg viewBox="0 0 320 200" width="160" height="100"
-         xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="4" result="blur"/>
-          <feMerge>
-            <feMergeNode in="blur"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-        <linearGradient id="horseLight" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="rgba(255,215,0,0)"/>
-          <stop offset="50%" stop-color="rgba(255,215,0,.9)"/>
-          <stop offset="100%" stop-color="rgba(255,215,0,0)"/>
-        </linearGradient>
-        <mask id="horseMask">
-          <rect width="100%" height="100%" fill="black"/>
-          <use href="#body" fill="white"/>
-        </mask>
-      </defs>
-
-      <path id="body" d="
-        M40 120 Q80 70 140 80 Q170 55 210 75
-        Q255 85 280 115 L255 120
-        Q230 110 205 112 Q175 115 150 125
-        Q125 140 95 155 L80 150
-        Q95 135 105 125 Q75 130 40 120 Z"
-        fill="none" stroke="#fde68a" stroke-width="4"
-        stroke-linecap="round" stroke-linejoin="round"
-        filter="url(#glow)"/>
-
-      <rect id="lightStreak" x="-120" y="40" width="120" height="140"
-            fill="url(#horseLight)" mask="url(#horseMask)"/>
-
-      <path id="mane" d="M140 80 Q155 60 175 65 Q165 75 150 90"
-            fill="none" stroke="#fde68a" stroke-width="3" stroke-linecap="round"/>
-      <path id="tail" d="M80 150 Q60 170 50 185"
-            fill="none" stroke="#fde68a" stroke-width="3" stroke-linecap="round"/>
-
-      <path class="leg front" d="M130 125 L125 175"/>
-      <path class="leg front" d="M160 120 L165 175"/>
-      <path class="leg back" d="M200 115 L195 175"/>
-      <path class="leg back" d="M230 112 L235 170"/>
-    </svg>
-  </div>
-
   <h1>CHÚC MỪNG NĂM MỚI 2026</h1>
   <div id="tetWish"></div>
 </div>
 
+<!-- ================= APP ================= -->
 <div class="container hidden" id="app">
   <div class="card">
     <h2>Đăng ký ca làm</h2>
     <div id="lockStatus" class="sub"></div>
+
     <input id="name" placeholder="Nhập tên nhân viên">
     <input id="pin" placeholder="Nhập mã PIN quản lý" class="hidden">
+
     <div id="form"></div>
     <button id="submitBtn">Xác nhận đăng ký</button>
   </div>
@@ -275,7 +176,7 @@ const db = getDatabase(firebaseApp);
 const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
 const SHIFTS=["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
 
-/* LOCK */
+/* LOCK TIME */
 function isRegistrationLocked(){
   const n=new Date(),d=n.getDay(),h=n.getHours(),m=n.getMinutes();
   if(d===5&&(h>20||(h===20&&m>=0))) return true;
@@ -290,14 +191,14 @@ function updateLockStatus(){
   el.style.color=isRegistrationLocked()?"#b91c1c":"#14532d";
 }
 
-/* INTRO END + LI XI */
-(function(){
+/* INTRO + LI XI */
+document.addEventListener("DOMContentLoaded",()=>{
   const wishes=[
-    "Xuân 2026 – Năm Ngọ, chúc bứt phá và tiến xa.",
-    "Năm mới an khang, mã đáo thành công.",
-    "Chúc năm mới 2026 mạnh mẽ tiến lên.",
-    "Xuân mới – khởi đầu hanh thông.",
-    "Năm Ngọ 2026, vững vàng và bền bỉ."
+    "Xuân 2026 – Năm mới bình an và hanh thông.",
+    "Chúc năm mới 2026 an khang, thuận lợi.",
+    "Xuân mới khởi đầu tốt đẹp.",
+    "Năm mới nhiều sức khỏe và niềm vui.",
+    "Chúc một năm 2026 tròn đầy."
   ];
   const wishEl=document.getElementById("tetWish");
   wishEl.textContent=wishes[Math.floor(Math.random()*wishes.length)];
@@ -318,16 +219,17 @@ function updateLockStatus(){
     document.getElementById("app").classList.remove("hidden");
     updateLockStatus();
   },5200);
-})();
+});
 
 /* FORM */
 const form=document.getElementById("form");
 DAYS.forEach(d=>{
-  form.innerHTML+=`<div class="day">${d}</div>
-  <select id="${d}">
-    <option value="">Không đăng ký</option>
-    ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
-  </select>`;
+  form.innerHTML+=`
+    <div class="day">${d}</div>
+    <select id="${d}">
+      <option value="">Không đăng ký</option>
+      ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
+    </select>`;
 });
 
 /* SUBMIT */
@@ -335,21 +237,24 @@ submitBtn.onclick=async()=>{
   const ten=name.value.trim();
   if(!ten) return alert("Nhập tên");
 
-  if(ten.toLowerCase()!=="quanly"&&isRegistrationLocked())
+  if(ten.toLowerCase()!=="quanly" && isRegistrationLocked())
     return alert("Đã khóa đăng ký");
 
   if(ten.toLowerCase()==="quanly"){
     pin.classList.remove("hidden");
     if(pin.value!=="2005") return alert("Sai PIN");
-    showManager();return;
+    showManager(); return;
   }
 
   const lich={};
-  DAYS.forEach(d=>{const v=document.getElementById(d).value;if(v) lich[d]=v});
+  DAYS.forEach(d=>{
+    const v=document.getElementById(d).value;
+    if(v) lich[d]=v;
+  });
   if(!Object.keys(lich).length) return alert("Chưa chọn ca");
 
   await set(ref(db,"dangKy/"+ten),{lich});
-  alert("Đã gửi");
+  alert("Đã gửi đăng ký");
 };
 
 /* MANAGER */
@@ -357,11 +262,16 @@ async function showManager(){
   managerBox.classList.remove("hidden");
   summary.innerHTML="";
   const snap=await get(ref(db,"dangKy"));
-  if(!snap.exists()){summary.innerHTML="Chưa có dữ liệu";return;}
+  if(!snap.exists()){
+    summary.innerHTML="Chưa có dữ liệu";
+    return;
+  }
   const sum={};
   snap.forEach(n=>{
     Object.entries(n.val().lich||{}).forEach(([d,c])=>{
-      sum[d]??={}; sum[d][c]??=[]; sum[d][c].push(n.key);
+      sum[d]??={};
+      sum[d][c]??=[];
+      sum[d][c].push(n.key);
     });
   });
   DAYS.forEach(d=>{
@@ -369,8 +279,10 @@ async function showManager(){
     summary.innerHTML+=`<div class="day">${d}</div>`;
     SHIFTS.forEach(s=>{
       if(!sum[d][s])return;
-      summary.innerHTML+=`<div class="shiftBox"><b>${s}</b><br>
-      ${sum[d][s].map(n=>`<span class="badge">${n}</span>`).join("")}</div>`;
+      summary.innerHTML+=`
+        <div class="shiftBox"><b>${s}</b><br>
+        ${sum[d][s].map(n=>`<span class="badge">${n}</span>`).join("")}
+        </div>`;
     });
   });
 }
@@ -385,6 +297,5 @@ clearBtn.onclick=async()=>{
 </script>
 </body>
 </html>
-
 
 
