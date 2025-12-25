@@ -7,7 +7,6 @@
 
 <meta name="theme-color" content="#9f1239">
 
-<!-- iOS PWA -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="AnQuyChe">
@@ -26,102 +25,81 @@ body{
 }
 .hidden{display:none}
 
-/* ================= INTRO TET 2026 ================= */
+/* ===== INTRO TET 2026 ===== */
 #intro{
-  position:fixed;
-  inset:0;
+  position:fixed; inset:0;
   background:
     radial-gradient(circle at center, rgba(255,215,0,.25), transparent 60%),
     linear-gradient(180deg,#9f1239,#7f1d1d);
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
   z-index:9999;
 }
-
-#intro img{
-  width:150px;
-  animation:logoIn 1.6s ease forwards;
-}
-
-@keyframes logoIn{
-  from{transform:scale(.7);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
+#intro img{width:150px;animation:logoIn 1.6s ease forwards}
+@keyframes logoIn{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
 
 #intro h1{
-  margin-top:18px;
-  font-size:22px;
-  letter-spacing:2px;
-  color:#fde68a;
-  opacity:0;
+  margin-top:18px;font-size:22px;letter-spacing:2px;
+  color:#fde68a;opacity:0;
   animation:newYearIn 1.8s ease forwards;
   animation-delay:1.2s;
 }
-@keyframes newYearIn{
-  from{opacity:0;transform:translateY(14px)}
-  to{opacity:1;transform:translateY(0)}
-}
+@keyframes newYearIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
 #tetWish{
-  margin-top:14px;
-  font-size:14px;
-  color:#fde68a;
-  text-align:center;
-  max-width:260px;
-  line-height:1.5;
-  opacity:0;
-  filter:blur(2px);
+  margin-top:14px;font-size:14px;color:#fde68a;
+  text-align:center;max-width:260px;line-height:1.5;
+  opacity:0;filter:blur(2px);
   transition:opacity 1.2s ease, filter 1.2s ease;
 }
 #tetWish.show{opacity:1;filter:blur(0)}
 
-/* ================= LI XI ================= */
+/* ===== LI XI ===== */
 .lixi{
-  position:fixed;
-  top:-60px;
-  width:42px;
-  height:56px;
+  position:fixed;top:-60px;
+  width:42px;height:56px;
   background:linear-gradient(180deg,#dc2626,#991b1b);
   border-radius:8px;
-  box-shadow:
-    0 8px 16px rgba(0,0,0,.25),
-    0 0 12px rgba(255,215,0,.35);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:#fde68a;
-  font-size:22px;
-  font-weight:700;
+  box-shadow:0 8px 16px rgba(0,0,0,.25),0 0 12px rgba(255,215,0,.35);
+  display:flex;justify-content:center;align-items:center;
+  color:#fde68a;font-size:22px;font-weight:700;
   pointer-events:none;
-  animation:
-    liXiFall 2.6s ease-in forwards,
-    liXiGlow 1.4s ease-in-out infinite,
-    liXiRotate 2.2s ease-in-out infinite;
+  animation:liXiFall 2.6s ease-in forwards,
+            liXiGlow 1.4s ease-in-out infinite,
+            liXiRotate 2.2s ease-in-out infinite;
 }
-
-@keyframes liXiFall{
-  to{transform:translateY(110vh);opacity:0}
-}
+@keyframes liXiFall{to{transform:translateY(110vh);opacity:0}}
 @keyframes liXiGlow{
   0%{box-shadow:0 8px 16px rgba(0,0,0,.25),0 0 8px rgba(255,215,0,.25)}
   50%{box-shadow:0 8px 16px rgba(0,0,0,.25),0 0 18px rgba(255,215,0,.55)}
   100%{box-shadow:0 8px 16px rgba(0,0,0,.25),0 0 8px rgba(255,215,0,.25)}
 }
-@keyframes liXiRotate{
-  0%{transform:rotate(-4deg)}
-  50%{transform:rotate(4deg)}
-  100%{transform:rotate(-4deg)}
+@keyframes liXiRotate{0%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}100%{transform:rotate(-4deg)}}
+
+/* ===== NOTICE ===== */
+.notice-reward{background:#fef3c7;border-left:6px solid #f59e0b}
+.notice-praise{background:#ecfeff;border-left:6px solid #06b6d4}
+.notice-remind{background:#f0fdf4;border-left:6px solid #16a34a}
+.notice-name{
+  display:inline-block;background:#14532d;color:#fff;
+  padding:4px 8px;border-radius:999px;
+  font-size:12px;margin:4px 4px 0 0;
 }
 
-/* ================= APP UI (GỐC) ================= */
+/* ===== APP UI ===== */
 .container{max-width:420px;margin:auto;padding:20px}
 .card{background:#fff;border-radius:22px;padding:20px;box-shadow:0 25px 50px rgba(0,0,0,.25)}
 h2{margin:0 0 6px}
 .sub{font-size:13px;color:#555}
-input,select{width:100%;padding:12px;margin:10px 0;border-radius:14px;border:1px solid #ccc}
-button{width:100%;padding:14px;border:none;border-radius:16px;background:#b91c1c;color:#fff;font-weight:600;margin-top:14px}
+input,select,textarea{
+  width:100%;padding:12px;margin:8px 0;
+  border-radius:14px;border:1px solid #ccc;
+}
+button{
+  width:100%;padding:14px;border:none;
+  border-radius:16px;background:#b91c1c;
+  color:#fff;font-weight:600;margin-top:10px;
+}
 .day{font-weight:700;margin-top:14px}
 .section{margin-top:18px}
 .shiftBox{background:#f1f5f9;border-radius:14px;padding:10px;margin:8px 0}
@@ -132,18 +110,28 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
 
 <body>
 
-<!-- ================= INTRO ================= -->
+<!-- ===== INTRO ===== -->
 <div id="intro">
   <img src="logo.JPG" alt="An Quy Chế">
   <h1>CHÚC MỪNG NĂM MỚI 2026</h1>
   <div id="tetWish"></div>
 </div>
 
-<!-- ================= APP ================= -->
+<!-- ===== APP ===== -->
 <div class="container hidden" id="app">
   <div class="card">
     <h2>Đăng ký ca làm</h2>
     <div id="lockStatus" class="sub"></div>
+
+    <!-- NOTICE -->
+    <div id="noticeBox" class="hidden" style="padding:14px;border-radius:14px;margin:14px 0">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span id="noticeIcon">⭐</span>
+        <b id="noticeTitle"></b>
+      </div>
+      <div id="noticeContent" style="margin-top:6px"></div>
+      <div id="noticeNames" style="margin-top:8px"></div>
+    </div>
 
     <input id="name" placeholder="Nhập tên nhân viên">
     <input id="pin" placeholder="Nhập mã PIN quản lý" class="hidden">
@@ -152,10 +140,29 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
     <button id="submitBtn">Xác nhận đăng ký</button>
   </div>
 
+  <!-- MANAGER -->
   <div class="card section hidden" id="managerBox">
-    <h2>Tổng hợp đăng ký</h2>
-    <button id="clearBtn">Xóa toàn bộ lịch</button>
+    <h2>Quản lý</h2>
     <div id="summary"></div>
+
+    <hr style="margin:16px 0">
+
+    <h3>🏅 Khen thưởng / Ghi nhận tuần</h3>
+    <select id="noticeType">
+      <option value="reward">⭐ Khen thưởng</option>
+      <option value="praise">👏 Ghi nhận</option>
+      <option value="remind">🔔 Nhắc nhở tích cực</option>
+    </select>
+
+    <input id="noticeNamesInput" placeholder="Tên nhân viên (cách nhau bằng dấu phẩy)">
+    <textarea id="noticeInput" placeholder="Nội dung khen thưởng / ghi nhận..."></textarea>
+
+    <label style="display:flex;align-items:center;gap:6px">
+      <input type="checkbox" id="noticeToggle"> Hiển thị cho nhân viên
+    </label>
+
+    <button id="saveNoticeBtn">💾 Lưu thông báo tuần</button>
+    <button id="clearBtn" style="background:#444">Xóa toàn bộ lịch</button>
   </div>
 
   <footer>© 2025 An Quy Chế • Đào Đăng Tùng</footer>
@@ -176,7 +183,7 @@ const db = getDatabase(firebaseApp);
 const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
 const SHIFTS=["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
 
-/* LOCK TIME */
+/* LOCK */
 function isRegistrationLocked(){
   const n=new Date(),d=n.getDay(),h=n.getHours(),m=n.getMinutes();
   if(d===5&&(h>20||(h===20&&m>=0))) return true;
@@ -184,11 +191,9 @@ function isRegistrationLocked(){
   return false;
 }
 function updateLockStatus(){
-  const el=document.getElementById("lockStatus");
-  el.textContent=isRegistrationLocked()
+  lockStatus.textContent=isRegistrationLocked()
     ?"⛔ Đang khóa đăng ký • Mở lại 00:00 Thứ 2"
     :"✅ Đang mở đăng ký • Khóa 20:00 Thứ 6";
-  el.style.color=isRegistrationLocked()?"#b91c1c":"#14532d";
 }
 
 /* INTRO + LI XI */
@@ -200,9 +205,8 @@ document.addEventListener("DOMContentLoaded",()=>{
     "Năm mới nhiều sức khỏe và niềm vui.",
     "Chúc một năm 2026 tròn đầy."
   ];
-  const wishEl=document.getElementById("tetWish");
-  wishEl.textContent=wishes[Math.floor(Math.random()*wishes.length)];
-  setTimeout(()=>wishEl.classList.add("show"),600);
+  tetWish.textContent=wishes[Math.floor(Math.random()*wishes.length)];
+  setTimeout(()=>tetWish.classList.add("show"),600);
 
   for(let i=0;i<14;i++){
     const lx=document.createElement("div");
@@ -215,21 +219,20 @@ document.addEventListener("DOMContentLoaded",()=>{
   }
 
   setTimeout(()=>{
-    document.getElementById("intro").remove();
-    document.getElementById("app").classList.remove("hidden");
+    intro.remove();
+    app.classList.remove("hidden");
     updateLockStatus();
+    loadNotice();
   },5200);
 });
 
 /* FORM */
-const form=document.getElementById("form");
 DAYS.forEach(d=>{
-  form.innerHTML+=`
-    <div class="day">${d}</div>
-    <select id="${d}">
-      <option value="">Không đăng ký</option>
-      ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
-    </select>`;
+  form.innerHTML+=`<div class="day">${d}</div>
+  <select id="${d}">
+    <option value="">Không đăng ký</option>
+    ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
+  </select>`;
 });
 
 /* SUBMIT */
@@ -237,40 +240,81 @@ submitBtn.onclick=async()=>{
   const ten=name.value.trim();
   if(!ten) return alert("Nhập tên");
 
-  if(ten.toLowerCase()!=="quanly" && isRegistrationLocked())
+  if(ten.toLowerCase()!=="quanly"&&isRegistrationLocked())
     return alert("Đã khóa đăng ký");
 
   if(ten.toLowerCase()==="quanly"){
     pin.classList.remove("hidden");
     if(pin.value!=="2005") return alert("Sai PIN");
-    showManager(); return;
+    showManager();return;
   }
 
   const lich={};
-  DAYS.forEach(d=>{
-    const v=document.getElementById(d).value;
-    if(v) lich[d]=v;
-  });
+  DAYS.forEach(d=>{const v=document.getElementById(d).value;if(v) lich[d]=v});
   if(!Object.keys(lich).length) return alert("Chưa chọn ca");
 
   await set(ref(db,"dangKy/"+ten),{lich});
-  alert("Đã gửi đăng ký");
+  alert("Đã gửi");
+};
+
+/* NOTICE */
+const noticeRef=ref(db,"thongBaoTuan");
+
+async function loadNotice(){
+  const snap=await get(noticeRef);
+  if(!snap.exists()) return;
+  const {type,content,names,enabled}=snap.val();
+  if(!enabled) return;
+
+  noticeBox.className="";
+  noticeBox.classList.add(
+    type==="reward"?"notice-reward":
+    type==="praise"?"notice-praise":"notice-remind"
+  );
+
+  noticeIcon.textContent=type==="reward"?"⭐":type==="praise"?"👏":"🔔";
+  noticeTitle.textContent=type==="reward"?"Khen thưởng tuần":type==="praise"?"Ghi nhận tuần":"Nhắc nhở tích cực";
+  noticeContent.textContent=content||"";
+  noticeNames.innerHTML="";
+  (names||[]).forEach(n=>{
+    const s=document.createElement("span");
+    s.className="notice-name";
+    s.textContent=n;
+    noticeNames.appendChild(s);
+  });
+  noticeBox.classList.remove("hidden");
+}
+
+saveNoticeBtn.onclick=async()=>{
+  await set(noticeRef,{
+    type:noticeType.value,
+    content:noticeInput.value.trim(),
+    names:noticeNamesInput.value.split(",").map(n=>n.trim()).filter(Boolean),
+    enabled:noticeToggle.checked
+  });
+  alert("Đã lưu thông báo tuần");
+  loadNotice();
 };
 
 /* MANAGER */
 async function showManager(){
   managerBox.classList.remove("hidden");
-  summary.innerHTML="";
-  const snap=await get(ref(db,"dangKy"));
-  if(!snap.exists()){
-    summary.innerHTML="Chưa có dữ liệu";
-    return;
+  const snap=await get(noticeRef);
+  if(snap.exists()){
+    const n=snap.val();
+    noticeType.value=n.type||"reward";
+    noticeInput.value=n.content||"";
+    noticeNamesInput.value=(n.names||[]).join(", ");
+    noticeToggle.checked=!!n.enabled;
   }
+
+  summary.innerHTML="";
+  const snap2=await get(ref(db,"dangKy"));
+  if(!snap2.exists()){summary.innerHTML="Chưa có dữ liệu";return;}
   const sum={};
-  snap.forEach(n=>{
+  snap2.forEach(n=>{
     Object.entries(n.val().lich||{}).forEach(([d,c])=>{
-      sum[d]??={};
-      sum[d][c]??=[];
+      sum[d]??={}; sum[d][c]??=[];
       sum[d][c].push(n.key);
     });
   });
@@ -279,10 +323,8 @@ async function showManager(){
     summary.innerHTML+=`<div class="day">${d}</div>`;
     SHIFTS.forEach(s=>{
       if(!sum[d][s])return;
-      summary.innerHTML+=`
-        <div class="shiftBox"><b>${s}</b><br>
-        ${sum[d][s].map(n=>`<span class="badge">${n}</span>`).join("")}
-        </div>`;
+      summary.innerHTML+=`<div class="shiftBox"><b>${s}</b><br>
+      ${sum[d][s].map(n=>`<span class="badge">${n}</span>`).join("")}</div>`;
     });
   });
 }
