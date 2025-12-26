@@ -16,105 +16,155 @@
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background:
-    radial-gradient(circle at top, rgba(255,215,0,.12), transparent 60%),
-    linear-gradient(180deg,#9f1239,#065f46);
+  background:linear-gradient(180deg,#9f1239,#065f46);
   min-height:100vh;
-  overflow-x:hidden;
 }
 .hidden{display:none}
 
-/* ===== INTRO ===== */
+/* ================= INTRO (ẢNH NỀN iPHONE) ================= */
 #intro{
-  position:fixed; inset:0;
-  background:
-    radial-gradient(circle at center, rgba(255,215,0,.25), transparent 60%),
-    linear-gradient(180deg,#9f1239,#7f1d1d);
-  display:flex;flex-direction:column;
-  justify-content:center;align-items:center;
+  position:fixed;
+  inset:0;
+  min-height:100vh;
+  min-height:100svh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
   z-index:9999;
+  overflow:hidden;
 }
-#intro img{width:150px;animation:logoIn 1.6s ease forwards}
-@keyframes logoIn{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
-#intro h1{
-  margin-top:18px;font-size:22px;letter-spacing:2px;
-  color:#fde68a;opacity:0;
-  animation:newYearIn 1.8s ease forwards;
-  animation-delay:1.2s;
+
+/* ảnh nền */
+.intro-bg{
+  position:absolute;
+  inset:0;
+  background:url("intro-bg.JPG") center/cover no-repeat;
+  z-index:-2;
 }
-@keyframes newYearIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-#tetWish{
-  margin-top:14px;font-size:14px;color:#fde68a;
-  text-align:center;max-width:260px;line-height:1.5;
-  opacity:0;filter:blur(2px);
+
+/* overlay tối nhẹ */
+#intro::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.18);
+  z-index:-1;
+}
+
+/* khối nội dung */
+.intro-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:0 16px;
+}
+
+/* logo */
+.intro-wrap img{
+  width:72vw;
+  max-width:320px;
+  height:auto;
+}
+
+/* chữ AN CAFÉ */
+.intro-brand{
+  margin-top:14px;
+  font-size:26px;
+  letter-spacing:4px;
+  font-weight:700;
+  color:#f9d783;
+  text-shadow:0 2px 4px rgba(0,0,0,.3);
+}
+
+/* câu chúc */
+.intro-wish{
+  margin-top:10px;
+  font-size:15px;
+  color:#fde68a;
+  text-align:center;
+  line-height:1.6;
+  opacity:0;
+  filter:blur(2px);
   transition:opacity 1.2s ease, filter 1.2s ease;
 }
-#tetWish.show{opacity:1;filter:blur(0)}
+.intro-wish.show{opacity:1;filter:blur(0)}
 
-/* ===== LI XI ===== */
-.lixi{
-  position:fixed;top:-60px;
-  width:42px;height:56px;
-  background:linear-gradient(180deg,#dc2626,#991b1b);
-  border-radius:8px;
-  box-shadow:0 8px 16px rgba(0,0,0,.25),0 0 12px rgba(255,215,0,.35);
-  display:flex;justify-content:center;align-items:center;
-  color:#fde68a;font-size:22px;font-weight:700;
-  pointer-events:none;
-  animation:liXiFall 2.6s ease-in forwards,
-            liXiGlow 1.4s ease-in-out infinite,
-            liXiRotate 2.2s ease-in-out infinite;
-}
-@keyframes liXiFall{to{transform:translateY(110vh);opacity:0}}
-@keyframes liXiGlow{
-  0%{box-shadow:0 8px 16px rgba(0,0,0,.25),0 0 8px rgba(255,215,0,.25)}
-  50%{box-shadow:0 8px 16px rgba(0,0,0,.25),0 0 18px rgba(255,215,0,.55)}
-  100%{box-shadow:0 8px 16px rgba(0,0,0,.25),0 0 8px rgba(255,215,0,.25)}
-}
-@keyframes liXiRotate{0%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}100%{transform:rotate(-4deg)}}
-
-/* ===== NOTICE ===== */
-.notice-reward{background:#fef3c7;border-left:6px solid #f59e0b}
-.notice-praise{background:#ecfeff;border-left:6px solid #06b6d4}
-.notice-remind{background:#f0fdf4;border-left:6px solid #16a34a}
-.notice-name{
-  display:inline-block;background:#14532d;color:#fff;
-  padding:4px 8px;border-radius:999px;
-  font-size:12px;margin:4px 4px 0 0;
+@media(max-width:390px){
+  .intro-brand{font-size:24px}
+  .intro-wish{font-size:14px}
 }
 
-/* ===== APP UI ===== */
+/* ================= APP UI (GỐC) ================= */
 .container{max-width:420px;margin:auto;padding:20px}
-.card{background:#fff;border-radius:22px;padding:20px;box-shadow:0 25px 50px rgba(0,0,0,.25)}
+.card{
+  background:#fff;
+  border-radius:22px;
+  padding:20px;
+  box-shadow:0 25px 50px rgba(0,0,0,.25)
+}
 h2{margin:0 0 6px}
 .sub{font-size:13px;color:#555}
 input,select,textarea{
-  width:100%;padding:12px;margin:8px 0;
-  border-radius:14px;border:1px solid #ccc;
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:14px;
+  border:1px solid #ccc;
 }
 button{
-  width:100%;padding:14px;border:none;
-  border-radius:16px;background:#b91c1c;
-  color:#fff;font-weight:600;margin-top:10px;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:16px;
+  background:#b91c1c;
+  color:#fff;
+  font-weight:600;
+  margin-top:10px;
 }
 .day{font-weight:700;margin-top:14px}
 .section{margin-top:18px}
 .shiftBox{background:#f1f5f9;border-radius:14px;padding:10px;margin:8px 0}
-.badge{display:inline-block;background:#14532d;color:#fff;padding:6px 10px;border-radius:999px;font-size:13px;margin:4px 4px 0 0}
+.badge{
+  display:inline-block;
+  background:#14532d;
+  color:#fff;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:13px;
+  margin:4px 4px 0 0
+}
 footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
+
+/* ===== Khen thưởng ===== */
+.notice-reward{background:#fef3c7;border-left:6px solid #f59e0b}
+.notice-praise{background:#ecfeff;border-left:6px solid #06b6d4}
+.notice-remind{background:#f0fdf4;border-left:6px solid #16a34a}
+.notice-name{
+  display:inline-block;
+  background:#14532d;
+  color:#fff;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:12px;
+  margin:4px 4px 0 0
+}
 </style>
 </head>
 
 <body>
 
-<!-- INTRO -->
+<!-- ================= INTRO ================= -->
 <div id="intro">
-  <img src="logo.JPG" alt="An Quy Chế">
-  <h1>CHÚC MỪNG NĂM MỚI 2026</h1>
-  <div id="tetWish"></div>
+  <div class="intro-bg"></div>
+
+  <div class="intro-wrap">
+    <img src="logo.JPG" alt="AN CAFÉ">
+    <div class="intro-brand">AN CAFÉ</div>
+    <div id="tetWish" class="intro-wish"></div>
+  </div>
 </div>
 
-<!-- APP -->
+<!-- ================= APP ================= -->
 <div class="container hidden" id="app">
   <div class="card">
     <h2>Đăng ký ca làm</h2>
@@ -160,7 +210,7 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
     <button id="clearBtn" style="background:#444">Xóa toàn bộ lịch</button>
   </div>
 
-  <footer>© 2025 An Quy Chế • Đào Đăng Tùng</footer>
+  <footer>© 2025 AN CAFÉ • Developed by Đào Đăng Tùng</footer>
 </div>
 
 <script type="module">
@@ -178,7 +228,7 @@ const db = getDatabase(firebaseApp);
 const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
 const SHIFTS=["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
 
-/* FIX DOM */
+/* DOM FIX */
 const submitBtn=document.getElementById("submitBtn");
 const nameInput=document.getElementById("name");
 const pinInput=document.getElementById("pin");
@@ -212,35 +262,25 @@ function updateLockStatus(){
     :"✅ Đang mở đăng ký • Khóa 20:00 Thứ 6";
 }
 
-/* INTRO + LI XI */
+/* INTRO */
 document.addEventListener("DOMContentLoaded",()=>{
   const wishes=[
-    "Xuân 2026 – Năm mới bình an và hanh thông.",
-    "Chúc năm mới 2026 an khang, thuận lợi.",
-    "Xuân mới khởi đầu tốt đẹp.",
-    "Năm mới nhiều sức khỏe và niềm vui.",
-    "Chúc một năm 2026 tròn đầy."
+    "Chúc AN CAFÉ năm mới 2026 phát tài – phát lộc.",
+    "Xuân 2026 – Khách vào nườm nượp, buôn may bán đắt.",
+    "Năm mới 2026 – An khang thịnh vượng.",
+    "Chúc tập thể AN CAFÉ một năm thành công rực rỡ.",
+    "Xuân mới vạn sự hanh thông."
   ];
-  const tetWish=document.getElementById("tetWish");
-  tetWish.textContent=wishes[Math.floor(Math.random()*wishes.length)];
-  setTimeout(()=>tetWish.classList.add("show"),600);
-
-  for(let i=0;i<14;i++){
-    const lx=document.createElement("div");
-    lx.className="lixi";
-    lx.textContent="🧧";
-    lx.style.left=Math.random()*100+"vw";
-    lx.style.animationDelay=(Math.random()*0.8)+"s";
-    document.body.appendChild(lx);
-    setTimeout(()=>lx.remove(),3500);
-  }
+  const wishEl=document.getElementById("tetWish");
+  wishEl.textContent=wishes[Math.floor(Math.random()*wishes.length)];
+  setTimeout(()=>wishEl.classList.add("show"),600);
 
   setTimeout(()=>{
     document.getElementById("intro").remove();
     document.getElementById("app").classList.remove("hidden");
     updateLockStatus();
     loadNotice();
-  },5200);
+  },4500);
 });
 
 /* FORM */
@@ -255,9 +295,9 @@ DAYS.forEach(d=>{
 /* SUBMIT */
 submitBtn.onclick=async()=>{
   const ten=nameInput.value.trim();
-  if(!ten) return alert("Vui lòng nhập tên");
+  if(!ten) return alert("Nhập tên");
 
-  if(ten.toLowerCase()!=="quanly"&&isRegistrationLocked())
+  if(ten.toLowerCase()!=="quanly" && isRegistrationLocked())
     return alert("⛔ Đã khóa đăng ký");
 
   if(ten.toLowerCase()==="quanly"){
@@ -292,7 +332,9 @@ async function loadNotice(){
     type==="praise"?"notice-praise":"notice-remind"
   );
   noticeIcon.textContent=type==="reward"?"⭐":type==="praise"?"👏":"🔔";
-  noticeTitle.textContent=type==="reward"?"Khen thưởng tuần":type==="praise"?"Ghi nhận tuần":"Nhắc nhở tích cực";
+  noticeTitle.textContent=
+    type==="reward"?"Khen thưởng tuần":
+    type==="praise"?"Ghi nhận tuần":"Nhắc nhở tích cực";
   noticeContent.textContent=content||"";
   noticeNames.innerHTML="";
   (names||[]).forEach(n=>{
