@@ -2,7 +2,8 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>An Quy Chế – Đăng ký ca làm</title>
 
 <meta name="theme-color" content="#9f1239">
@@ -16,57 +17,62 @@
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background:linear-gradient(180deg,#9f1239,#065f46);
+  background:#111;
   min-height:100vh;
 }
 .hidden{display:none}
 
-/* ================= INTRO (ẢNH NỀN iPHONE) ================= */
+/* ================= INTRO FULL SCREEN ================= */
 #intro{
   position:fixed;
   inset:0;
-  min-height:100vh;
-  min-height:100svh;
+  width:100vw;
+  height:100vh;
+  height:100svh;
+  height:100dvh;
   display:flex;
   justify-content:center;
   align-items:center;
-  z-index:9999;
   overflow:hidden;
+  z-index:9999;
+  padding-top:env(safe-area-inset-top);
+  padding-bottom:env(safe-area-inset-bottom);
 }
 
-/* ảnh nền */
+/* ảnh nền intro */
 .intro-bg{
   position:absolute;
   inset:0;
   background:url("intro-bg.JPG") center/cover no-repeat;
   z-index:-2;
+  animation:introBgZoom 14s ease-in-out forwards;
+}
+@keyframes introBgZoom{
+  from{transform:scale(1)}
+  to{transform:scale(1.08)}
 }
 
-/* overlay tối nhẹ */
+/* overlay tối */
 #intro::after{
   content:"";
   position:absolute;
   inset:0;
-  background:rgba(0,0,0,.18);
+  background:rgba(0,0,0,.2);
   z-index:-1;
 }
 
-/* khối nội dung */
+/* nội dung intro */
 .intro-wrap{
   display:flex;
   flex-direction:column;
   align-items:center;
   padding:0 16px;
+  transition:all 1.2s ease;
 }
-
-/* logo */
 .intro-wrap img{
   width:72vw;
   max-width:320px;
-  height:auto;
 }
-
-/* chữ AN CAFÉ */
 .intro-brand{
   margin-top:14px;
   font-size:26px;
@@ -75,8 +81,6 @@ body{
   color:#f9d783;
   text-shadow:0 2px 4px rgba(0,0,0,.3);
 }
-
-/* câu chúc */
 .intro-wish{
   margin-top:10px;
   font-size:15px;
@@ -89,15 +93,54 @@ body{
 }
 .intro-wish.show{opacity:1;filter:blur(0)}
 
-@media(max-width:390px){
-  .intro-brand{font-size:24px}
-  .intro-wish{font-size:14px}
+/* ===== INTRO TAN THÀNH NỀN ===== */
+#intro.fade-out{
+  animation:introOut 1.2s ease forwards;
+}
+@keyframes introOut{
+  to{
+    opacity:0;
+    transform:scale(1.05);
+  }
+}
+#intro.fade-out .intro-wrap{
+  opacity:0;
+  transform:translateY(12px);
+}
+#intro.fade-out .intro-bg{
+  filter:blur(10px);
+  transition:filter 1.2s ease;
 }
 
-/* ================= APP UI (GỐC) ================= */
+/* ================= APP BACKGROUND ================= */
+.app-bg{
+  position:fixed;
+  inset:0;
+  background:url("intro-bg.JPG") center/cover no-repeat;
+  filter:blur(14px);
+  opacity:0;
+  transition:opacity 1.2s ease;
+  z-index:0;
+}
+.app-bg.show{opacity:.45}
+
+/* ================= APP UI ================= */
+#app{
+  position:relative;
+  z-index:1;
+  opacity:0;
+  transform:scale(.98);
+  transition:opacity 1s ease, transform 1s ease;
+}
+#app.show{
+  opacity:1;
+  transform:scale(1);
+}
+
 .container{max-width:420px;margin:auto;padding:20px}
 .card{
-  background:#fff;
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(8px);
   border-radius:22px;
   padding:20px;
   box-shadow:0 25px 50px rgba(0,0,0,.25)
@@ -153,10 +196,12 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
 
 <body>
 
+<!-- nền app (từ intro) -->
+<div class="app-bg"></div>
+
 <!-- ================= INTRO ================= -->
 <div id="intro">
   <div class="intro-bg"></div>
-
   <div class="intro-wrap">
     <img src="logo.JPG" alt="AN CAFÉ">
     <div class="intro-brand">AN CAFÉ</div>
@@ -210,7 +255,7 @@ footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
     <button id="clearBtn" style="background:#444">Xóa toàn bộ lịch</button>
   </div>
 
-  <footer>© 2025 AN CAFÉ • Developed by Đào Đăng Tùng</footer>
+  <footer>© 2025 AN CAFÉ • Đào Đăng Tùng</footer>
 </div>
 
 <script type="module">
@@ -228,7 +273,7 @@ const db = getDatabase(firebaseApp);
 const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
 const SHIFTS=["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
 
-/* DOM FIX */
+/* DOM */
 const submitBtn=document.getElementById("submitBtn");
 const nameInput=document.getElementById("name");
 const pinInput=document.getElementById("pin");
@@ -262,7 +307,7 @@ function updateLockStatus(){
     :"✅ Đang mở đăng ký • Khóa 20:00 Thứ 6";
 }
 
-/* INTRO */
+/* INTRO LOGIC */
 document.addEventListener("DOMContentLoaded",()=>{
   const wishes=[
     "Chúc AN CAFÉ năm mới 2026 phát tài – phát lộc.",
@@ -276,11 +321,22 @@ document.addEventListener("DOMContentLoaded",()=>{
   setTimeout(()=>wishEl.classList.add("show"),600);
 
   setTimeout(()=>{
-    document.getElementById("intro").remove();
-    document.getElementById("app").classList.remove("hidden");
+    const intro=document.getElementById("intro");
+    const app=document.getElementById("app");
+    const bg=document.querySelector(".app-bg");
+
+    app.classList.remove("hidden");
+    requestAnimationFrame(()=>{
+      app.classList.add("show");
+      bg.classList.add("show");
+    });
+
+    intro.classList.add("fade-out");
+
+    setTimeout(()=>intro.remove(),1200);
     updateLockStatus();
     loadNotice();
-  },4500);
+  },5000);
 });
 
 /* FORM */
@@ -400,5 +456,6 @@ clearBtn.onclick=async()=>{
 </script>
 </body>
 </html>
+
 
 
