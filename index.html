@@ -2,132 +2,47 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>An Quy Chế – Đăng ký ca làm</title>
 
-<meta name="theme-color" content="#9f1239">
+<meta name="theme-color" content="#0b3d2e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="AnQuyChe">
 <link rel="apple-touch-icon" href="icon-192.png">
-<link rel="manifest" href="manifest.json">
 
 <style>
 *{box-sizing:border-box}
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background:#111;
+  background:linear-gradient(180deg,#7f1d1d,#064e3b);
+  min-height:100vh;
 }
 .hidden{display:none}
 
-/* ===== INTRO ===== */
-#intro{
-  position:fixed;
-  inset:0;
-  width:100vw;
-  height:100vh;
-  height:100svh;
-  height:100dvh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
-  z-index:9999;
-}
-.intro-bg{
-  position:absolute;
-  inset:0;
-  background:url("intro-bg.JPG") center/cover no-repeat;
-  animation:introBgZoom 14s ease-in-out forwards;
-}
-@keyframes introBgZoom{
-  from{transform:scale(1)}
-  to{transform:scale(1.08)}
-}
-#intro::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.25);
-}
-.intro-wrap{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  z-index:2;
-  transition:1.2s ease;
-}
-.intro-wrap img{
-  width:72vw;
-  max-width:320px;
-}
-.intro-brand{
-  margin-top:14px;
-  font-size:26px;
-  letter-spacing:4px;
-  font-weight:700;
-  color:#f9d783;
-}
-.intro-wish{
-  margin-top:10px;
-  font-size:15px;
-  color:#fde68a;
-  opacity:0;
-  filter:blur(2px);
-  transition:1.2s;
-}
-.intro-wish.show{opacity:1;filter:none}
-#intro.fade-out{
-  opacity:0;
-  transform:scale(1.05);
-}
-#intro.fade-out .intro-wrap{
-  opacity:0;
-  transform:translateY(12px);
-}
-#intro.fade-out .intro-bg{
-  filter:blur(10px);
-}
-
-/* ===== APP BACKGROUND ===== */
-.app-bg{
-  position:fixed;
-  inset:0;
-  background:url("intro-bg.JPG") center/cover no-repeat;
-  filter:blur(14px);
-  opacity:0;
-  transition:1.2s;
-  z-index:0;
-}
-.app-bg.show{opacity:.45}
-
-/* ===== APP ===== */
-#app{
-  position:relative;
-  z-index:1;
-  opacity:0;
-  transform:scale(.98);
-  transition:1s;
-}
-#app.show{opacity:1;transform:scale(1)}
-
+/* LAYOUT */
 .container{max-width:420px;margin:auto;padding:20px}
 .card{
-  background:rgba(255,255,255,.92);
-  backdrop-filter:blur(8px);
+  background:white;
   border-radius:22px;
   padding:20px;
-  box-shadow:0 25px 50px rgba(0,0,0,.25)
+  box-shadow:0 25px 50px rgba(0,0,0,.25);
 }
-h2{margin:0}
+h2{margin:0 0 6px}
 .sub{font-size:13px;color:#555}
+
+/* FORM */
 input,select{
   width:100%;
-  padding:12px;
-  margin:8px 0;
+  padding:14px;
+  margin:10px 0;
   border-radius:14px;
   border:1px solid #ccc;
+  font-size:16px;
 }
 button{
   width:100%;
@@ -135,318 +50,271 @@ button{
   border:none;
   border-radius:16px;
   background:#b91c1c;
-  color:#fff;
+  color:white;
   font-weight:600;
-  margin-top:10px;
+  margin-top:14px;
+}
+button.secondary{
+  background:#334155;
 }
 .day{font-weight:700;margin-top:14px}
 
-/* ===== BANNER KHEN THƯỞNG CAO CẤP ===== */
-#rewardBanner{
-  position:relative;
-  margin:14px 0;
-  padding:10px 0;
-  border-radius:18px;
-  overflow:hidden;
-  background:rgba(255,255,255,.18);
-  backdrop-filter:blur(12px);
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,.25),
-    0 10px 30px rgba(0,0,0,.35);
+/* MANAGER */
+.section{margin-top:18px}
+.shiftBox{
+  background:#f1f5f9;
+  border-radius:14px;
+  padding:10px;
+  margin:8px 0;
 }
-#rewardBanner::after{
-  content:"";
-  position:absolute;
-  top:-50%;
-  left:-60%;
-  width:40%;
-  height:200%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);
-  animation:shineSweep 6s ease-in-out infinite;
+.badge{
+  display:inline-block;
+  background:#14532d;
+  color:white;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:13px;
+  margin:4px 4px 0 0;
 }
-.reward-track{
-  white-space:nowrap;
-  padding-left:100%;
-  animation:rewardRun 22s linear infinite;
+
+/* COUNTDOWN */
+.countdown{
+  margin-top:12px;
+  padding:14px;
+  border-radius:16px;
+  background:#ecfdf5;
+  text-align:center;
+  border:2px solid #10b981;
 }
-#rewardText{
+.countdown.warn{
+  background:#fff7ed;
+  border-color:#f97316;
+}
+.countdown.danger{
+  background:#fef2f2;
+  border-color:#dc2626;
+}
+.cd-label{
+  font-size:13px;
+  color:#555;
+  margin-bottom:6px;
+}
+#countdownTime{
+  font-size:26px;
   font-weight:700;
-  font-size:14px;
-  letter-spacing:1.2px;
-  padding:0 16px;
-  color:#fff;
-  text-shadow:0 0 6px rgba(255,255,255,.55),0 2px 4px rgba(0,0,0,.45);
+  letter-spacing:1px;
 }
-@keyframes rewardRun{
-  from{transform:translateX(0)}
-  to{transform:translateX(-100%)}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  margin-top:16px;
+  font-size:12px;
+  color:#eee
 }
-@keyframes shineSweep{
-  0%{transform:translateX(0)}
-  50%{transform:translateX(220%)}
-  100%{transform:translateX(220%)}
-}
-#rewardBanner.reward{background:rgba(245,158,11,.35)}
-#rewardBanner.praise{background:rgba(6,182,212,.35)}
-#rewardBanner.remind{background:rgba(34,197,94,.35)}
 </style>
 </head>
 
 <body>
 
-<div class="app-bg"></div>
-
-<!-- INTRO -->
-<div id="intro">
-  <div class="intro-bg"></div>
-  <div class="intro-wrap">
-    <img src="logo.JPG">
-    <div class="intro-brand">AN CAFÉ</div>
-    <div id="tetWish" class="intro-wish"></div>
-  </div>
-</div>
-
-<!-- APP -->
-<div class="container hidden" id="app">
+<div class="container" id="app">
   <div class="card">
     <h2>Đăng ký ca làm</h2>
+    <div class="sub">Tuần hiện tại • An Quy Chế</div>
     <div id="lockStatus" class="sub"></div>
 
-    <div id="rewardBanner" class="hidden">
-      <div class="reward-track">
-        <span id="rewardText"></span>
-      </div>
+    <!-- COUNTDOWN -->
+    <div id="countdownCard" class="countdown">
+      <div class="cd-label">⏳ Thời gian còn lại để đăng ký</div>
+      <div id="countdownTime">-- : -- : -- : --</div>
     </div>
 
     <input id="name" placeholder="Nhập tên nhân viên">
-    <input id="pin" placeholder="PIN quản lý" class="hidden">
 
     <div id="form"></div>
+
     <button id="submitBtn">Xác nhận đăng ký</button>
+    <button id="managerBtn" class="secondary">🔐 Quản lý</button>
   </div>
+
+  <div class="card section hidden" id="managerBox">
+    <h2>Tổng hợp đăng ký ca làm</h2>
+
+    <input id="pin" placeholder="Nhập mã PIN quản lý">
+    <button id="loginManager">Đăng nhập quản lý</button>
+
+    <div id="summary"></div>
+
+    <button id="clearBtn" class="secondary">
+      Xóa toàn bộ lịch tuần này
+    </button>
+  </div>
+
+  <footer>© 2025 An Quy Chế • Developed by Đào Đăng Tùng</footer>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+import { getDatabase, ref, set, get, remove }
+from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
-const appFB=initializeApp({
+/* FIREBASE */
+const app = initializeApp({
   apiKey:"AIzaSyCK6yfVr9VBMGwhbvYMXkJqMoRjo4Om2LM",
   databaseURL:"https://an-quy-default-rtdb.asia-southeast1.firebasedatabase.app"
 });
-const db=getDatabase(appFB);
+const db = getDatabase(app);
 
+/* DATA */
 const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
 const SHIFTS=["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
 
-const submitBtn=nameInput=document.getElementById("submitBtn");
-const nameInput=document.getElementById("name");
-const pinInput=document.getElementById("pin");
-const formEl=document.getElementById("form");
-const lockStatus=document.getElementById("lockStatus");
-
-const rewardBanner=document.getElementById("rewardBanner");
-const rewardText=document.getElementById("rewardText");
-
-function isLocked(){
-  const d=new Date(),day=d.getDay(),h=d.getHours();
-  if(day===5&&h>=20) return true;
-  if(day===6||day===0) return true;
+/* TIME LOCK – LOGIC GỐC */
+function isRegistrationLocked(){
+  const n=new Date();
+  const d=n.getDay(), h=n.getHours(), m=n.getMinutes();
+  if(d===5 && (h>20 || (h===20 && m>=0))) return true;
+  if(d===6 || d===0) return true;
   return false;
 }
-function updateLock(){
-  lockStatus.textContent=isLocked()
-    ?"⛔ Đã khóa đăng ký • Mở lại Thứ 2"
-    :"✅ Đang mở đăng ký";
+
+/* STATUS */
+const lockStatus=document.getElementById("lockStatus");
+lockStatus.style.fontWeight="600";
+if(isRegistrationLocked()){
+  lockStatus.textContent="⛔ Đang khóa đăng ký • Mở lại Thứ 2";
+  lockStatus.style.color="#b91c1c";
+}else{
+  lockStatus.textContent="✅ Đang mở đăng ký • Khóa lúc 20:00 Thứ 6";
+  lockStatus.style.color="#14532d";
 }
 
-/* intro */
-document.addEventListener("DOMContentLoaded",()=>{
-  const wishes=[
-    "Chúc AN CAFÉ năm mới phát tài – phát lộc",
-    "Xuân mới khách vào nườm nượp",
-    "Năm mới an khang thịnh vượng"
-  ];
-  tetWish.textContent=wishes[Math.floor(Math.random()*wishes.length)];
-  setTimeout(()=>tetWish.classList.add("show"),600);
+/* COUNTDOWN */
+const cdCard=document.getElementById("countdownCard");
+const cdTime=document.getElementById("countdownTime");
+const submitBtn=document.getElementById("submitBtn");
 
-  setTimeout(()=>{
-    intro.classList.add("fade-out");
-    app.classList.remove("hidden");
-    app.classList.add("show");
-    document.querySelector(".app-bg").classList.add("show");
-    updateLock();
-    loadBanner();
-    setTimeout(()=>intro.remove(),1200);
-  },5000);
-});
+function getLockTime(){
+  const now=new Date();
+  const lock=new Date(now);
+  const diff=5-now.getDay();
+  lock.setDate(now.getDate()+diff);
+  lock.setHours(20,0,0,0);
+  return lock;
+}
+const lockTime=getLockTime();
 
-/* form */
-DAYS.forEach(d=>{
-  formEl.innerHTML+=`<div class="day">${d}</div>
-  <select id="${d}">
-    <option value="">Không đăng ký</option>
-    ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
-  </select>`;
-});
+function updateCountdown(){
+  const now=new Date();
+  const diff=lockTime-now;
 
-/* submit */
-submitBtn.onclick=async()=>{
-  const ten=nameInput.value.trim();
-  if(!ten) return alert("Nhập tên");
-  if(isLocked()&&ten!=="quanly") return alert("Đã khóa");
-  if(ten==="quanly"){
-    pinInput.classList.remove("hidden");
-    if(pinInput.value!=="2005") return alert("Sai PIN");
+  if(diff<=0){
+    cdTime.innerText="ĐÃ KHÓA";
+    cdCard.className="countdown danger";
+    submitBtn.disabled=true;
     return;
   }
-  const lich={};
-  DAYS.forEach(d=>{
-    const v=document.getElementById(d).value;
-    if(v) lich[d]=v;
-  });
-  await set(ref(db,"dangKy/"+ten),{lich});
-  alert("Đã gửi đăng ký");
-};
 
-/* banner */
-async function loadBanner(){
-  const snap=await get(ref(db,"thongBaoTuan"));
-  if(!snap.exists()) return;
-  const {type,content,names,enabled}=snap.val();
-  if(!enabled) return;
+  const d=Math.floor(diff/(1000*60*60*24));
+  const h=Math.floor(diff/(1000*60*60))%24;
+  const m=Math.floor(diff/(1000*60))%60;
+  const s=Math.floor(diff/1000)%60;
 
-  rewardBanner.classList.remove("reward","praise","remind","hidden");
-  rewardBanner.classList.add(type);
+  cdTime.innerText=
+    `${d} : ${h.toString().padStart(2,"0")} : ${m.toString().padStart(2,"0")} : ${s.toString().padStart(2,"0")}`;
 
-  rewardText.textContent=
-    (type==="reward"?"🏅 VINH DANH: ":
-     type==="praise"?"👏 GHI NHẬN: ":"🔔 ")
-    +(names?.join(" • ")||"")+" – "+(content||"");
-
-  rewardBanner.classList.remove("hidden");
+  cdCard.className="countdown";
+  if(diff<1000*60*30) cdCard.className="countdown danger";
+  else if(diff<1000*60*120) cdCard.className="countdown warn";
 }
-</script>
-</body>
-</html>
+setInterval(updateCountdown,1000);
+updateCountdown();
 
 /* FORM */
+const form=document.getElementById("form");
 DAYS.forEach(d=>{
-  formEl.innerHTML+=`<div class="day">${d}</div>
-  <select id="${d}">
-    <option value="">Không đăng ký</option>
-    ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
-  </select>`;
+  form.innerHTML+=`
+    <div class="day">${d}</div>
+    <select id="${d}">
+      <option value="">Không đăng ký</option>
+      ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
+    </select>
+  `;
 });
 
 /* SUBMIT */
-submitBtn.onclick=async()=>{
-  const ten=nameInput.value.trim();
-  if(!ten) return alert("Nhập tên");
+document.getElementById("submitBtn").onclick=async()=>{
+  const ten=document.getElementById("name").value.trim();
+  if(!ten) return alert("Vui lòng nhập tên");
 
-  if(ten.toLowerCase()!=="quanly" && isRegistrationLocked())
-    return alert("⛔ Đã khóa đăng ký");
-
-  if(ten.toLowerCase()==="quanly"){
-    pinInput.classList.remove("hidden");
-    if(pinInput.value!=="2005") return alert("Sai PIN");
-    showManager();return;
-  }
+  if(isRegistrationLocked())
+    return alert("⛔ Đã khóa đăng ký. Mở lại Thứ 2.");
 
   const lich={};
   DAYS.forEach(d=>{
     const v=document.getElementById(d).value;
     if(v) lich[d]=v;
   });
-  if(!Object.keys(lich).length) return alert("Chưa chọn ca");
+  if(!Object.keys(lich).length)
+    return alert("Bạn chưa đăng ký ca nào");
 
   await set(ref(db,"dangKy/"+ten),{lich});
-  alert("Đã gửi đăng ký");
-};
-
-/* NOTICE */
-const noticeRef=ref(db,"thongBaoTuan");
-
-async function loadNotice(){
-  const snap=await get(noticeRef);
-  if(!snap.exists()) return;
-  const {type,content,names,enabled}=snap.val();
-  if(!enabled) return;
-
-  noticeBox.className="";
-  noticeBox.classList.add(
-    type==="reward"?"notice-reward":
-    type==="praise"?"notice-praise":"notice-remind"
-  );
-  noticeIcon.textContent=type==="reward"?"⭐":type==="praise"?"👏":"🔔";
-  noticeTitle.textContent=
-    type==="reward"?"Khen thưởng tuần":
-    type==="praise"?"Ghi nhận tuần":"Nhắc nhở tích cực";
-  noticeContent.textContent=content||"";
-  noticeNames.innerHTML="";
-  (names||[]).forEach(n=>{
-    const s=document.createElement("span");
-    s.className="notice-name";
-    s.textContent=n;
-    noticeNames.appendChild(s);
-  });
-  noticeBox.classList.remove("hidden");
-}
-
-saveNoticeBtn.onclick=async()=>{
-  await set(noticeRef,{
-    type:noticeType.value,
-    content:noticeInput.value.trim(),
-    names:noticeNamesInput.value.split(",").map(n=>n.trim()).filter(Boolean),
-    enabled:noticeToggle.checked
-  });
-  alert("Đã lưu thông báo tuần");
-  loadNotice();
+  alert("Đã gửi đăng ký ca làm");
 };
 
 /* MANAGER */
-async function showManager(){
-  managerBox.classList.remove("hidden");
-  const snap=await get(noticeRef);
-  if(snap.exists()){
-    const n=snap.val();
-    noticeType.value=n.type||"reward";
-    noticeInput.value=n.content||"";
-    noticeNamesInput.value=(n.names||[]).join(", ");
-    noticeToggle.checked=!!n.enabled;
+document.getElementById("managerBtn").onclick=()=>{
+  document.getElementById("managerBox").classList.remove("hidden");
+};
+
+document.getElementById("loginManager").onclick=async()=>{
+  if(document.getElementById("pin").value!=="2005")
+    return alert("Mã PIN không đúng");
+
+  const summary=document.getElementById("summary");
+  summary.innerHTML="";
+  const snap=await get(ref(db,"dangKy"));
+  if(!snap.exists()){
+    summary.innerHTML="<p>Chưa có dữ liệu đăng ký</p>";
+    return;
   }
 
-  summary.innerHTML="";
-  const snap2=await get(ref(db,"dangKy"));
-  if(!snap2.exists()){summary.innerHTML="Chưa có dữ liệu";return;}
   const sum={};
-  snap2.forEach(n=>{
-    Object.entries(n.val().lich||{}).forEach(([d,c])=>{
-      sum[d]??={}; sum[d][c]??=[];
-      sum[d][c].push(n.key);
+  snap.forEach(n=>{
+    const ten=n.key;
+    const lich=n.val().lich||{};
+    Object.entries(lich).forEach(([d,c])=>{
+      sum[d]??={};
+      sum[d][c]??=[];
+      sum[d][c].push(ten);
     });
   });
-  DAYS.forEach(d=>{
-    if(!sum[d])return;
-    summary.innerHTML+=`<div class="day">${d}</div>`;
-    SHIFTS.forEach(s=>{
-      if(!sum[d][s])return;
-      summary.innerHTML+=`<div class="shiftBox"><b>${s}</b><br>
-      ${sum[d][s].map(n=>`<span class="badge">${n}</span>`).join("")}</div>`;
+
+  DAYS.forEach(day=>{
+    if(!sum[day]) return;
+    summary.innerHTML+=`<div class="day">${day}</div>`;
+    SHIFTS.forEach(shift=>{
+      if(!sum[day][shift]) return;
+      summary.innerHTML+=`
+        <div class="shiftBox">
+          <b>${shift}</b><br>
+          ${sum[day][shift].map(n=>`<span class="badge">${n}</span>`).join("")}
+        </div>
+      `;
     });
   });
-}
+};
 
 /* CLEAR */
-clearBtn.onclick=async()=>{
-  if(confirm("Xóa toàn bộ?")){
+document.getElementById("clearBtn").onclick=async()=>{
+  if(confirm("Xóa toàn bộ đăng ký tuần này?")){
     await remove(ref(db,"dangKy"));
     location.reload();
   }
 };
 </script>
+
 </body>
 </html>
-
 
 
