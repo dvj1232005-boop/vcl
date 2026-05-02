@@ -2,62 +2,145 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Quy Chế & Đền Đô</title>
+<title>Đăng ký ca làm</title>
 
 <style>
-/* giữ nguyên toàn bộ CSS */
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background:linear-gradient(180deg,#7f1d1d,#064e3b);
-  min-height:100vh;
+  background:linear-gradient(180deg,#052e2b,#022c22);
 }
-.hidden{display:none}
-.container{max-width:420px;margin:auto;padding:20px}
-.card{
-  background:white;
-  border-radius:22px;
+
+/* layout */
+.container{
+  max-width:420px;
+  margin:auto;
   padding:20px;
-  box-shadow:0 25px 50px rgba(0,0,0,.25);
 }
-h2{margin:0 0 6px}
-.sub{font-size:13px;color:#555}
-input,select{
+
+/* card */
+.card{
+  background:rgba(255,255,255,0.96);
+  backdrop-filter:blur(12px);
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 30px 60px rgba(0,0,0,.25);
+}
+
+/* title */
+h2{
+  margin:0 0 10px;
+  font-size:22px;
+  font-weight:700;
+}
+
+/* input */
+input{
   width:100%;
-  padding:14px;
-  margin:10px 0;
-  border-radius:14px;
-  border:1px solid #ccc;
+  padding:16px;
+  border-radius:16px;
+  border:1px solid #e2e8f0;
+  background:#f8fafc;
+  font-size:16px;
+  margin:12px 0;
+  transition:.25s;
 }
+
+input:focus{
+  outline:none;
+  border-color:#22c55e;
+  box-shadow:0 0 0 2px rgba(34,197,94,0.2);
+}
+
+/* day */
+.day{
+  margin-top:20px;
+  font-weight:600;
+  font-size:14px;
+  color:#065f46;
+}
+
+/* select wrapper */
+.select-wrap{
+  position:relative;
+}
+
+/* select */
+select{
+  width:100%;
+  padding:16px;
+  border-radius:16px;
+  border:1px solid #e2e8f0;
+  background:#f8fafc;
+  font-size:16px;
+  transition:.25s;
+}
+
+/* hover */
+select:hover{
+  border-color:#94a3b8;
+}
+
+/* focus */
+select:focus{
+  outline:none;
+  border-color:#22c55e;
+  box-shadow:0 0 0 2px rgba(34,197,94,0.2);
+}
+
+/* 🔥 trạng thái đã chọn */
+select.active{
+  border-color:#22c55e;
+  background:#ecfdf5;
+  box-shadow:0 8px 20px rgba(34,197,94,0.15);
+  transform:translateY(-1px);
+}
+
+/* button */
 button{
   width:100%;
-  padding:14px;
+  padding:16px;
   border:none;
-  border-radius:16px;
-  background:#b91c1c;
+  border-radius:18px;
+  background:linear-gradient(135deg,#16a34a,#15803d);
   color:white;
   font-weight:600;
-  margin-top:14px;
+  font-size:16px;
+  margin-top:16px;
+  transition:.25s;
 }
-button.secondary{background:#334155}
-.day{font-weight:700;margin-top:14px}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 20px rgba(0,0,0,.2);
+}
+
+.secondary{
+  background:#334155;
+}
+
+/* manager */
+.hidden{display:none}
+
 .shiftBox{
   background:#f1f5f9;
   border-radius:14px;
   padding:10px;
   margin:8px 0;
 }
+
 .badge{
   display:inline-block;
-  background:#14532d;
+  background:#16a34a;
   color:white;
   padding:6px 10px;
   border-radius:999px;
   margin:4px;
+  font-size:13px;
 }
 </style>
 </head>
@@ -65,30 +148,29 @@ button.secondary{background:#334155}
 <body>
 
 <div class="container">
-  <div class="card">
-    <h2>Đăng ký ca làm</h2>
 
-    <input id="name" placeholder="Nhập tên nhân viên">
+<div class="card">
+<h2>Đăng ký ca làm</h2>
 
-    <!-- ❌ ĐÃ XÓA SELECT CƠ SỞ -->
+<input id="name" placeholder="Nhập tên nhân viên">
 
-    <div id="form"></div>
+<div id="form"></div>
 
-    <button id="submitBtn">Xác nhận đăng ký</button>
-    <button id="managerBtn" class="secondary">🔐 Quản lý</button>
-  </div>
+<button id="submitBtn">Xác nhận đăng ký</button>
+<button id="managerBtn" class="secondary">🔐 Quản lý</button>
+</div>
 
-  <div class="card hidden" id="managerBox">
-    <h2>Tổng hợp</h2>
+<div class="card hidden" id="managerBox">
+<h2>Tổng hợp đăng ký</h2>
 
-    <input id="pin" type="password" placeholder="Nhập mã PIN">
-    <button id="loginManager">Đăng nhập</button>
+<input id="pin" type="password" placeholder="Nhập mã PIN">
+<button id="loginManager">Đăng nhập</button>
 
-    <div id="summary"></div>
-    <div id="excelTable"></div>
+<div id="summary"></div>
 
-    <button id="clearBtn">Xóa dữ liệu</button>
-  </div>
+<button id="clearBtn">Xóa dữ liệu</button>
+</div>
+
 </div>
 
 <script type="module">
@@ -102,44 +184,66 @@ const app = initializeApp({
 });
 const db = getDatabase(app);
 
-const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
+/* ngày */
+const DAYS=[
+  {key:"T2",label:"Thứ 2"},
+  {key:"T3",label:"Thứ 3"},
+  {key:"T4",label:"Thứ 4"},
+  {key:"T5",label:"Thứ 5"},
+  {key:"T6",label:"Thứ 6"},
+  {key:"T7",label:"Thứ 7"},
+  {key:"CN",label:"Chủ nhật"}
+];
+
 const SHIFTS=["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
 
-/* FORM */
 const form=document.getElementById("form");
+
+/* render form */
 DAYS.forEach(d=>{
   form.innerHTML+=`
-    <div class="day">${d}</div>
-    <select id="${d}">
-      <option value="">Không đăng ký</option>
-      ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
-    </select>
+    <div class="day">${d.label}</div>
+    <div class="select-wrap">
+      <select id="${d.key}">
+        <option value="">Không đăng ký</option>
+        ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
+      </select>
+    </div>
   `;
 });
 
-/* SUBMIT - GOM 1 NGUỒN */
+/* highlight */
+DAYS.forEach(d=>{
+  const el=document.getElementById(d.key);
+  el.addEventListener("change",()=>{
+    el.classList.toggle("active", !!el.value);
+  });
+});
+
+/* submit */
 document.getElementById("submitBtn").onclick=async()=>{
   const ten=document.getElementById("name").value.trim();
-  if(!ten) return alert("Nhập tên");
+  if(!ten) return alert("Vui lòng nhập tên");
 
   const lich={};
   DAYS.forEach(d=>{
-    const v=document.getElementById(d).value;
-    if(v) lich[d]=v;
+    const v=document.getElementById(d.key).value;
+    if(v) lich[d.key]=v;
   });
 
-  if(!Object.keys(lich).length) return alert("Chưa chọn ca");
+  if(!Object.keys(lich).length)
+    return alert("Bạn chưa đăng ký ca nào");
 
   await set(ref(db,"dangKy/"+ten),{lich});
-
-  alert("Đã lưu");
+  alert("Đã lưu đăng ký");
 };
 
-/* MANAGER */
+/* mở manager */
 document.getElementById("managerBtn").onclick=()=>{
   document.getElementById("managerBox").classList.remove("hidden");
 };
 
+/* login manager */
 document.getElementById("loginManager").onclick=async()=>{
   if(document.getElementById("pin").value!=="2005")
     return alert("Sai PIN");
@@ -162,50 +266,26 @@ document.getElementById("loginManager").onclick=async()=>{
   });
 
   DAYS.forEach(day=>{
-    if(!sum[day]) return;
+    if(!sum[day.key]) return;
 
-    summary.innerHTML+=`<div class="day">${day}</div>`;
+    summary.innerHTML+=`<div class="day">${day.label}</div>`;
 
     SHIFTS.forEach(s=>{
-      if(!sum[day][s]) return;
+      if(!sum[day.key][s]) return;
 
       summary.innerHTML+=`
         <div class="shiftBox">
           <b>${s}</b><br>
-          ${sum[day][s].map(n=>`<span class="badge">${n}</span>`).join("")}
+          ${sum[day.key][s].map(n=>`<span class="badge">${n}</span>`).join("")}
         </div>
       `;
     });
   });
-
-  renderExcel(data);
 };
 
-/* EXCEL GỘP */
-function renderExcel(data){
-  const container=document.getElementById("excelTable");
-  container.innerHTML="<h3>📊 Bảng phân ca</h3>";
-
-  const structured={};
-
-  Object.entries(data).forEach(([ten,obj])=>{
-    Object.entries(obj.lich||{}).forEach(([day,shift])=>{
-      structured[day]??=[];
-      structured[day].push(`${ten} (${shift})`);
-    });
-  });
-
-  Object.entries(structured).forEach(([day,list])=>{
-    container.innerHTML+=`
-      <div class="day">${day}</div>
-      <div>${list.join(", ")}</div>
-    `;
-  });
-}
-
-/* CLEAR */
+/* clear */
 document.getElementById("clearBtn").onclick=async()=>{
-  if(confirm("Xóa hết?")){
+  if(confirm("Xóa toàn bộ dữ liệu?")){
     await remove(ref(db,"dangKy"));
     location.reload();
   }
