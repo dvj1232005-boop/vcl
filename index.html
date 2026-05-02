@@ -66,7 +66,7 @@
     color: var(--text-main);
     transition: all 0.2s;
     outline: none;
-    appearance: none; /* remove default arrow */
+    appearance: none;
   }
   
   select {
@@ -152,6 +152,11 @@
   .countdown.danger { background: #fef2f2; border-color: #dc2626; }
   .countdown.danger .cd-label { color: #991b1b; }
   .countdown.danger #countdownTime { color: #dc2626; }
+
+  /* Bổ sung class warn cho trường hợp hết giờ nhưng quản lý mở thủ công */
+  .countdown.warn { background: #fff7ed; border-color: #f97316; }
+  .countdown.warn .cd-label { color: #c2410c; }
+  .countdown.warn #countdownTime { color: #ea580c; }
 
   /* Table Style for Manager */
   .table-responsive { width: 100%; overflow-x: auto; margin-top: 16px; border-radius: 12px; border: 1px solid #e2e8f0; }
@@ -306,7 +311,7 @@ async function updateStatus(){
 }
 updateStatus();
 
-/* COUNTDOWN LOGIC */
+/* ================= COUNTDOWN LOGIC ================= */
 const cdCard=document.getElementById("countdownCard");
 const cdTime=document.getElementById("countdownTime");
 const submitBtn=document.getElementById("submitBtn");
@@ -327,10 +332,19 @@ async function updateCountdown(){
   const now=new Date();
   const diff=lockTime-now;
 
-  if(diff<=0 || isRegistrationLocked()){
+  // ✅ FIX 1: chỉ khóa khi THẬT SỰ bị lock
+  if(isRegistrationLocked()){
     cdTime.innerText="ĐÃ KHÓA";
     cdCard.className="countdown danger";
     submitBtn.disabled=true;
+    return;
+  }
+
+  // ✅ FIX 2: hết giờ nhưng chưa bị lock (vd: quản lý mở thủ công) → vẫn cho đăng ký
+  if(diff<=0){
+    cdTime.innerText="HẾT THỜI GIAN";
+    cdCard.className="countdown warn";
+    submitBtn.disabled=false;
     return;
   }
 
@@ -341,6 +355,9 @@ async function updateCountdown(){
 
   cdTime.innerText=
     `${d} ngày : ${h.toString().padStart(2,"0")} : ${m.toString().padStart(2,"0")} : ${s.toString().padStart(2,"0")}`;
+
+  cdCard.className="countdown"; // Trả về class mặc định nếu đang chạy bình thường
+  submitBtn.disabled=false;
 }
 setInterval(updateCountdown,1000);
 updateCountdown();
