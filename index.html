@@ -1,620 +1,508 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Đăng Ký Ca Làm | Quản Lý Lịch Trực</title>
-<meta name="theme-color" content="#064e3b">
-<!-- Tích hợp Google Font 'Inter' -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>WorkShift Pro | Enterprise Scheduling</title>
+<meta name="theme-color" content="#dc2626">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-  :root {
+  /* ================= DESIGN SYSTEM ================= */
+  :root[data-theme="light"] {
     --primary: #dc2626;
     --primary-hover: #b91c1c;
-    --primary-gradient: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-    --secondary: #334155;
-    --secondary-hover: #1e293b;
+    --primary-light: #fef2f2;
+    --primary-ring: rgba(220, 38, 38, 0.2);
+    --bg-main: #f8fafc;
+    --bg-card: rgba(255, 255, 255, 0.95);
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --input-bg: #f1f5f9;
     --success: #10b981;
     --danger: #ef4444;
-    --bg-gradient: linear-gradient(135deg, #450a0a 0%, #022c22 100%);
-    --surface: rgba(255, 255, 255, 0.92);
-    --surface-hover: rgba(255, 255, 255, 0.98);
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --border-color: #e2e8f0;
-    --focus-ring: rgba(220, 38, 38, 0.15);
+    --warning: #f59e0b;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-glow: 0 10px 25px -5px rgba(220, 38, 38, 0.3);
   }
 
-  * { box-sizing: border-box; }
+  :root[data-theme="dark"] {
+    --primary: #ef4444;
+    --primary-hover: #f87171;
+    --primary-light: rgba(239, 68, 68, 0.1);
+    --primary-ring: rgba(239, 68, 68, 0.3);
+    --bg-main: #020617;
+    --bg-card: rgba(15, 23, 42, 0.85);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --border-color: #1e293b;
+    --input-bg: #0f172a;
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.7);
+    --shadow-glow: 0 10px 25px -5px rgba(239, 68, 68, 0.4);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    margin: 0;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg-gradient);
-    background-attachment: fixed;
-    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    transition: background-color 0.4s ease, color 0.4s ease;
     min-height: 100vh;
-    padding: 50px 15px 30px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    overflow-x: hidden;
   }
 
-  .hidden { display: none !important; }
+  /* Animated Background Elements */
+  .bg-shape { position: fixed; border-radius: 50%; filter: blur(80px); z-index: -1; opacity: 0.5; animation: float 15s ease-in-out infinite alternate; pointer-events: none;}
+  .shape-1 { top: -10%; left: -10%; width: 40vw; height: 40vw; background: rgba(220, 38, 38, 0.15); animation-delay: 0s; }
+  .shape-2 { bottom: -10%; right: -10%; width: 40vw; height: 40vw; background: rgba(16, 185, 129, 0.15); animation-delay: -5s; }
+  :root[data-theme="dark"] .shape-1 { background: rgba(220, 38, 38, 0.25); }
+  :root[data-theme="dark"] .shape-2 { background: rgba(59, 130, 246, 0.2); }
 
-  .container {
-    width: 100%;
-    max-width: 520px;
-    margin: auto;
-    position: relative;
-    z-index: 1;
-  }
+  @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.1); } }
 
-  /* Decorative Background Elements */
-  body::before {
-    content: ''; position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vw;
-    background: radial-gradient(circle, rgba(239, 68, 68, 0.15) 0%, transparent 70%);
-    z-index: 0; pointer-events: none;
-  }
-  body::after {
-    content: ''; position: fixed; bottom: -10%; right: -10%; width: 50vw; height: 50vw;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
-    z-index: 0; pointer-events: none;
-  }
+  /* Layout */
+  .header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; max-width: 600px; width: 100%; margin: 0 auto; }
+  .theme-toggle { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-primary); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; }
+  .theme-toggle:hover { background: var(--border-color); }
+  
+  .container { width: 100%; max-width: 600px; margin: 0 auto 40px; padding: 0 16px; position: relative; z-index: 1; }
 
-  /* Cards with Premium Glassmorphism & Animation */
+  /* Glassmorphic Card */
   .card {
-    background: var(--surface);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 28px;
-    padding: 36px 30px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+    background: var(--bg-card);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 32px;
+    padding: 40px 32px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
     margin-bottom: 24px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  .card:hover { background: var(--surface-hover); }
-
-  @keyframes fadeUp {
-    0% { opacity: 0; transform: translateY(30px); }
-    100% { opacity: 1; transform: translateY(0); }
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  h2 { margin: 0 0 6px; font-size: 28px; color: var(--text-main); font-weight: 800; text-align: center; letter-spacing: -0.8px; }
-  .sub { font-size: 15px; color: var(--text-muted); margin-bottom: 24px; font-weight: 500; text-align: center; }
+  @keyframes slideUp { 0% { opacity: 0; transform: translateY(40px); } 100% { opacity: 1; transform: translateY(0); } }
 
-  /* Premium Inputs & Selects */
-  .input-wrapper { position: relative; margin-bottom: 20px; }
-  .input-icon {
-    position: absolute; left: 16px; top: 48px;
-    color: #94a3b8; pointer-events: none; transition: color 0.3s;
+  .header-content { text-align: center; margin-bottom: 32px; }
+  .title { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
+  .subtitle { color: var(--text-secondary); font-size: 15px; font-weight: 500; }
+
+  /* Status Banner */
+  .status-banner {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    padding: 14px 20px; border-radius: 16px; margin-bottom: 24px; font-weight: 600; font-size: 14px;
+    border: 1px solid transparent; transition: all 0.3s;
   }
+  .pulse { width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 0 0 rgba(0,0,0,0.5); animation: pulsing 2s infinite; }
+  @keyframes pulsing { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 var(--pulse-color); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0,0,0,0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0,0,0,0); } }
+
+  /* Input & Forms */
+  .input-group { margin-bottom: 24px; position: relative; }
+  .input-label { display: block; font-size: 14px; font-weight: 700; color: var(--text-secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .input-wrapper { position: relative; }
+  .input-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); pointer-events: none; transition: color 0.3s; }
   
-  input[type="text"], input[type="password"], select {
-    width: 100%;
-    padding: 16px 20px;
-    border-radius: 16px;
-    border: 2px solid transparent;
-    font-size: 15px;
-    background: #f1f5f9;
-    color: var(--text-main);
-    transition: all 0.3s ease;
-    outline: none;
-    font-weight: 600;
-    font-family: 'Inter', sans-serif;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+  input.form-control, select.form-control {
+    width: 100%; padding: 18px 20px 18px 48px; border-radius: 16px; border: 2px solid var(--border-color);
+    background: var(--input-bg); color: var(--text-primary); font-family: inherit; font-size: 16px; font-weight: 600;
+    transition: all 0.3s ease; appearance: none;
   }
-  input[type="text"] { padding-left: 48px; } /* Space for icon */
-  
-  select {
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    background-size: 18px;
-    appearance: none;
-    cursor: pointer;
-  }
+  input.form-control:focus, select.form-control:focus { background: transparent; border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-ring); outline: none; }
+  input.form-control:focus + .input-icon { color: var(--primary); }
 
-  input:focus, select:focus {
-    background: #ffffff;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px var(--focus-ring);
-    transform: translateY(-1px);
-  }
-  input:focus + .input-icon { color: var(--primary); }
-
-  /* Passcode Style for Manager */
-  #pin {
-    text-align: center;
-    font-size: 24px;
-    letter-spacing: 8px;
-    padding-left: 20px; /* reset icon space */
-    font-weight: 800;
-  }
+  /* Modern Calendar Grid for Shifts */
+  .calendar-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px; }
+  .day-card { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; transition: all 0.3s; }
+  .day-card:focus-within { border-color: var(--primary); background: transparent; box-shadow: 0 4px 12px var(--primary-ring); }
+  .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 700; color: var(--text-primary); }
+  .day-select { width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); font-weight: 600; font-family: inherit; cursor: pointer; outline: none; }
+  .day-select:focus { border-color: var(--primary); }
 
   /* Buttons */
-  button {
-    width: 100%;
-    padding: 18px;
-    border: none;
-    border-radius: 18px;
-    background: var(--primary-gradient);
-    color: white;
-    font-size: 16.5px;
-    font-weight: 700;
-    margin-top: 8px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy hover */
-    box-shadow: 0 10px 20px -5px rgba(220, 38, 38, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-family: 'Inter', sans-serif;
-    position: relative;
-    overflow: hidden;
+  .btn {
+    width: 100%; padding: 18px; border-radius: 16px; font-family: inherit; font-size: 16px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: none; position: relative; overflow: hidden;
   }
-  button::after {
-    content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: all 0.5s;
-  }
-  button:hover:not(:disabled) { 
-    transform: translateY(-3px) scale(1.01); 
-    box-shadow: 0 15px 25px -5px rgba(220, 38, 38, 0.5); 
-  }
-  button:hover:not(:disabled)::after { left: 100%; }
-  button:active:not(:disabled) { transform: translateY(1px); }
-  button:disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed; opacity: 0.9; color: #64748b; transform: none; }
+  .btn-primary { background: var(--primary); color: white; box-shadow: var(--shadow-glow); }
+  .btn-primary:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-3px); box-shadow: 0 15px 30px -5px rgba(220,38,38,0.5); }
+  .btn-primary:active:not(:disabled) { transform: translateY(1px); }
+  .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; box-shadow: none; }
   
-  button.secondary {
-    background: white;
-    color: var(--secondary);
-    border: 2px solid var(--border-color);
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-  }
-  button.secondary:hover { background: #f8fafc; border-color: #cbd5e1; box-shadow: 0 8px 15px -3px rgba(0,0,0,0.08); }
+  .btn-outline { background: transparent; border: 2px solid var(--border-color); color: var(--text-primary); margin-top: 16px; }
+  .btn-outline:hover { background: var(--input-bg); border-color: var(--text-secondary); }
 
-  button.danger {
-    background: #fef2f2;
-    color: var(--danger);
-    border: 2px solid #fecaca;
-    box-shadow: none;
-  }
-  button.danger:hover { background: #fee2e2; border-color: #fca5a5; }
+  /* Dashboard Stats */
+  .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px; }
+  .stat-card { background: var(--primary-light); padding: 20px; border-radius: 20px; text-align: center; border: 1px solid var(--primary-ring); }
+  .stat-val { font-size: 32px; font-weight: 800; color: var(--primary); margin-bottom: 4px; font-variant-numeric: tabular-nums; }
+  .stat-label { font-size: 13px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; }
 
-  /* Form Grid */
-  .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .form-group { display: flex; flex-direction: column; }
-  .form-group.full-width { grid-column: span 2; }
-  .day-label { font-weight: 700; font-size: 14px; margin-bottom: 10px; margin-left: 6px; color: var(--secondary); display: block; }
+  /* Table */
+  .table-wrapper { overflow-x: auto; border-radius: 16px; border: 1px solid var(--border-color); background: var(--bg-card); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { background: var(--input-bg); color: var(--text-secondary); font-weight: 700; text-transform: uppercase; padding: 16px; text-align: center; border-bottom: 2px solid var(--border-color); white-space: nowrap; }
+  th:first-child { text-align: left; position: sticky; left: 0; z-index: 10; }
+  td { padding: 16px; text-align: center; border-bottom: 1px solid var(--border-color); font-weight: 600; white-space: nowrap; }
+  td:first-child { text-align: left; position: sticky; left: 0; background: var(--bg-card); border-right: 1px solid var(--border-color); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--input-bg); }
 
-  /* Badges & Pills */
-  .shiftBox { background: #f8fafc; border-radius: 20px; padding: 20px; margin: 12px 0; border: 1px solid var(--border-color); transition: all 0.2s; }
-  .shiftBox:hover { border-color: #cbd5e1; box-shadow: 0 8px 16px rgba(0,0,0,0.04); transform: translateY(-2px); }
-  .shiftBox b { color: var(--primary); font-size: 17px; font-weight: 800; }
-  .badge {
-    display: inline-block; background: #14532d; color: white; padding: 6px 14px;
-    border-radius: 999px; font-size: 13px; font-weight: 600; margin: 8px 6px 0 0;
-    box-shadow: 0 2px 4px rgba(20, 83, 45, 0.2); letter-spacing: 0.3px;
-  }
-
-  /* Status Badge with Pulsing Dot */
-  .status-badge {
-    font-weight: 600; text-align: center; padding: 12px 16px; border-radius: 16px; 
-    background: #f1f5f9; display: flex; align-items: center; justify-content: center; gap: 10px;
-    width: 100%; margin-bottom: 20px; font-size: 14px; border: 1px solid transparent; transition: all 0.3s;
-  }
-  .pulse-dot {
-    width: 10px; height: 10px; border-radius: 50%; background: var(--success);
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); animation: pulse 2s infinite;
-  }
-  .pulse-dot.danger { background: var(--danger); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-  
-  @keyframes pulse {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(var(--rgb-color), 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(var(--rgb-color), 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(var(--rgb-color), 0); }
-  }
-
-  /* Countdown Card */
-  .countdown {
-    margin: 24px 0; padding: 24px 16px; border-radius: 20px;
-    background: linear-gradient(to right, #ecfdf5, #f0fdf4);
-    text-align: center; border: 2px solid #a7f3d0;
-    box-shadow: inset 0 2px 10px rgba(16, 185, 129, 0.05);
-  }
-  .cd-label { font-size: 13px; font-weight: 800; color: #047857; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-  #countdownTime { font-size: 28px; font-weight: 800; color: #065f46; letter-spacing: 1.5px; font-variant-numeric: tabular-nums; }
-  
-  .countdown.danger { background: linear-gradient(to right, #fef2f2, #fff1f2); border-color: #fecaca; }
-  .countdown.danger .cd-label { color: #991b1b; }
-  .countdown.danger #countdownTime { color: #dc2626; }
-
-  /* Custom Scrollbar & Table */
-  .table-responsive { width: 100%; overflow-x: auto; margin-top: 16px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-  .table-responsive::-webkit-scrollbar { height: 8px; }
-  .table-responsive::-webkit-scrollbar-track { background: #f1f5f9; }
-  .table-responsive::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
-  
-  .styled-table { width: 100%; border-collapse: collapse; font-size: 14.5px; text-align: left; background: white; }
-  .styled-table thead tr { background-color: #f8fafc; color: var(--secondary); text-align: center; font-weight: 700; border-bottom: 2px solid var(--border-color); }
-  .styled-table th, .styled-table td { padding: 18px 16px; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
-  .styled-table tbody tr { transition: background 0.2s; }
-  .styled-table tbody tr:hover { background-color: #f1f5f9; }
-  .styled-table td.text-center { text-align: center; font-weight: 700; color: var(--primary); }
-
-  footer { text-align: center; margin-top: auto; padding-top: 24px; font-size: 14px; color: rgba(255,255,255,0.6); font-weight: 500; letter-spacing: 0.5px; z-index: 1; }
-
-  /* ================= iOS Style Toast ================= */
-  .toast-container {
-    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-    z-index: 1000; display: flex; flex-direction: column; gap: 10px; align-items: center;
-    pointer-events: none;
-  }
+  /* Toast Notification */
+  .toast-container { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
   .toast {
-    background: rgba(15, 23, 42, 0.95); color: white; backdrop-filter: blur(10px);
-    padding: 16px 24px; border-radius: 100px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    font-weight: 600; font-size: 14.5px; display: flex; align-items: center; gap: 12px;
-    transform: translateY(-150%) scale(0.9); opacity: 0;
-    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    background: var(--text-primary); color: var(--bg-main); padding: 16px 24px; border-radius: 100px;
+    font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    transform: translateY(-100px); opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
-  .toast.show { transform: translateY(0) scale(1); opacity: 1; }
-  .toast.success .t-icon { color: #34d399; }
-  .toast.error .t-icon { color: #f87171; }
-  .toast.warning .t-icon { color: #fbbf24; }
+  .toast.show { transform: translateY(0); opacity: 1; }
 
-  /* Custom Loading Spinner */
+  /* Loader & Utils */
   .spinner { animation: spin 1s linear infinite; }
   @keyframes spin { 100% { transform: rotate(360deg); } }
+  .hidden { display: none !important; }
+  
+  /* Skeleton Loading */
+  .skeleton { background: linear-gradient(90deg, var(--input-bg) 25%, var(--border-color) 50%, var(--input-bg) 75%); background-size: 200% 100%; animation: skeletonLoad 1.5s infinite; border-radius: 8px; }
+  @keyframes skeletonLoad { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
 </style>
 </head>
 
 <body>
 
+<div class="bg-shape shape-1"></div>
+<div class="bg-shape shape-2"></div>
+
+<header class="header">
+  <div style="font-weight: 800; font-size: 20px; display: flex; align-items: center; gap: 10px;">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+    WorkShift
+  </div>
+  <button class="theme-toggle" id="themeBtn" aria-label="Toggle Theme">
+    <svg id="moonIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    <svg id="sunIcon" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+  </button>
+</header>
+
 <div id="toastContainer" class="toast-container"></div>
 
 <div class="container" id="app">
-  <div class="card">
-    <h2>Đăng Ký Ca Làm</h2>
-    <div class="sub">Lịch làm việc tuần hiện tại</div>
+  <!-- USER REGISTRATION CARD -->
+  <div class="card" id="userCard">
+    <div class="header-content">
+      <h2 class="title">Đăng Ký Ca Làm</h2>
+      <div class="subtitle">Hệ thống xếp lịch tự động</div>
+    </div>
     
-    <div id="lockStatus" class="status-badge">
-      <span class="pulse-dot" style="--rgb-color: 16, 185, 129;"></span>
-      <span>Đang tải trạng thái...</span>
+    <div id="lockStatus" class="status-banner">
+      <div class="skeleton" style="width: 200px; height: 20px;"></div>
     </div>
 
-    <div id="countdownCard" class="countdown">
-      <div class="cd-label">⏳ Thời gian còn lại</div>
-      <div id="countdownTime">-- : -- : -- : --</div>
+    <div class="input-group">
+      <label class="input-label">Thông tin định danh</label>
+      <div class="input-wrapper">
+        <input type="text" id="name" class="form-control" placeholder="Nhập họ và tên đầy đủ..." autocomplete="off">
+        <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </div>
     </div>
 
-    <div class="input-wrapper">
-      <label class="day-label" for="name">Họ và Tên</label>
-      <input type="text" id="name" placeholder="Ví dụ: Nguyễn Văn A" autocomplete="off">
-      <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-    </div>
+    <label class="input-label">Lịch làm việc tuần này</label>
+    <div id="form" class="calendar-grid"></div>
 
-    <div id="form" class="form-grid"></div>
-
-    <button id="submitBtn" style="margin-top: 24px;">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-      Xác nhận đăng ký
+    <button id="submitBtn" class="btn btn-primary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      Gửi Đăng Ký
     </button>
     
-    <button id="managerBtn" class="secondary" style="margin-top: 16px;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-      Khu vực Quản lý
+    <button id="managerBtn" class="btn btn-outline">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      Khu Vực Quản Lý
     </button>
   </div>
 
+  <!-- MANAGER DASHBOARD CARD -->
   <div class="card hidden" id="managerBox">
-    <h2>Trang Quản Trị</h2>
-    <div class="sub">Dành cho Admin phê duyệt & tổng hợp</div>
-
-    <div class="input-wrapper" style="margin-top: 24px;">
-      <label class="day-label" style="text-align: center;">Mã PIN Bảo Mật</label>
-      <input id="pin" type="password" placeholder="••••" maxlength="4">
-    </div>
-    <button id="loginManager">Đăng nhập khoá vòng</button>
-
-    <div id="summary" style="margin-top: 32px;"></div>
-    <div id="excelTable"></div>
-
-    <div class="form-grid" style="margin-top: 40px; border-top: 2px dashed var(--border-color); padding-top: 32px;">
-      <button id="unlockBtn" class="secondary" style="margin-top: 0;">🔓 Mở đăng ký</button>
-      <button id="lockBtn" class="secondary" style="margin-top: 0;">🔒 Khóa đăng ký</button>
+    <div class="header-content">
+      <h2 class="title">Bảng Điều Khiển</h2>
+      <div class="subtitle">Quyền truy cập quản trị viên</div>
     </div>
 
-    <button id="clearBtn" class="danger" style="margin-top: 16px;">
-      🗑️ Làm sạch lịch tuần này
-    </button>
+    <div class="input-group" id="loginSection">
+      <label class="input-label">Mã PIN Security</label>
+      <div class="input-wrapper">
+        <input id="pin" type="password" class="form-control" placeholder="••••" maxlength="4" style="text-align: center; letter-spacing: 12px; padding-left: 20px; font-size: 24px;">
+        <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      </div>
+      <button id="loginManager" class="btn btn-primary" style="margin-top: 16px;">Xác thực quyền</button>
+    </div>
+
+    <div id="adminPanel" class="hidden">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-val" id="totalUsers">0</div>
+          <div class="stat-label">Nhân Sự</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="totalShifts">0</div>
+          <div class="stat-label">Ca Đăng Ký</div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <label class="input-label" style="margin: 0;">Dữ liệu bảng tính</label>
+        <button id="copyBtn" style="background:none; border:none; color:var(--primary); font-weight:600; cursor:pointer; display:flex; align-items:center; gap:4px; font-family:inherit;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy Data
+        </button>
+      </div>
+
+      <div id="excelTable"></div>
+
+      <div class="calendar-grid" style="margin-top: 32px; margin-bottom: 16px; border-top: 1px solid var(--border-color); padding-top: 32px;">
+        <button id="unlockBtn" class="btn" style="background: var(--input-bg); color: var(--success); border: 1px solid rgba(16,185,129,0.3);">🔓 Mở Đăng Ký</button>
+        <button id="lockBtn" class="btn" style="background: var(--input-bg); color: var(--warning); border: 1px solid rgba(245,158,11,0.3);">🔒 Khóa Lịch</button>
+      </div>
+
+      <button id="clearBtn" class="btn btn-outline" style="color: var(--danger); border-color: rgba(239,68,68,0.3);">
+        🗑️ Xóa Sạch Dữ Liệu Tuần Này
+      </button>
+    </div>
   </div>
-
-  <footer>© 2026 Hệ Thống Quản Lý Ca Làm<br>Developed by Đào Đăng Tùng</footer>
 </div>
 
 <script type="module">
+// ====== FIREBASE INIT ======
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getDatabase, ref, set, get, remove, onValue }
-from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+import { getDatabase, ref, set, get, remove, onValue } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
 const app = initializeApp({
-  apiKey:"AIzaSyCK6yfVr9VBMGwhbvYMXkJqMoRjo4Om2LM",
-  databaseURL:"https://an-quy-default-rtdb.asia-southeast1.firebasedatabase.app"
+  apiKey: "AIzaSyCK6yfVr9VBMGwhbvYMXkJqMoRjo4Om2LM",
+  databaseURL: "https://an-quy-default-rtdb.asia-southeast1.firebasedatabase.app"
 });
 const db = getDatabase(app);
 
-const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
-const SHIFTS=["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
+// ====== CONSTANTS ======
+const DAYS = ["T2","T3","T4","T5","T6","T7","CN"];
+const SHIFTS = ["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
 
-/* ================= iOS Style Toast Notification ================= */
+// ====== THEME MANAGER ======
+const themeBtn = document.getElementById('themeBtn');
+const html = document.documentElement;
+const sunIcon = document.getElementById('sunIcon');
+const moonIcon = document.getElementById('moonIcon');
+
+const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+html.setAttribute('data-theme', savedTheme);
+updateThemeIcon(savedTheme);
+
+themeBtn.onclick = () => {
+  const currentTheme = html.getAttribute('data-theme');
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  updateThemeIcon(newTheme);
+};
+
+function updateThemeIcon(theme) {
+  if(theme === 'dark') { sunIcon.classList.remove('hidden'); moonIcon.classList.add('hidden'); }
+  else { sunIcon.classList.add('hidden'); moonIcon.classList.remove('hidden'); }
+}
+
+// ====== TOAST MANAGER ======
 function showToast(message, type = 'success') {
   const container = document.getElementById('toastContainer');
   const toast = document.createElement('div');
-  toast.className = `toast ${type}`;
+  toast.className = `toast`;
+  const colors = { success: '#10b981', error: '#ef4444', warning: '#f59e0b' };
   
-  let iconHtml = '';
-  if(type === 'success') iconHtml = '<svg class="t-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
-  else if(type === 'error') iconHtml = '<svg class="t-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>';
-  else iconHtml = '<svg class="t-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
-  
-  toast.innerHTML = `${iconHtml} <span>${message}</span>`;
+  toast.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${colors[type]}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">${type === 'success' ? '<polyline points="20 6 9 17 4 12"></polyline>' : type === 'error' ? '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>' : '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>'}</svg> <span>${message}</span>`;
   container.appendChild(toast);
   
-  setTimeout(() => toast.classList.add('show'), 10);
+  requestAnimationFrame(() => toast.classList.add('show'));
   setTimeout(() => {
     toast.classList.remove('show');
-    setTimeout(() => toast.remove(), 500);
+    setTimeout(() => toast.remove(), 400);
   }, 3500);
 }
 
-/* ================= LOCK STATUS LOGIC ================= */
-let manualLock = null;
-
-onValue(ref(db, "settings/lock"), (snap) => {
-  manualLock = snap.exists() ? snap.val() : null;
-  updateStatus();
-  updateCountdown();
-});
-
-function isRegistrationLocked(){
-  if(manualLock === true) return true;
-  if(manualLock === false) return false;
-  const n=new Date();
-  const d=n.getDay(), h=n.getHours(), m=n.getMinutes();
-  if(d===5 && (h>20 || (h===20 && m>=0))) return true;
-  if(d===6 || d===0) return true;
-  return false;
-}
-
-const lockStatus=document.getElementById("lockStatus");
-
-function updateStatus(){
-  const isLocked = manualLock === true || (manualLock !== false && isRegistrationLocked());
-  
-  if(isLocked) {
-    lockStatus.innerHTML=`<span class="pulse-dot danger" style="--rgb-color: 239, 68, 68;"></span> <span style='color:#dc2626'>${manualLock === true ? 'Hệ thống đã bị khóa thủ công' : 'Đang khóa • Mở lại Thứ 2'}</span>`;
-    lockStatus.style.background = "#fef2f2";
-    lockStatus.style.borderColor = "#fecaca";
-  } else {
-    lockStatus.innerHTML=`<span class="pulse-dot" style="--rgb-color: 16, 185, 129;"></span> <span style='color:#15803d'>${manualLock === false ? 'Đang mở (Quản lý cấp quyền)' : 'Đang mở • Khóa lúc 20:00 Thứ 6'}</span>`;
-    lockStatus.style.background = "#ecfdf5";
-    lockStatus.style.borderColor = "#a7f3d0";
-  }
-}
-
-/* ================= COUNTDOWN LOGIC ================= */
-const cdCard=document.getElementById("countdownCard");
-const cdTime=document.getElementById("countdownTime");
-const submitBtn=document.getElementById("submitBtn");
-
-function getLockTime(){
-  const now = new Date();
-  let diff = 5 - now.getDay();
-  if (diff < 0) diff += 7; 
-  const lock = new Date(now);
-  lock.setDate(now.getDate() + diff);
-  lock.setHours(20,0,0,0);
-  return lock;
-}
-
-function updateCountdown(){
-  const now=new Date();
-  const diff=getLockTime()-now;
-
-  if(isRegistrationLocked()){
-    cdTime.innerText="ĐÃ ĐÓNG";
-    cdCard.className="countdown danger";
-    submitBtn.disabled=true;
-    return;
-  }
-
-  if(diff<=0){
-    cdTime.innerText="HẾT THỜI GIAN";
-    cdCard.className="countdown";
-    cdCard.style.borderColor = "#fcd34d";
-    cdCard.style.background = "linear-gradient(to right, #fffbeb, #fef3c7)";
-    cdTime.style.color = "#d97706";
-    submitBtn.disabled=false;
-    return;
-  }
-
-  const d=Math.floor(diff/(1000*60*60*24));
-  const h=Math.floor(diff/(1000*60*60))%24;
-  const m=Math.floor(diff/(1000*60))%60;
-  const s=Math.floor(diff/1000)%60;
-
-  cdTime.innerText=`${d} ngày : ${h.toString().padStart(2,"0")} : ${m.toString().padStart(2,"0")} : ${s.toString().padStart(2,"0")}`;
-  cdCard.className="countdown";
-  cdCard.style = "";
-  submitBtn.disabled=false;
-}
-setInterval(updateCountdown,1000);
-updateCountdown();
-
-/* ================= FORM RENDER ================= */
-const form=document.getElementById("form");
-DAYS.forEach((d, index) => {
-  const fullWidthClass = (index === 6) ? "full-width" : "";
-  form.innerHTML+=`
-    <div class="form-group ${fullWidthClass}">
-      <label class="day-label" for="${d}">${d === 'CN' ? 'Chủ Nhật' : 'Thứ ' + d.charAt(1)}</label>
-      <div class="input-wrapper" style="margin-bottom:0">
-        <select id="${d}">
-          <option value="">Nghỉ</option>
-          ${SHIFTS.map(s=>`<option value="${s}">${s}</option>`).join("")}
-        </select>
+// ====== RENDER FORM ======
+const form = document.getElementById("form");
+DAYS.forEach((d, i) => {
+  const isFullWidth = i === 6 ? 'grid-column: span 2;' : '';
+  form.innerHTML += `
+    <div class="day-card" style="${isFullWidth}">
+      <div class="day-header">
+        <span>${d === 'CN' ? 'Chủ Nhật' : 'Thứ ' + d.charAt(1)}</span>
       </div>
+      <select id="${d}" class="day-select">
+        <option value="">-- Nghỉ --</option>
+        ${SHIFTS.map(s => `<option value="${s}">${s}</option>`).join("")}
+      </select>
     </div>
   `;
 });
 
-/* ================= SUBMIT ACTION ================= */
-document.getElementById("submitBtn").onclick=async()=>{
-  const ten=document.getElementById("name").value.trim();
-  if(!ten) {
-    document.getElementById("name").focus();
-    return showToast("Vui lòng nhập họ và tên của bạn!", "warning");
+// ====== LOGIC: LOCK STATUS & COUNTDOWN ======
+let manualLock = null;
+const lockStatus = document.getElementById("lockStatus");
+const submitBtn = document.getElementById("submitBtn");
+
+onValue(ref(db, "settings/lock"), (snap) => {
+  manualLock = snap.exists() ? snap.val() : null;
+  updateStatusUI();
+});
+
+function isRegistrationLocked() {
+  if (manualLock === true) return true;
+  if (manualLock === false) return false;
+  const n = new Date(), d = n.getDay(), h = n.getHours();
+  if (d === 5 && h >= 20) return true;
+  if (d === 6 || d === 0) return true;
+  return false;
+}
+
+function updateStatusUI() {
+  const isLocked = isRegistrationLocked();
+  
+  if (isLocked) {
+    lockStatus.style.backgroundColor = "var(--primary-light)";
+    lockStatus.style.borderColor = "var(--primary-ring)";
+    lockStatus.style.color = "var(--danger)";
+    lockStatus.innerHTML = `<div class="pulse" style="--pulse-color: rgba(239, 68, 68, 0.6); background: var(--danger);"></div> Đã đóng đăng ký (Mở Thứ 2)`;
+    submitBtn.disabled = true;
+  } else {
+    lockStatus.style.backgroundColor = "rgba(16, 185, 129, 0.1)";
+    lockStatus.style.borderColor = "rgba(16, 185, 129, 0.3)";
+    lockStatus.style.color = "var(--success)";
+    lockStatus.innerHTML = `<div class="pulse" style="--pulse-color: rgba(16, 185, 129, 0.6); background: var(--success);"></div> Đang mở (Đóng 20:00 T6)`;
+    submitBtn.disabled = false;
   }
+}
 
-  if(isRegistrationLocked()) return showToast("Hệ thống hiện tại đang khóa đăng ký!", "error");
+// ====== LOGIC: SUBMIT ======
+submitBtn.onclick = async () => {
+  const name = document.getElementById("name").value.trim();
+  if (!name) { document.getElementById("name").focus(); return showToast("Vui lòng nhập họ tên!", "warning"); }
+  if (isRegistrationLocked()) return showToast("Hệ thống đang khóa!", "error");
 
-  const lich={};
-  DAYS.forEach(d=>{ const v=document.getElementById(d).value; if(v) lich[d]=v; });
+  const lich = {};
+  DAYS.forEach(d => { const v = document.getElementById(d).value; if (v) lich[d] = v; });
 
-  if(!Object.keys(lich).length) return showToast("Bạn chưa chọn ca làm nào cho tuần này!", "warning");
+  if (!Object.keys(lich).length) return showToast("Vui lòng chọn ít nhất 1 ca!", "warning");
 
-  submitBtn.innerHTML = `<svg class="spinner" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg> Đang xử lý...`;
+  submitBtn.innerHTML = `<svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg> Đang đồng bộ...`;
   submitBtn.disabled = true;
 
   try {
-    await set(ref(db,"dangKy/"+ten),{lich});
-    showToast("Đăng ký thành công! Chúc bạn tuần mới năng lượng 🚀", "success");
+    await set(ref(db, "dangKy/" + name), { lich });
+    showToast("Đăng ký thành công! Chúc bạn làm việc hiệu quả.", "success");
     document.getElementById("name").value = "";
     DAYS.forEach(d => document.getElementById(d).value = "");
-  } catch(e) {
-    showToast("Lỗi kết nối: " + e.message, "error");
+  } catch (e) {
+    showToast("Lỗi mạng: " + e.message, "error");
   } finally {
-    submitBtn.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Xác nhận đăng ký`;
+    submitBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Gửi Đăng Ký`;
     submitBtn.disabled = false;
   }
 };
 
-/* ================= MANAGER ACTIONS ================= */
-document.getElementById("managerBtn").onclick=()=>{
-  const mgrBox = document.getElementById("managerBox");
-  mgrBox.classList.toggle("hidden");
-  if(!mgrBox.classList.contains("hidden")) mgrBox.scrollIntoView({ behavior: "smooth" });
+// ====== MANAGER LOGIC ======
+const managerBtn = document.getElementById("managerBtn");
+const userCard = document.getElementById("userCard");
+const managerBox = document.getElementById("managerBox");
+let rawExcelData = "";
+
+managerBtn.onclick = () => {
+  userCard.classList.add("hidden");
+  managerBox.classList.remove("hidden");
 };
 
-document.getElementById("loginManager").onclick=async()=>{
-  if(document.getElementById("pin").value!=="2005") return showToast("Mã PIN không chính xác!", "error");
+document.getElementById("loginManager").onclick = async () => {
+  const btn = document.getElementById("loginManager");
+  if (document.getElementById("pin").value !== "2005") return showToast("Mã PIN từ chối!", "error");
 
-  const summary=document.getElementById("summary");
-  const excel=document.getElementById("excelTable");
-
-  summary.innerHTML="<p style='text-align:center; color: var(--secondary); font-weight: 500;'><svg class='spinner' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='12' y1='2' x2='12' y2='6'></line><line x1='12' y1='18' x2='12' y2='22'></line><line x1='4.93' y1='4.93' x2='7.76' y2='7.76'></line><line x1='16.24' y1='16.24' x2='19.07' y2='19.07'></line><line x1='2' y1='12' x2='6' y2='12'></line><line x1='18' y1='12' x2='22' y2='12'></line><line x1='4.93' y1='19.07' x2='7.76' y2='16.24'></line><line x1='16.24' y1='7.76' x2='19.07' y2='4.93'></line></svg> Đang đồng bộ...</p>";
-  excel.innerHTML="";
+  btn.innerHTML = "Đang tải dữ liệu..."; btn.disabled = true;
 
   try {
-    const snap=await get(ref(db,"dangKy"));
-    if(!snap.exists()){
-      summary.innerHTML="<div style='text-align:center; padding: 40px 20px; background: #f8fafc; border-radius: 20px; border: 2px dashed #cbd5e1;'><span style='font-size: 36px;'>📭</span><br><br><b style='font-size: 18px;'>Trống rỗng</b><br><span style='color: #64748b; font-size: 15px; margin-top:8px; display:inline-block'>Chưa có nhân viên nào đăng ký.</span></div>";
+    const snap = await get(ref(db, "dangKy"));
+    document.getElementById("loginSection").classList.add("hidden");
+    document.getElementById("adminPanel").classList.remove("hidden");
+
+    if (!snap.exists()) {
+      document.getElementById("excelTable").innerHTML = `<div style="text-align:center; padding: 40px; color: var(--text-secondary);">Chưa có dữ liệu tuần này.</div>`;
       return;
     }
 
     const data = snap.val();
-    const sum={};
+    let totalUsers = 0; let totalShifts = 0;
+    
+    // Build Table & Calculate Stats
+    let tableHTML = `<div class="table-wrapper"><table><thead><tr><th>Họ & Tên</th>${DAYS.map(d => `<th>${d}</th>`).join('')}</tr></thead><tbody>`;
+    rawExcelData = `Họ và Tên\t${DAYS.join('\t')}\n`; // For clipboard
 
-    Object.entries(data).forEach(([ten,obj])=>{
-      Object.entries(obj.lich||{}).forEach(([d,c])=>{
-        sum[d]??={}; sum[d][c]??=[]; sum[d][c].push(ten);
+    Object.entries(data).forEach(([name, obj]) => {
+      totalUsers++;
+      tableHTML += `<tr><td>${name}</td>`;
+      rawExcelData += `${name}\t`;
+      DAYS.forEach((day, index) => {
+         const shift = obj.lich?.[day] || '-';
+         if(shift !== '-') totalShifts++;
+         tableHTML += `<td style="color: ${shift === '-' ? 'var(--text-secondary)' : 'var(--primary)'}">${shift}</td>`;
+         rawExcelData += `${shift}${index === DAYS.length - 1 ? '' : '\t'}`;
       });
+      tableHTML += `</tr>`;
+      rawExcelData += `\n`;
     });
 
-    summary.innerHTML = "<h3 style='margin-bottom: 24px; font-size: 22px; color: var(--text-main); font-weight: 800;'>📋 Thống kê theo ngày</h3>";
-    DAYS.forEach(day=>{
-      if(!sum[day]) return;
-      let dayHTML = `<h4 style="margin: 32px 0 16px; color: var(--secondary); border-bottom: 2px solid var(--border-color); padding-bottom: 12px; font-size: 18px; font-weight: 800;">${day === 'CN' ? 'Chủ Nhật' : 'Thứ ' + day.charAt(1)}</h4>`;
-      
-      SHIFTS.forEach(shift=>{
-        if(!sum[day][shift]) return;
-        dayHTML += `
-          <div class="shiftBox">
-            <b>Ca ${shift}</b><br>
-            <div style="margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px;">
-              ${sum[day][shift].map(n=>`<span class="badge">${n}</span>`).join("")}
-            </div>
-          </div>
-        `;
-      });
-      summary.innerHTML += dayHTML;
-    });
+    tableHTML += `</tbody></table></div>`;
+    document.getElementById("excelTable").innerHTML = tableHTML;
+    
+    // Animate Stats
+    animateValue("totalUsers", 0, totalUsers, 1000);
+    animateValue("totalShifts", 0, totalShifts, 1000);
+    showToast("Truy cập thành công!", "success");
 
-    renderExcelTable(data);
-    showToast("Tải dữ liệu thành công!", "success");
-    document.getElementById("pin").value = "";
-  } catch(e) {
-    showToast("Lỗi đồng bộ: " + e.message, "error");
-  }
+  } catch (e) { showToast("Lỗi: " + e.message, "error"); } 
+  finally { btn.innerHTML = "Xác thực quyền"; btn.disabled = false; }
 };
 
-/* EXCEL TABLE */
-function renderExcelTable(data){
-  const container=document.getElementById("excelTable");
-  let tableHTML = `
-    <h3 style="margin-top: 50px; margin-bottom: 24px; font-size: 22px; font-weight: 800;">📊 Bảng Tổng Hợp Lịch</h3>
-    <div class="table-responsive">
-      <table class="styled-table">
-        <thead>
-          <tr>
-            <th style="text-align: left; position: sticky; left: 0; background: #f8fafc; z-index: 10;">Họ & Tên</th>
-            ${DAYS.map(d => `<th>${d}</th>`).join('')}
-          </tr>
-        </thead>
-        <tbody>
-  `;
-  Object.entries(data).forEach(([ten,obj])=>{
-    tableHTML += `<tr><td style="position: sticky; left: 0; background: inherit; font-weight: 700; box-shadow: inset -2px 0 0 var(--border-color);">${ten}</td>`;
-    DAYS.forEach(day => {
-       const shift = obj.lich?.[day] || '-';
-       tableHTML += `<td class="text-center">${shift}</td>`;
-    });
-    tableHTML += `</tr>`;
-  });
-  tableHTML += `</tbody></table></div>`;
-  container.innerHTML = tableHTML;
-}
-
-/* LOCK / UNLOCK */
-document.getElementById("unlockBtn").onclick=async()=>{
-  if(!confirm("MỞ hệ thống thủ công?")) return;
-  await set(ref(db,"settings/lock"),false);
-  showToast("Đã MỞ khóa hệ thống!", "success");
+// Copy Data
+document.getElementById("copyBtn").onclick = () => {
+  if(!rawExcelData) return showToast("Không có dữ liệu để copy", "warning");
+  navigator.clipboard.writeText(rawExcelData).then(() => showToast("Đã copy dữ liệu! Dán (Ctrl+V) vào Excel.", "success"));
 };
 
-document.getElementById("lockBtn").onclick=async()=>{
-  if(!confirm("KHÓA hệ thống thủ công?")) return;
-  await set(ref(db,"settings/lock"),true);
-  showToast("Đã KHÓA hệ thống!", "warning");
-};
-
-/* CLEAR */
-document.getElementById("clearBtn").onclick=async()=>{
-  if(confirm("⚠️ CẢNH BÁO: Xóa sạch dữ liệu đăng ký tuần này?\nHành động này KHÔNG THỂ KHÔI PHỤC!")){
+// Admin Actions
+document.getElementById("unlockBtn").onclick = async () => { if(confirm("Mở hệ thống?")) { await set(ref(db,"settings/lock"), false); showToast("Đã MỞ!", "success"); } };
+document.getElementById("lockBtn").onclick = async () => { if(confirm("Khóa hệ thống?")) { await set(ref(db,"settings/lock"), true); showToast("Đã KHÓA!", "warning"); } };
+document.getElementById("clearBtn").onclick = async () => {
+  if(confirm("XÓA TOÀN BỘ DỮ LIỆU?\nHành động này không thể hoàn tác!")) {
     await remove(ref(db,"dangKy"));
     showToast("Đã xóa sạch dữ liệu!", "success");
-    document.getElementById("summary").innerHTML = "";
     document.getElementById("excelTable").innerHTML = "";
+    document.getElementById("totalUsers").innerText = "0";
+    document.getElementById("totalShifts").innerText = "0";
   }
 };
+
+// Helper: Animate Numbers
+function animateValue(id, start, end, duration) {
+  const obj = document.getElementById(id);
+  let startTimestamp = null;
+  const step = (timestamp) => {
+    if (!startTimestamp) startTimestamp = timestamp;
+    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+    obj.innerHTML = Math.floor(progress * (end - start) + start);
+    if (progress < 1) window.requestAnimationFrame(step);
+  };
+  window.requestAnimationFrame(step);
+}
 </script>
 
 </body>
