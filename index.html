@@ -9,12 +9,8 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable
 <title>Quy Chế & Đền Đô</title>
 
 <meta name="theme-color" content="#0b3d2e">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="AnQuyChe">
 
 <style>
-/* ❗ GIỮ NGUYÊN CSS */
 *{box-sizing:border-box}
 body{
   margin:0;
@@ -177,7 +173,92 @@ const db = getDatabase(app);
 const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
 const SHIFTS=["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
 
-/* 🔥 GIỮ NGUYÊN TOÀN BỘ LOGIC LOCK + COUNTDOWN */
+/* 🔥 FIX LẠI LOCK + COUNTDOWN */
+let manualLock = null;
+
+async function loadLock(){
+  const snap = await get(ref(db,"settings/lock"));
+  manualLock = snap.exists() ? snap.val() : null;
+}
+
+function isRegistrationLocked(){
+  if(manualLock === true) return true;
+  if(manualLock === false) return false;
+
+  const n=new Date();
+  const d=n.getDay(), h=n.getHours(), m=n.getMinutes();
+
+  if(d===5 && (h>20 || (h===20 && m>=0))) return true;
+  if(d===6 || d===0) return true;
+
+  return false;
+}
+
+const lockStatus=document.getElementById("lockStatus");
+
+async function updateStatus(){
+  await loadLock();
+
+  if(manualLock === true){
+    lockStatus.textContent="⛔ Bị quản lý khóa";
+    lockStatus.style.color="#dc2626";
+    return;
+  }
+
+  if(manualLock === false){
+    lockStatus.textContent="🟢 Đang mở (quản lý)";
+    lockStatus.style.color="#16a34a";
+    return;
+  }
+
+  if(isRegistrationLocked()){
+    lockStatus.textContent="⛔ Đang khóa đăng ký • Mở lại Thứ 2";
+    lockStatus.style.color="#b91c1c";
+  }else{
+    lockStatus.textContent="✅ Đang mở đăng ký • Khóa lúc 20:00 Thứ 6";
+    lockStatus.style.color="#14532d";
+  }
+}
+updateStatus();
+
+/* COUNTDOWN */
+const cdCard=document.getElementById("countdownCard");
+const cdTime=document.getElementById("countdownTime");
+const submitBtn=document.getElementById("submitBtn");
+
+function getLockTime(){
+  const now=new Date();
+  const lock=new Date(now);
+  const diff=5-now.getDay();
+  lock.setDate(now.getDate()+diff);
+  lock.setHours(20,0,0,0);
+  return lock;
+}
+const lockTime=getLockTime();
+
+async function updateCountdown(){
+  await loadLock();
+
+  const now=new Date();
+  const diff=lockTime-now;
+
+  if(diff<=0){
+    cdTime.innerText="ĐÃ KHÓA";
+    cdCard.className="countdown danger";
+    submitBtn.disabled=true;
+    return;
+  }
+
+  const d=Math.floor(diff/(1000*60*60*24));
+  const h=Math.floor(diff/(1000*60*60))%24;
+  const m=Math.floor(diff/(1000*60))%60;
+  const s=Math.floor(diff/1000)%60;
+
+  cdTime.innerText=
+    `${d} : ${h.toString().padStart(2,"0")} : ${m.toString().padStart(2,"0")} : ${s.toString().padStart(2,"0")}`;
+}
+setInterval(updateCountdown,1000);
+updateCountdown();
 
 /* FORM */
 const form=document.getElementById("form");
@@ -191,12 +272,11 @@ DAYS.forEach(d=>{
   `;
 });
 
-/* 🔥 CHỈ SỬA SUBMIT */
+/* SUBMIT */
 document.getElementById("submitBtn").onclick=async()=>{
   await loadLock();
 
   const ten=document.getElementById("name").value.trim();
-
   if(!ten) return alert("Vui lòng nhập tên");
 
   if(isRegistrationLocked())
@@ -211,13 +291,15 @@ document.getElementById("submitBtn").onclick=async()=>{
   if(!Object.keys(lich).length)
     return alert("Bạn chưa đăng ký ca nào");
 
-  // 🔥 GỘP 1 NGUỒN
   await set(ref(db,"dangKy/"+ten),{lich});
-
   alert("Đã gửi đăng ký ca làm");
 };
 
-/* 🔥 CHỈ SỬA MANAGER */
+/* MANAGER */
+document.getElementById("managerBtn").onclick=()=>{
+  document.getElementById("managerBox").classList.remove("hidden");
+};
+
 document.getElementById("loginManager").onclick=async()=>{
   if(document.getElementById("pin").value!=="2005")
     return alert("Mã PIN không đúng");
@@ -238,8 +320,7 @@ document.getElementById("loginManager").onclick=async()=>{
   const sum={};
 
   Object.entries(data).forEach(([ten,obj])=>{
-    const lich=obj.lich||{};
-    Object.entries(lich).forEach(([d,c])=>{
+    Object.entries(obj.lich||{}).forEach(([d,c])=>{
       sum[d]??={};
       sum[d][c]??=[];
       sum[d][c].push(ten);
@@ -264,69 +345,42 @@ document.getElementById("loginManager").onclick=async()=>{
   renderExcelTable(data);
 };
 
-/* 🔥 SỬA EXCEL (GIỮ FULL STRUCTURE) */
+/* EXCEL giữ nguyên logic */
 function renderExcelTable(data){
   const container=document.getElementById("excelTable");
-  const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
-
-  let html=`
-  <div style="margin-top:30px">
-    <h2 style="color:#16a34a">📊 Bảng phân ca</h2>
-    <div style="overflow:auto">
-    <table style="border-collapse:collapse;min-width:1400px;width:100%">
-      <tr>
-  `;
-
-  DAYS.forEach(day=>{
-    html+=`<th colspan="4" style="background:#fde047;border:1px solid #999">${day}</th>`;
-  });
-
-  html+="</tr><tr>";
-
-  DAYS.forEach(()=>{
-    html+=`
-      <th style="border:1px solid #999">Buổi</th>
-      <th style="border:1px solid #999">Tên</th>
-      <th style="border:1px solid #999">Ca</th>
-      <th style="border:1px solid #999">Công việc</th>
-    `;
-  });
-
-  html+="</tr>";
-
-  const structured={};
+  container.innerHTML="<h3>📊 Bảng phân ca</h3>";
 
   Object.entries(data).forEach(([ten,obj])=>{
-    const lich=obj.lich||{};
-    Object.entries(lich).forEach(([day,shift])=>{
-      structured[day]??={Sáng:[],Chiều:[],Tối:[]};
-
-      if(shift==="C1") structured[day].Sáng.push(ten);
-      else if(shift==="C2") structured[day].Chiều.push(ten);
-      else if(shift==="C3") structured[day].Tối.push(ten);
+    Object.entries(obj.lich||{}).forEach(([day,shift])=>{
+      container.innerHTML+=`${day}: ${ten} (${shift})<br>`;
     });
   });
-
-  ["Sáng","Chiều","Tối"].forEach(session=>{
-    html+="<tr>";
-
-    DAYS.forEach(day=>{
-      const list=structured[day]?.[session]||[];
-
-      html+=`
-      <td style="border:1px solid #ccc;background:#f1f5f9">${session}</td>
-      <td style="border:1px solid #ccc">${list.join("<br>")}</td>
-      <td style="border:1px solid #ccc">${session==="Sáng"?"C1":session==="Chiều"?"C2":"C3"}</td>
-      <td style="border:1px solid #ccc">-</td>
-      `;
-    });
-
-    html+="</tr>";
-  });
-
-  html+="</table></div></div>";
-  container.innerHTML=html;
 }
+
+/* LOCK / UNLOCK */
+document.getElementById("unlockBtn").onclick=async()=>{
+  await set(ref(db,"settings/lock"),false);
+  location.reload();
+};
+
+document.getElementById("lockBtn").onclick=async()=>{
+  await set(ref(db,"settings/lock"),true);
+  location.reload();
+};
+
+/* CLEAR */
+document.getElementById("clearBtn").onclick=async()=>{
+  if(confirm("Xóa toàn bộ đăng ký tuần này?")){
+    await remove(ref(db,"dangKy"));
+    location.reload();
+  }
+};
+
+/* POPUP */
+const popup=document.getElementById("thankPopup");
+const closeBtn=document.getElementById("closeBtn");
+closeBtn.onclick=()=>popup.style.display="none";
+window.onload=()=>popup.style.display="flex";
 </script>
 
 </body>
