@@ -2,155 +2,121 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-<title>An Quy Chế – Đăng ký ca làm</title>
-
-<meta name="theme-color" content="#0b3d2e">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="AnQuyChe">
-<link rel="apple-touch-icon" href="icon-192.png">
+<title>Đăng ký ca làm</title>
 
 <style>
 *{box-sizing:border-box}
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background:linear-gradient(180deg,#7f1d1d,#064e3b);
-  min-height:100vh;
+  background:linear-gradient(180deg,#064e3b,#022c22);
 }
-.hidden{display:none}
 
-/* LAYOUT */
 .container{max-width:420px;margin:auto;padding:20px}
 .card{
-  background:white;
-  border-radius:22px;
-  padding:20px;
-  box-shadow:0 25px 50px rgba(0,0,0,.25);
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(10px);
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 30px 60px rgba(0,0,0,.3);
 }
-h2{margin:0 0 6px}
-.sub{font-size:13px;color:#555}
 
-/* FORM */
 input,select{
   width:100%;
   padding:14px;
   margin:10px 0;
   border-radius:14px;
-  border:1px solid #ccc;
-  font-size:16px;
+  border:1px solid #e2e8f0;
+  background:#f8fafc;
 }
+input:focus,select:focus{
+  outline:none;
+  border-color:#22c55e;
+  box-shadow:0 0 0 2px #bbf7d0;
+}
+
 button{
   width:100%;
   padding:14px;
   border:none;
   border-radius:16px;
-  background:#b91c1c;
+  background:#16a34a;
   color:white;
   font-weight:600;
   margin-top:14px;
+  transition:0.25s;
 }
-button.secondary{
-  background:#334155;
-}
-.day{font-weight:700;margin-top:14px}
+button:hover{transform:translateY(-2px)}
 
-/* MANAGER */
-.section{margin-top:18px}
+.day{
+  font-weight:700;
+  margin-top:16px;
+  padding:8px 12px;
+  border-radius:10px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:white;
+}
+
 .shiftBox{
   background:#f1f5f9;
   border-radius:14px;
   padding:10px;
   margin:8px 0;
 }
+
 .badge{
   display:inline-block;
-  background:#14532d;
+  background:#16a34a;
   color:white;
   padding:6px 10px;
   border-radius:999px;
-  font-size:13px;
-  margin:4px 4px 0 0;
+  margin:4px;
 }
 
-/* COUNTDOWN */
-.countdown{
-  margin-top:12px;
-  padding:14px;
-  border-radius:16px;
-  background:#ecfdf5;
-  text-align:center;
-  border:2px solid #10b981;
-}
-.countdown.warn{
-  background:#fff7ed;
-  border-color:#f97316;
-}
-.countdown.danger{
-  background:#fef2f2;
-  border-color:#dc2626;
-}
-.cd-label{
-  font-size:13px;
-  color:#555;
-  margin-bottom:6px;
-}
-#countdownTime{
-  font-size:26px;
-  font-weight:700;
-  letter-spacing:1px;
-}
+.hidden{display:none}
 
-/* FOOTER */
-footer{
-  text-align:center;
-  margin-top:16px;
-  font-size:12px;
-  color:#eee
+/* keypad */
+#keypad{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.key{
+  height:60px;
+  border-radius:50%;
+  font-size:18px;
+  background:#e2e8f0;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container" id="app">
-  <div class="card">
-    <h2>Đăng ký ca làm</h2>
-    <div class="sub">Tuần hiện tại • An Quy Chế</div>
-    <div id="lockStatus" class="sub"></div>
+<div class="container">
 
-    <!-- COUNTDOWN -->
-    <div id="countdownCard" class="countdown">
-      <div class="cd-label">⏳ Thời gian còn lại để đăng ký</div>
-      <div id="countdownTime">-- : -- : -- : --</div>
-    </div>
+<div class="card">
+<h2>Đăng ký ca làm</h2>
 
-    <input id="name" placeholder="Nhập tên nhân viên">
+<input id="name" placeholder="Nhập tên">
 
-    <div id="form"></div>
+<div id="form"></div>
 
-    <button id="submitBtn">Xác nhận đăng ký</button>
-    <button id="managerBtn" class="secondary">🔐 Quản lý</button>
-  </div>
+<button id="submitBtn">Xác nhận</button>
+<button id="managerBtn">🔐 Quản lý</button>
+</div>
 
-  <div class="card section hidden" id="managerBox">
-    <h2>Tổng hợp đăng ký ca làm</h2>
+<div class="card hidden" id="managerBox">
+<h2>Quản lý</h2>
 
-    <input id="pin" placeholder="Nhập mã PIN quản lý">
-    <button id="loginManager">Đăng nhập quản lý</button>
+<div id="pinDisplay">••••</div>
+<div id="keypad"></div>
 
-    <div id="summary"></div>
+<div id="summary"></div>
+<button id="clearBtn">Xóa dữ liệu</button>
+</div>
 
-    <button id="clearBtn" class="secondary">
-      Xóa toàn bộ lịch tuần này
-    </button>
-  </div>
-
-  <footer>© 2025 An Quy Chế • Developed by Đào Đăng Tùng</footer>
 </div>
 
 <script type="module">
@@ -158,80 +124,17 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebas
 import { getDatabase, ref, set, get, remove }
 from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
-/* FIREBASE */
 const app = initializeApp({
   apiKey:"AIzaSyCK6yfVr9VBMGwhbvYMXkJqMoRjo4Om2LM",
   databaseURL:"https://an-quy-default-rtdb.asia-southeast1.firebasedatabase.app"
 });
 const db = getDatabase(app);
 
-/* DATA */
 const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
-const SHIFTS=["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
+const SHIFTS=["C1","C2","C3","F1","F2"];
 
-/* TIME LOCK – LOGIC GỐC */
-function isRegistrationLocked(){
-  const n=new Date();
-  const d=n.getDay(), h=n.getHours(), m=n.getMinutes();
-  if(d===5 && (h>20 || (h===20 && m>=0))) return true;
-  if(d===6 || d===0) return true;
-  return false;
-}
-
-/* STATUS */
-const lockStatus=document.getElementById("lockStatus");
-lockStatus.style.fontWeight="600";
-if(isRegistrationLocked()){
-  lockStatus.textContent="⛔ Đang khóa đăng ký • Mở lại Thứ 2";
-  lockStatus.style.color="#b91c1c";
-}else{
-  lockStatus.textContent="✅ Đang mở đăng ký • Khóa lúc 20:00 Thứ 6";
-  lockStatus.style.color="#14532d";
-}
-
-/* COUNTDOWN */
-const cdCard=document.getElementById("countdownCard");
-const cdTime=document.getElementById("countdownTime");
-const submitBtn=document.getElementById("submitBtn");
-
-function getLockTime(){
-  const now=new Date();
-  const lock=new Date(now);
-  const diff=5-now.getDay();
-  lock.setDate(now.getDate()+diff);
-  lock.setHours(20,0,0,0);
-  return lock;
-}
-const lockTime=getLockTime();
-
-function updateCountdown(){
-  const now=new Date();
-  const diff=lockTime-now;
-
-  if(diff<=0){
-    cdTime.innerText="ĐÃ KHÓA";
-    cdCard.className="countdown danger";
-    submitBtn.disabled=true;
-    return;
-  }
-
-  const d=Math.floor(diff/(1000*60*60*24));
-  const h=Math.floor(diff/(1000*60*60))%24;
-  const m=Math.floor(diff/(1000*60))%60;
-  const s=Math.floor(diff/1000)%60;
-
-  cdTime.innerText=
-    `${d} : ${h.toString().padStart(2,"0")} : ${m.toString().padStart(2,"0")} : ${s.toString().padStart(2,"0")}`;
-
-  cdCard.className="countdown";
-  if(diff<1000*60*30) cdCard.className="countdown danger";
-  else if(diff<1000*60*120) cdCard.className="countdown warn";
-}
-setInterval(updateCountdown,1000);
-updateCountdown();
-
-/* FORM */
 const form=document.getElementById("form");
+
 DAYS.forEach(d=>{
   form.innerHTML+=`
     <div class="day">${d}</div>
@@ -245,21 +148,20 @@ DAYS.forEach(d=>{
 /* SUBMIT */
 document.getElementById("submitBtn").onclick=async()=>{
   const ten=document.getElementById("name").value.trim();
-  if(!ten) return alert("Vui lòng nhập tên");
-
-  if(isRegistrationLocked())
-    return alert("⛔ Đã khóa đăng ký. Mở lại Thứ 2.");
+  if(!ten) return alert("Nhập tên");
 
   const lich={};
   DAYS.forEach(d=>{
     const v=document.getElementById(d).value;
     if(v) lich[d]=v;
   });
-  if(!Object.keys(lich).length)
-    return alert("Bạn chưa đăng ký ca nào");
 
+  if(!Object.keys(lich).length) return alert("Chưa chọn ca");
+
+  // 🔥 GOM 1 NGUỒN
   await set(ref(db,"dangKy/"+ten),{lich});
-  alert("Đã gửi đăng ký ca làm");
+
+  alert("Đã lưu");
 };
 
 /* MANAGER */
@@ -267,23 +169,51 @@ document.getElementById("managerBtn").onclick=()=>{
   document.getElementById("managerBox").classList.remove("hidden");
 };
 
-document.getElementById("loginManager").onclick=async()=>{
-  if(document.getElementById("pin").value!=="2005")
-    return alert("Mã PIN không đúng");
+/* KEYPAD */
+let pin="";
+const display=document.getElementById("pinDisplay");
+const keypad=document.getElementById("keypad");
 
+[1,2,3,4,5,6,7,8,9,"","0","⌫"].forEach(k=>{
+  const b=document.createElement("button");
+  b.textContent=k;
+  b.className="key";
+
+  b.onclick=()=>{
+    if(k==="⌫") pin=pin.slice(0,-1);
+    else if(k!==""){
+      if(pin.length<4) pin+=k;
+    }
+
+    display.textContent="•".repeat(pin.length);
+
+    if(pin.length===4){
+      if(pin==="2005"){
+        loadData();
+      }else{
+        alert("Sai PIN");
+      }
+      pin="";
+      display.textContent="••••";
+    }
+  };
+
+  keypad.appendChild(b);
+});
+
+/* LOAD DATA */
+async function loadData(){
+  const snap=await get(ref(db,"dangKy"));
+  if(!snap.exists()) return;
+
+  const data=snap.val();
   const summary=document.getElementById("summary");
   summary.innerHTML="";
-  const snap=await get(ref(db,"dangKy"));
-  if(!snap.exists()){
-    summary.innerHTML="<p>Chưa có dữ liệu đăng ký</p>";
-    return;
-  }
 
   const sum={};
-  snap.forEach(n=>{
-    const ten=n.key;
-    const lich=n.val().lich||{};
-    Object.entries(lich).forEach(([d,c])=>{
+
+  Object.entries(data).forEach(([ten,obj])=>{
+    Object.entries(obj.lich||{}).forEach(([d,c])=>{
       sum[d]??={};
       sum[d][c]??=[];
       sum[d][c].push(ten);
@@ -292,22 +222,25 @@ document.getElementById("loginManager").onclick=async()=>{
 
   DAYS.forEach(day=>{
     if(!sum[day]) return;
+
     summary.innerHTML+=`<div class="day">${day}</div>`;
-    SHIFTS.forEach(shift=>{
-      if(!sum[day][shift]) return;
+
+    SHIFTS.forEach(s=>{
+      if(!sum[day][s]) return;
+
       summary.innerHTML+=`
         <div class="shiftBox">
-          <b>${shift}</b><br>
-          ${sum[day][shift].map(n=>`<span class="badge">${n}</span>`).join("")}
+          <b>${s}</b><br>
+          ${sum[day][s].map(n=>`<span class="badge">${n}</span>`).join("")}
         </div>
       `;
     });
   });
-};
+}
 
 /* CLEAR */
 document.getElementById("clearBtn").onclick=async()=>{
-  if(confirm("Xóa toàn bộ đăng ký tuần này?")){
+  if(confirm("Xóa hết?")){
     await remove(ref(db,"dangKy"));
     location.reload();
   }
@@ -316,5 +249,3 @@ document.getElementById("clearBtn").onclick=async()=>{
 
 </body>
 </html>
-
-
