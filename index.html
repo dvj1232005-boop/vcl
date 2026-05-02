@@ -72,7 +72,7 @@
   .theme-toggle { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-primary); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; }
   .theme-toggle:hover { background: var(--border-color); }
   
-  .container { width: 100%; max-width: 600px; margin: 0 auto 40px; padding: 0 16px; position: relative; z-index: 1; }
+  .container { width: 100%; max-width: 600px; margin: 0 auto 40px; padding: 0 16px; position: relative; z-index: 1; flex: 1; }
 
   /* Glassmorphic Card */
   .card {
@@ -172,6 +172,17 @@
   .skeleton { background: linear-gradient(90deg, var(--input-bg) 25%, var(--border-color) 50%, var(--input-bg) 75%); background-size: 200% 100%; animation: skeletonLoad 1.5s infinite; border-radius: 8px; }
   @keyframes skeletonLoad { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
+  /* Footer Styling */
+  footer {
+    text-align: center;
+    padding: 24px 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    z-index: 1;
+    line-height: 1.6;
+  }
 </style>
 </head>
 
@@ -275,6 +286,10 @@
     </div>
   </div>
 </div>
+
+<footer>
+  © 2026<br>DangTung
+</footer>
 
 <script type="module">
 // ====== FIREBASE INIT ======
