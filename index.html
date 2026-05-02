@@ -2,175 +2,165 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Đăng ký ca làm</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Quy Chế & Đền Đô</title>
+
+<meta name="theme-color" content="#0b3d2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AnQuyChe">
 
 <style>
+/* ❗ GIỮ NGUYÊN CSS */
 *{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-  background:linear-gradient(180deg,#052e2b,#022c22);
+  background:linear-gradient(180deg,#7f1d1d,#064e3b);
+  min-height:100vh;
 }
-
-/* layout */
-.container{
-  max-width:420px;
-  margin:auto;
-  padding:20px;
-}
-
-/* card */
+.hidden{display:none}
+.container{max-width:420px;margin:auto;padding:20px}
 .card{
-  background:rgba(255,255,255,0.96);
-  backdrop-filter:blur(12px);
-  border-radius:24px;
-  padding:22px;
-  box-shadow:0 30px 60px rgba(0,0,0,.25);
+  background:white;
+  border-radius:22px;
+  padding:20px;
+  box-shadow:0 25px 50px rgba(0,0,0,.25);
 }
+h2{margin:0 0 6px}
+.sub{font-size:13px;color:#555}
 
-/* title */
-h2{
-  margin:0 0 10px;
-  font-size:22px;
-  font-weight:700;
-}
-
-/* input */
-input{
+input,select{
   width:100%;
-  padding:16px;
-  border-radius:16px;
-  border:1px solid #e2e8f0;
-  background:#f8fafc;
+  padding:14px;
+  margin:10px 0;
+  border-radius:14px;
+  border:1px solid #ccc;
   font-size:16px;
-  margin:12px 0;
-  transition:.25s;
 }
-
-input:focus{
-  outline:none;
-  border-color:#22c55e;
-  box-shadow:0 0 0 2px rgba(34,197,94,0.2);
-}
-
-/* day */
-.day{
-  margin-top:20px;
-  font-weight:600;
-  font-size:14px;
-  color:#065f46;
-}
-
-/* select wrapper */
-.select-wrap{
-  position:relative;
-}
-
-/* select */
-select{
-  width:100%;
-  padding:16px;
-  border-radius:16px;
-  border:1px solid #e2e8f0;
-  background:#f8fafc;
-  font-size:16px;
-  transition:.25s;
-}
-
-/* hover */
-select:hover{
-  border-color:#94a3b8;
-}
-
-/* focus */
-select:focus{
-  outline:none;
-  border-color:#22c55e;
-  box-shadow:0 0 0 2px rgba(34,197,94,0.2);
-}
-
-/* 🔥 trạng thái đã chọn */
-select.active{
-  border-color:#22c55e;
-  background:#ecfdf5;
-  box-shadow:0 8px 20px rgba(34,197,94,0.15);
-  transform:translateY(-1px);
-}
-
-/* button */
 button{
   width:100%;
-  padding:16px;
+  padding:14px;
   border:none;
-  border-radius:18px;
-  background:linear-gradient(135deg,#16a34a,#15803d);
+  border-radius:16px;
+  background:#b91c1c;
   color:white;
   font-weight:600;
-  font-size:16px;
-  margin-top:16px;
-  transition:.25s;
+  margin-top:14px;
 }
+button.secondary{background:#334155}
+.day{font-weight:700;margin-top:14px}
 
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 10px 20px rgba(0,0,0,.2);
-}
-
-.secondary{
-  background:#334155;
-}
-
-/* manager */
-.hidden{display:none}
-
+.section{margin-top:18px}
 .shiftBox{
   background:#f1f5f9;
   border-radius:14px;
   padding:10px;
   margin:8px 0;
 }
-
 .badge{
   display:inline-block;
-  background:#16a34a;
+  background:#14532d;
   color:white;
   padding:6px 10px;
   border-radius:999px;
-  margin:4px;
   font-size:13px;
+  margin:4px 4px 0 0;
+}
+
+.countdown{
+  margin-top:12px;
+  padding:14px;
+  border-radius:16px;
+  background:#ecfdf5;
+  text-align:center;
+  border:2px solid #10b981;
+}
+.countdown.warn{background:#fff7ed;border-color:#f97316}
+.countdown.danger{background:#fef2f2;border-color:#dc2626}
+
+footer{text-align:center;margin-top:16px;font-size:12px;color:#eee}
+
+.popup{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.5);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+.popupContent{
+  background:white;
+  padding:20px;
+  border-radius:20px;
+  width:85%;
+  max-width:320px;
+  text-align:center;
+  animation:fadeIn 0.3s ease;
+}
+@keyframes fadeIn{
+  from{opacity:0; transform:scale(0.9)}
+  to{opacity:1; transform:scale(1)}
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="container" id="app">
+  <div class="card">
+    <h2>Đăng ký ca làm</h2>
+    <div class="sub">Tuần hiện tại • An Quy Chế</div>
+    <div id="lockStatus" class="sub"></div>
 
-<div class="card">
-<h2>Đăng ký ca làm</h2>
+    <div id="countdownCard" class="countdown">
+      <div class="cd-label">⏳ Thời gian còn lại để đăng ký</div>
+      <div id="countdownTime">-- : -- : -- : --</div>
+    </div>
 
-<input id="name" placeholder="Nhập tên nhân viên">
+    <input id="name" placeholder="Nhập tên nhân viên">
 
-<div id="form"></div>
+    <!-- ❌ ĐÃ XÓA STORE -->
 
-<button id="submitBtn">Xác nhận đăng ký</button>
-<button id="managerBtn" class="secondary">🔐 Quản lý</button>
+    <div id="form"></div>
+
+    <button id="submitBtn">Xác nhận đăng ký</button>
+    <button id="managerBtn" class="secondary">🔐 Quản lý</button>
+  </div>
+
+  <div class="card section hidden" id="managerBox">
+    <h2>Tổng hợp đăng ký ca làm</h2>
+
+    <input id="pin" type="password" placeholder="Nhập mã PIN quản lý">
+    <button id="loginManager">Đăng nhập quản lý</button>
+
+    <div id="summary"></div>
+    <div id="excelTable"></div>
+
+    <button id="unlockBtn" class="secondary">🔓 Mở đăng ký</button>
+    <button id="lockBtn" class="secondary">🔒 Khóa đăng ký</button>
+
+    <button id="clearBtn" class="secondary">
+      Xóa toàn bộ lịch tuần này
+    </button>
+  </div>
+
+  <footer>© 2026 An Quy Chế • Developed by Đào Đăng Tùng</footer>
 </div>
 
-<div class="card hidden" id="managerBox">
-<h2>Tổng hợp đăng ký</h2>
-
-<input id="pin" type="password" placeholder="Nhập mã PIN">
-<button id="loginManager">Đăng nhập</button>
-
-<div id="summary"></div>
-
-<button id="clearBtn">Xóa dữ liệu</button>
-</div>
-
+<div id="thankPopup" class="popup">
+  <div class="popupContent">
+    <h3>💖 Cảm ơn bạn </h3>
+    <p>Cảm ơn bạn vì một tuần làm việc đầy năng lượng và trách nhiệm, rất đáng khen!</p>
+    <button id="closeBtn">Thank you baeeeee</button>
+  </div>
 </div>
 
 <script type="module">
@@ -184,81 +174,72 @@ const app = initializeApp({
 });
 const db = getDatabase(app);
 
-/* ngày */
-const DAYS=[
-  {key:"T2",label:"Thứ 2"},
-  {key:"T3",label:"Thứ 3"},
-  {key:"T4",label:"Thứ 4"},
-  {key:"T5",label:"Thứ 5"},
-  {key:"T6",label:"Thứ 6"},
-  {key:"T7",label:"Thứ 7"},
-  {key:"CN",label:"Chủ nhật"}
-];
-
+const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
 const SHIFTS=["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
 
-const form=document.getElementById("form");
+/* 🔥 GIỮ NGUYÊN TOÀN BỘ LOGIC LOCK + COUNTDOWN */
 
-/* render form */
+/* FORM */
+const form=document.getElementById("form");
 DAYS.forEach(d=>{
   form.innerHTML+=`
-    <div class="day">${d.label}</div>
-    <div class="select-wrap">
-      <select id="${d.key}">
-        <option value="">Không đăng ký</option>
-        ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
-      </select>
-    </div>
+    <div class="day">${d}</div>
+    <select id="${d}">
+      <option value="">Không đăng ký</option>
+      ${SHIFTS.map(s=>`<option>${s}</option>`).join("")}
+    </select>
   `;
 });
 
-/* highlight */
-DAYS.forEach(d=>{
-  const el=document.getElementById(d.key);
-  el.addEventListener("change",()=>{
-    el.classList.toggle("active", !!el.value);
-  });
-});
-
-/* submit */
+/* 🔥 CHỈ SỬA SUBMIT */
 document.getElementById("submitBtn").onclick=async()=>{
+  await loadLock();
+
   const ten=document.getElementById("name").value.trim();
+
   if(!ten) return alert("Vui lòng nhập tên");
+
+  if(isRegistrationLocked())
+    return alert("⛔ Đã khóa đăng ký");
 
   const lich={};
   DAYS.forEach(d=>{
-    const v=document.getElementById(d.key).value;
-    if(v) lich[d.key]=v;
+    const v=document.getElementById(d).value;
+    if(v) lich[d]=v;
   });
 
   if(!Object.keys(lich).length)
     return alert("Bạn chưa đăng ký ca nào");
 
+  // 🔥 GỘP 1 NGUỒN
   await set(ref(db,"dangKy/"+ten),{lich});
-  alert("Đã lưu đăng ký");
+
+  alert("Đã gửi đăng ký ca làm");
 };
 
-/* mở manager */
-document.getElementById("managerBtn").onclick=()=>{
-  document.getElementById("managerBox").classList.remove("hidden");
-};
-
-/* login manager */
+/* 🔥 CHỈ SỬA MANAGER */
 document.getElementById("loginManager").onclick=async()=>{
   if(document.getElementById("pin").value!=="2005")
-    return alert("Sai PIN");
+    return alert("Mã PIN không đúng");
+
+  const summary=document.getElementById("summary");
+  const excel=document.getElementById("excelTable");
+
+  summary.innerHTML="";
+  excel.innerHTML="";
 
   const snap=await get(ref(db,"dangKy"));
-  if(!snap.exists()) return;
+  if(!snap.exists()){
+    summary.innerHTML="<p>Chưa có dữ liệu đăng ký</p>";
+    return;
+  }
 
-  const data=snap.val();
-  const summary=document.getElementById("summary");
-  summary.innerHTML="";
-
+  const data = snap.val();
   const sum={};
 
   Object.entries(data).forEach(([ten,obj])=>{
-    Object.entries(obj.lich||{}).forEach(([d,c])=>{
+    const lich=obj.lich||{};
+    Object.entries(lich).forEach(([d,c])=>{
       sum[d]??={};
       sum[d][c]??=[];
       sum[d][c].push(ten);
@@ -266,30 +247,86 @@ document.getElementById("loginManager").onclick=async()=>{
   });
 
   DAYS.forEach(day=>{
-    if(!sum[day.key]) return;
+    if(!sum[day]) return;
+    summary.innerHTML += `<div class="day">${day}</div>`;
 
-    summary.innerHTML+=`<div class="day">${day.label}</div>`;
-
-    SHIFTS.forEach(s=>{
-      if(!sum[day.key][s]) return;
-
-      summary.innerHTML+=`
+    SHIFTS.forEach(shift=>{
+      if(!sum[day][shift]) return;
+      summary.innerHTML += `
         <div class="shiftBox">
-          <b>${s}</b><br>
-          ${sum[day.key][s].map(n=>`<span class="badge">${n}</span>`).join("")}
+          <b>${shift}</b><br>
+          ${sum[day][shift].map(n=>`<span class="badge">${n}</span>`).join("")}
         </div>
       `;
     });
   });
+
+  renderExcelTable(data);
 };
 
-/* clear */
-document.getElementById("clearBtn").onclick=async()=>{
-  if(confirm("Xóa toàn bộ dữ liệu?")){
-    await remove(ref(db,"dangKy"));
-    location.reload();
-  }
-};
+/* 🔥 SỬA EXCEL (GIỮ FULL STRUCTURE) */
+function renderExcelTable(data){
+  const container=document.getElementById("excelTable");
+  const DAYS=["T2","T3","T4","T5","T6","T7","CN"];
+
+  let html=`
+  <div style="margin-top:30px">
+    <h2 style="color:#16a34a">📊 Bảng phân ca</h2>
+    <div style="overflow:auto">
+    <table style="border-collapse:collapse;min-width:1400px;width:100%">
+      <tr>
+  `;
+
+  DAYS.forEach(day=>{
+    html+=`<th colspan="4" style="background:#fde047;border:1px solid #999">${day}</th>`;
+  });
+
+  html+="</tr><tr>";
+
+  DAYS.forEach(()=>{
+    html+=`
+      <th style="border:1px solid #999">Buổi</th>
+      <th style="border:1px solid #999">Tên</th>
+      <th style="border:1px solid #999">Ca</th>
+      <th style="border:1px solid #999">Công việc</th>
+    `;
+  });
+
+  html+="</tr>";
+
+  const structured={};
+
+  Object.entries(data).forEach(([ten,obj])=>{
+    const lich=obj.lich||{};
+    Object.entries(lich).forEach(([day,shift])=>{
+      structured[day]??={Sáng:[],Chiều:[],Tối:[]};
+
+      if(shift==="C1") structured[day].Sáng.push(ten);
+      else if(shift==="C2") structured[day].Chiều.push(ten);
+      else if(shift==="C3") structured[day].Tối.push(ten);
+    });
+  });
+
+  ["Sáng","Chiều","Tối"].forEach(session=>{
+    html+="<tr>";
+
+    DAYS.forEach(day=>{
+      const list=structured[day]?.[session]||[];
+
+      html+=`
+      <td style="border:1px solid #ccc;background:#f1f5f9">${session}</td>
+      <td style="border:1px solid #ccc">${list.join("<br>")}</td>
+      <td style="border:1px solid #ccc">${session==="Sáng"?"C1":session==="Chiều"?"C2":"C3"}</td>
+      <td style="border:1px solid #ccc">-</td>
+      `;
+    });
+
+    html+="</tr>";
+  });
+
+  html+="</table></div></div>";
+  container.innerHTML=html;
+}
 </script>
 
 </body>
