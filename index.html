@@ -154,6 +154,37 @@
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: var(--input-bg); }
 
+  /* iOS PIN Keypad */
+  .pin-container { display: flex; flex-direction: column; align-items: center; margin-top: 10px; }
+  .pin-dots { display: flex; gap: 24px; margin-bottom: 40px; }
+  .pin-dots .dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--primary); transition: all 0.2s; }
+  .pin-dots .dot.filled { background-color: var(--primary); box-shadow: 0 0 10px rgba(220, 38, 38, 0.5); }
+  
+  .pin-dots.shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+  .pin-dots.shake .dot { border-color: var(--danger); }
+  .pin-dots.shake .dot.filled { background-color: var(--danger); box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+  
+  @keyframes shake {
+    10%, 90% { transform: translate3d(-2px, 0, 0); }
+    20%, 80% { transform: translate3d(4px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
+    40%, 60% { transform: translate3d(8px, 0, 0); }
+  }
+
+  .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 28px; }
+  .keypad-btn {
+    width: 76px; height: 76px; border-radius: 50%; border: 1px solid transparent;
+    background: var(--input-bg); color: var(--text-primary);
+    font-size: 28px; font-weight: 500; font-family: inherit;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.15s ease; user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .keypad-btn:active { background: var(--border-color); transform: scale(0.9); }
+  .keypad-del { background: transparent; color: var(--text-secondary); }
+  .keypad-del:active { background: transparent; color: var(--danger); }
+  .keypad-spacer { pointer-events: none; }
+
   /* Toast Notification */
   .toast-container { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
   .toast {
@@ -173,16 +204,7 @@
   @keyframes skeletonLoad { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
   /* Footer Styling */
-  footer {
-    text-align: center;
-    padding: 24px 0;
-    font-size: 14px;
-    color: var(--text-secondary);
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    z-index: 1;
-    line-height: 1.6;
-  }
+  footer { text-align: center; padding: 24px 0; font-size: 14px; color: var(--text-secondary); font-weight: 500; letter-spacing: 0.5px; z-index: 1; line-height: 1.6; }
 </style>
 </head>
 
@@ -240,20 +262,43 @@
 
   <!-- MANAGER DASHBOARD CARD -->
   <div class="card hidden" id="managerBox">
-    <div class="header-content">
+    <div class="header-content" id="managerHeader">
       <h2 class="title">Bảng Điều Khiển</h2>
       <div class="subtitle">Quyền truy cập quản trị viên</div>
     </div>
 
-    <div class="input-group" id="loginSection">
-      <label class="input-label">Mã PIN Security</label>
-      <div class="input-wrapper">
-        <input id="pin" type="password" class="form-control" placeholder="••••" maxlength="4" style="text-align: center; letter-spacing: 12px; padding-left: 20px; font-size: 24px;">
-        <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+    <!-- PIN Keypad Section -->
+    <div class="pin-container" id="loginSection">
+      <div class="pin-dots" id="pinDots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
       </div>
-      <button id="loginManager" class="btn btn-primary" style="margin-top: 16px;">Xác thực quyền</button>
+
+      <div class="keypad">
+        <button class="keypad-btn" data-val="1">1</button>
+        <button class="keypad-btn" data-val="2">2</button>
+        <button class="keypad-btn" data-val="3">3</button>
+        <button class="keypad-btn" data-val="4">4</button>
+        <button class="keypad-btn" data-val="5">5</button>
+        <button class="keypad-btn" data-val="6">6</button>
+        <button class="keypad-btn" data-val="7">7</button>
+        <button class="keypad-btn" data-val="8">8</button>
+        <button class="keypad-btn" data-val="9">9</button>
+        <div class="keypad-spacer"></div>
+        <button class="keypad-btn" data-val="0">0</button>
+        <button class="keypad-btn keypad-del" id="keypadDel">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg>
+        </button>
+      </div>
+      
+      <div id="loginSpinner" class="hidden" style="margin-top: 20px; color: var(--text-secondary);">
+        <svg class="spinner" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+      </div>
     </div>
 
+    <!-- Admin Dashboard Data -->
     <div id="adminPanel" class="hidden">
       <div class="stats-grid">
         <div class="stat-card">
@@ -288,7 +333,7 @@
 </div>
 
 <footer>
-  © 2026<br>DangTung
+  © 2026<br>Developed by DangTung
 </footer>
 
 <script type="module">
@@ -363,7 +408,7 @@ DAYS.forEach((d, i) => {
   `;
 });
 
-// ====== LOGIC: LOCK STATUS & COUNTDOWN ======
+// ====== LOGIC: LOCK STATUS ======
 let manualLock = null;
 const lockStatus = document.getElementById("lockStatus");
 const submitBtn = document.getElementById("submitBtn");
@@ -427,7 +472,7 @@ submitBtn.onclick = async () => {
   }
 };
 
-// ====== MANAGER LOGIC ======
+// ====== MANAGER LOGIC & KEYPAD ======
 const managerBtn = document.getElementById("managerBtn");
 const userCard = document.getElementById("userCard");
 const managerBox = document.getElementById("managerBox");
@@ -436,17 +481,59 @@ let rawExcelData = "";
 managerBtn.onclick = () => {
   userCard.classList.add("hidden");
   managerBox.classList.remove("hidden");
+  currentPin = "";
+  updateDots();
 };
 
-document.getElementById("loginManager").onclick = async () => {
-  const btn = document.getElementById("loginManager");
-  if (document.getElementById("pin").value !== "2005") return showToast("Mã PIN từ chối!", "error");
+// PIN KEYPAD LOGIC
+let currentPin = "";
+const pinDots = document.querySelectorAll('.pin-dots .dot');
+const pinContainer = document.getElementById('pinDots');
+const loginSpinner = document.getElementById('loginSpinner');
 
-  btn.innerHTML = "Đang tải dữ liệu..."; btn.disabled = true;
+function updateDots() {
+  pinDots.forEach((dot, index) => {
+    if (index < currentPin.length) dot.classList.add('filled');
+    else dot.classList.remove('filled');
+  });
+}
 
+document.querySelectorAll('.keypad-btn[data-val]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (currentPin.length < 4) {
+      currentPin += btn.getAttribute('data-val');
+      updateDots();
+      if (currentPin.length === 4) {
+        setTimeout(processLogin, 150); // Auto check when 4 digits entered
+      }
+    }
+  });
+});
+
+document.getElementById('keypadDel').addEventListener('click', () => {
+  if (currentPin.length > 0) {
+    currentPin = currentPin.slice(0, -1);
+    updateDots();
+  }
+});
+
+async function processLogin() {
+  if (currentPin !== "2005") {
+    pinContainer.classList.add('shake');
+    setTimeout(() => pinContainer.classList.remove('shake'), 400);
+    showToast("Mã PIN không chính xác!", "error");
+    currentPin = "";
+    updateDots();
+    return;
+  }
+
+  // If PIN is correct, fetch data
+  loginSpinner.classList.remove('hidden');
+  
   try {
     const snap = await get(ref(db, "dangKy"));
     document.getElementById("loginSection").classList.add("hidden");
+    document.getElementById("managerHeader").classList.add("hidden");
     document.getElementById("adminPanel").classList.remove("hidden");
 
     if (!snap.exists()) {
@@ -459,7 +546,7 @@ document.getElementById("loginManager").onclick = async () => {
     
     // Build Table & Calculate Stats
     let tableHTML = `<div class="table-wrapper"><table><thead><tr><th>Họ & Tên</th>${DAYS.map(d => `<th>${d}</th>`).join('')}</tr></thead><tbody>`;
-    rawExcelData = `Họ và Tên\t${DAYS.join('\t')}\n`; // For clipboard
+    rawExcelData = `Họ và Tên\t${DAYS.join('\t')}\n`; 
 
     Object.entries(data).forEach(([name, obj]) => {
       totalUsers++;
@@ -483,9 +570,13 @@ document.getElementById("loginManager").onclick = async () => {
     animateValue("totalShifts", 0, totalShifts, 1000);
     showToast("Truy cập thành công!", "success");
 
-  } catch (e) { showToast("Lỗi: " + e.message, "error"); } 
-  finally { btn.innerHTML = "Xác thực quyền"; btn.disabled = false; }
-};
+  } catch (e) { 
+    showToast("Lỗi: " + e.message, "error"); 
+    currentPin = ""; updateDots();
+  } finally {
+    loginSpinner.classList.add('hidden');
+  }
+}
 
 // Copy Data
 document.getElementById("copyBtn").onclick = () => {
