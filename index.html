@@ -305,7 +305,7 @@
 </footer>
 
 <script type="module">
-// ====== FIREBASE INIT (ĐÃ FIX PHIÊN BẢN CHUẨN) ======
+// ====== FIREBASE INIT ======
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getDatabase, ref, set, get, remove, onValue } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
@@ -315,7 +315,7 @@ const app = initializeApp({
 });
 const db = getDatabase(app);
 
-// ====== CONSTANTS (DB KEYS) ======
+// ====== CONSTANTS & DOM ======
 const DB_DAYS = ["T2","T3","T4","T5","T6","T7","CN"]; 
 const SHIFTS = ["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
 
@@ -340,89 +340,29 @@ const i18n = {
     off_shift: "-- Off --", days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     status_closed: "Registration Closed (Opens Mon)", status_open: "Open (Closes 20:00 Fri)", status_manual_lock: "System locked manually", status_manual_open: "Open (Admin override)",
     msg_name: "Please enter your name!", msg_lock: "System is locked!", msg_shift: "Please select at least 1 shift!", msg_success: "Registration successful!", msg_pin_err: "Incorrect PIN!", msg_no_data: "No data for this week."
-  },
-  zh: {
-    title: "排班注册", subtitle: "自动排班系统", name_label: "身份信息", name_ph: "请输入全名...",
-    schedule_label: "本周排班", submit_btn: "提交注册", manager_btn: "管理区域",
-    dashboard_title: "控制面板", dashboard_sub: "管理员访问权限",
-    stat_users: "员工", stat_shifts: "班次", data_table: "电子表格数据", copy_btn: "复制数据",
-    open_reg: "开放注册", close_reg: "锁定时间表", clear_btn: "清除本周数据",
-    off_shift: "-- 休息 --", days: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-    status_closed: "注册已关闭（周一开放）", status_open: "开放中（周五 20:00 关闭）", status_manual_lock: "系统已手动锁定", status_manual_open: "开放中（管理员覆盖）",
-    msg_name: "请输入姓名！", msg_lock: "系统已锁定！", msg_shift: "请至少选择一个班次！", msg_success: "注册成功！", msg_pin_err: "PIN码不正确！", msg_no_data: "本周没有数据。"
-  },
-  ja: {
-    title: "シフト登録", subtitle: "自動スケジュールシステム", name_label: "個人情報", name_ph: "フルネームを入力...",
-    schedule_label: "今週のスケジュール", submit_btn: "登録を送信", manager_btn: "管理者エリア",
-    dashboard_title: "ダッシュボード", dashboard_sub: "管理者アクセス権限",
-    stat_users: "スタッフ", stat_shifts: "シフト", data_table: "スプレッドシートデータ", copy_btn: "データをコピー",
-    open_reg: "登録を許可", close_reg: "スケジュールをロック", clear_btn: "今週のデータをクリア",
-    off_shift: "-- 休み --", days: ["月", "火", "水", "木", "金", "土", "日"],
-    status_closed: "登録終了（月曜開始）", status_open: "受付中（金曜 20:00 終了）", status_manual_lock: "手動でロックされています", status_manual_open: "受付中（管理者オーバーライド）",
-    msg_name: "名前を入力してください！", msg_lock: "システムはロックされています！", msg_shift: "少なくとも1つのシフトを選択してください！", msg_success: "登録が完了しました！", msg_pin_err: "PINが間違っています！", msg_no_data: "今週のデータはありません。"
-  },
-  ko: {
-    title: "근무 교대 등록", subtitle: "자동 일정 예약 시스템", name_label: "개인 정보", name_ph: "성명을 입력하세요...",
-    schedule_label: "이번 주 일정", submit_btn: "등록 제출", manager_btn: "관리자 영역",
-    dashboard_title: "대시보드", dashboard_sub: "관리자 액세스 권한",
-    stat_users: "직원", stat_shifts: "교대근무", data_table: "스프레드시트 데이터", copy_btn: "데이터 복사",
-    open_reg: "등록 열기", close_reg: "일정 잠금", clear_btn: "이번 주 데이터 지우기",
-    off_shift: "-- 휴무 --", days: ["월", "화", "수", "목", "금", "토", "일"],
-    status_closed: "등록 마감 (월요일 오픈)", status_open: "접수 중 (금요일 20:00 마감)", status_manual_lock: "수동으로 잠금됨", status_manual_open: "접수 중 (관리자 재정의)",
-    msg_name: "이름을 입력해주세요!", msg_lock: "시스템이 잠겨 있습니다!", msg_shift: "최소 1개의 교대근무를 선택해주세요!", msg_success: "등록이 완료되었습니다!", msg_pin_err: "잘못된 PIN!", msg_no_data: "이번 주 데이터가 없습니다."
-  },
-  fr: {
-    title: "Inscription aux Quarts", subtitle: "Système de Planification Automatisé", name_label: "Informations d'identité", name_ph: "Entrez votre nom complet...",
-    schedule_label: "Programme de la semaine", submit_btn: "Soumettre", manager_btn: "Espace Manager",
-    dashboard_title: "Tableau de Bord", dashboard_sub: "Accès administrateur",
-    stat_users: "Personnel", stat_shifts: "Quarts", data_table: "Données du tableur", copy_btn: "Copier",
-    open_reg: "Ouvrir l'inscription", close_reg: "Verrouiller le programme", clear_btn: "Effacer les données",
-    off_shift: "-- Repos --", days: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
-    status_closed: "Inscriptions fermées (Ouvre Lun)", status_open: "Ouvert (Ferme Ven 20:00)", status_manual_lock: "Verrouillé manuellement", status_manual_open: "Ouvert (Forcé par admin)",
-    msg_name: "Veuillez entrer votre nom!", msg_lock: "Le système est verrouillé!", msg_shift: "Sélectionnez au moins 1 quart!", msg_success: "Inscription réussie!", msg_pin_err: "Code PIN incorrect!", msg_no_data: "Aucune donnée cette semaine."
-  },
-  nl: {
-    title: "Ploegregistratie", subtitle: "Geautomatiseerd Planningssysteem", name_label: "Identiteitsgegevens", name_ph: "Voer uw volledige naam in...",
-    schedule_label: "Rooster van deze week", submit_btn: "Registratie Indienen", manager_btn: "Beheerdersgedeelte",
-    dashboard_title: "Dashboard", dashboard_sub: "Beheerder toegang",
-    stat_users: "Personeel", stat_shifts: "Diensten", data_table: "Spreadsheet Gegevens", copy_btn: "Kopieer",
-    open_reg: "Registratie Openen", close_reg: "Rooster Vergrendelen", clear_btn: "Gegevens Wissen",
-    off_shift: "-- Vrij --", days: ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"],
-    status_closed: "Gesloten (Opent Ma)", status_open: "Geopend (Sluit Vr 20:00)", status_manual_lock: "Handmatig vergrendeld", status_manual_open: "Geopend (Beheerder override)",
-    msg_name: "Voer uw naam in!", msg_lock: "Systeem is vergrendeld!", msg_shift: "Selecteer minimaal 1 dienst!", msg_success: "Registratie succesvol!", msg_pin_err: "Onjuiste PIN!", msg_no_data: "Geen gegevens voor deze week."
-  },
-  th: {
-    title: "ลงทะเบียนกะ", subtitle: "ระบบจัดตารางเวลาอัตโนมัติ", name_label: "ข้อมูลประจำตัว", name_ph: "ป้อนชื่อเต็มของคุณ...",
-    schedule_label: "ตารางเวลาสัปดาห์นี้", submit_btn: "ส่งการลงทะเบียน", manager_btn: "พื้นที่ผู้จัดการ",
-    dashboard_title: "แผงควบคุม", dashboard_sub: "สิทธิ์การเข้าถึงของผู้ดูแลระบบ",
-    stat_users: "พนักงาน", stat_shifts: "กะการทำงาน", data_table: "ข้อมูลสเปรดชีต", copy_btn: "คัดลอกข้อมูล",
-    open_reg: "เปิดการลงทะเบียน", close_reg: "ล็อคตารางเวลา", clear_btn: "ล้างข้อมูลสัปดาห์นี้",
-    off_shift: "-- หยุด --", days: ["จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส.", "อา."],
-    status_closed: "ปิดรับลงทะเบียน (เปิด จ.)", status_open: "เปิด (ปิด ศ. 20:00)", status_manual_lock: "ล็อคระบบด้วยตนเอง", status_manual_open: "เปิด (ผู้ดูแลระบบอนุญาต)",
-    msg_name: "กรุณาใส่ชื่อของคุณ!", msg_lock: "ระบบถูกล็อค!", msg_shift: "กรุณาเลือกอย่างน้อย 1 กะ!", msg_success: "ลงทะเบียนสำเร็จ!", msg_pin_err: "รหัส PIN ไม่ถูกต้อง!", msg_no_data: "ไม่มีข้อมูลสำหรับสัปดาห์นี้"
   }
 };
 
 let currentLang = localStorage.getItem('lang') || 'vi';
 const langSelect = document.getElementById('langSelect');
-langSelect.value = currentLang;
+if(langSelect) langSelect.value = currentLang;
 
-function t(key) { return i18n[currentLang][key]; }
+function t(key) { return i18n[currentLang] ? i18n[currentLang][key] : i18n['vi'][key]; }
 
 function applyTranslations() {
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    el.textContent = t(el.getAttribute('data-i18n'));
-  });
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')); });
   document.getElementById('name').placeholder = t('name_ph');
   renderForm();
   updateStatusUI();
 }
 
-langSelect.addEventListener('change', (e) => {
-  currentLang = e.target.value;
-  localStorage.setItem('lang', currentLang);
-  applyTranslations();
-});
+if(langSelect) {
+  langSelect.addEventListener('change', (e) => {
+    currentLang = e.target.value;
+    localStorage.setItem('lang', currentLang);
+    applyTranslations();
+  });
+}
 
 // ====== THEME MANAGER ======
 const themeBtn = document.getElementById('themeBtn');
@@ -461,7 +401,6 @@ function showToast(message, type = 'success') {
 // ====== RENDER FORM ======
 const form = document.getElementById("form");
 function renderForm() {
-  // Preserve selected values before re-rendering
   const savedVals = {};
   DB_DAYS.forEach(d => { const el = document.getElementById(d); if(el) savedVals[d] = el.value; });
   
@@ -479,7 +418,7 @@ function renderForm() {
     `;
   });
 }
-applyTranslations(); // Initial render
+applyTranslations(); 
 
 // ====== LOGIC: LOCK STATUS ======
 let manualLock = null;
@@ -523,6 +462,8 @@ submitBtn.onclick = async () => {
   if (!name) { document.getElementById("name").focus(); return showToast(t('msg_name'), "warning"); }
   if (isRegistrationLocked()) return showToast(t('msg_lock'), "error");
 
+  const safeName = name.replace(/[.#$[\]]/g, "_"); // FIX: Lọc ký tự lỗi Firebase
+
   const lich = {};
   DB_DAYS.forEach(d => { const v = document.getElementById(d).value; if (v) lich[d] = v; });
 
@@ -532,7 +473,7 @@ submitBtn.onclick = async () => {
   submitBtn.disabled = true;
 
   try {
-    await set(ref(db, "dangKy/" + name), { lich });
+    await set(ref(db, "dangKy/" + safeName), { lich });
     showToast(t('msg_success'), "success");
     document.getElementById("name").value = "";
     DB_DAYS.forEach(d => document.getElementById(d).value = "");
@@ -553,7 +494,12 @@ let rawExcelData = "";
 managerBtn.onclick = () => {
   userCard.classList.add("hidden");
   managerBox.classList.remove("hidden");
-  currentPin = ""; updateDots();
+  
+  currentPin = ""; 
+  updateDots();
+  
+  document.getElementById("loginSection").classList.remove("hidden");
+  document.getElementById("adminPanel").classList.add("hidden");
 };
 
 let currentPin = "";
@@ -568,8 +514,10 @@ function updateDots() {
   });
 }
 
+// FIX: Bàn phím bấm nhạy trên điện thoại bằng pointerdown
 document.querySelectorAll('.keypad-btn[data-val]').forEach(btn => {
-  btn.addEventListener('click', () => {
+  btn.addEventListener('pointerdown', (e) => {
+    e.preventDefault(); 
     if (currentPin.length < 4) {
       currentPin += btn.getAttribute('data-val');
       updateDots();
@@ -578,10 +526,12 @@ document.querySelectorAll('.keypad-btn[data-val]').forEach(btn => {
   });
 });
 
-document.getElementById('keypadDel').addEventListener('click', () => {
+document.getElementById('keypadDel').addEventListener('pointerdown', (e) => {
+  e.preventDefault();
   if (currentPin.length > 0) { currentPin = currentPin.slice(0, -1); updateDots(); }
 });
 
+// ====== PROCESS LOGIN & RENDER EXCEL TABLE ======
 async function processLogin() {
   if (currentPin !== "2005") {
     pinContainer.classList.add('shake');
@@ -596,7 +546,6 @@ async function processLogin() {
   try {
     const snap = await get(ref(db, "dangKy"));
     document.getElementById("loginSection").classList.add("hidden");
-    document.getElementById("managerHeader").classList.add("hidden");
     document.getElementById("adminPanel").classList.remove("hidden");
 
     if (!snap.exists()) {
@@ -607,12 +556,11 @@ async function processLogin() {
     const data = snap.val();
     let totalUsers = 0; let totalShifts = 0;
     
-    // Setup Table headers dynamically translated, but underlying data is mapped
     let tableHTML = `<div class="table-wrapper"><table><thead><tr><th>${t('name_label')}</th>${DB_DAYS.map((d, i) => `<th>${t('days')[i]}</th>`).join('')}</tr></thead><tbody>`;
     rawExcelData = `Name\t${DB_DAYS.join('\t')}\n`; 
 
     Object.entries(data).forEach(([name, obj]) => {
-      // ẨN DENDO & QUYCHE THEO LOGIC ĐÃ THỐNG NHẤT
+      // Bỏ qua tài khoản test
       if (name === "DenDo" || name === "QuyChe") return;
 
       totalUsers++;
@@ -642,7 +590,7 @@ async function processLogin() {
   }
 }
 
-// Admin Actions
+// ====== ADMIN PANEL ACTIONS ======
 document.getElementById("copyBtn").onclick = () => {
   if(!rawExcelData) return;
   navigator.clipboard.writeText(rawExcelData).then(() => showToast("OK!", "success"));
