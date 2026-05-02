@@ -180,13 +180,12 @@
   <div class="header-controls">
     <select id="langSelect" class="lang-select">
       <option value="vi">Tiếng Việt</option>
-      <option value="en">English (US)</option>
-      <option value="zh">中文 (Chinese)</option>
-      <option value="ja">日本語 (Japanese)</option>
-      <option value="ko">한국어 (Korean)</option>
-      <option value="fr">Français (French)</option>
-      <option value="nl">Nederlands</option>
-      <option value="th">ไทย (Thai)</option>
+      <option value="en">English</option>
+      <option value="zh">中文 (Trung)</option>
+      <option value="ja">日本語 (Nhật)</option>
+      <option value="ko">한국어 (Hàn)</option>
+      <option value="fr">Français (Pháp)</option>
+      <option value="nl">Nederlands (Hà Lan)</option>
     </select>
 
     <button class="theme-toggle" id="themeBtn" aria-label="Toggle Theme">
@@ -239,6 +238,7 @@
       <div class="subtitle" data-i18n="dashboard_sub">Quyền truy cập quản trị viên</div>
     </div>
 
+    <!-- PIN Keypad Section -->
     <div class="pin-container" id="loginSection">
       <div class="pin-dots" id="pinDots">
         <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
@@ -266,7 +266,7 @@
       </div>
     </div>
 
-    <!-- Admin Panel -->
+    <!-- Admin Dashboard Data -->
     <div id="adminPanel" class="hidden">
       <div class="stats-grid">
         <div class="stat-card">
@@ -305,7 +305,7 @@
 </footer>
 
 <script type="module">
-// ====== FIREBASE INIT ======
+// ====== FIREBASE INIT (Fixed version) ======
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getDatabase, ref, set, get, remove, onValue } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
@@ -315,8 +315,8 @@ const app = initializeApp({
 });
 const db = getDatabase(app);
 
-// ====== CONSTANTS & DOM ======
-const DB_DAYS = ["T2","T3","T4","T5","T6","T7","CN"]; 
+// ====== CONSTANTS ======
+const DB_DAYS = ["T2","T3","T4","T5","T6","T7","CN"];
 const SHIFTS = ["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
 
 // ====== i18n DICTIONARY ======
@@ -329,7 +329,7 @@ const i18n = {
     open_reg: "Mở Đăng Ký", close_reg: "Khóa Lịch", clear_btn: "Xóa Sạch Dữ Liệu Tuần Này",
     off_shift: "-- Nghỉ --", days: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ Nhật"],
     status_closed: "Đã đóng đăng ký (Mở Thứ 2)", status_open: "Đang mở (Đóng 20:00 T6)", status_manual_lock: "Hệ thống đã bị khóa thủ công", status_manual_open: "Đang mở (Quản lý cấp quyền)",
-    msg_name: "Vui lòng nhập họ tên!", msg_lock: "Hệ thống đang khóa!", msg_shift: "Vui lòng chọn ít nhất 1 ca!", msg_success: "Đăng ký thành công!", msg_pin_err: "Mã PIN không chính xác!", msg_no_data: "Chưa có dữ liệu tuần này."
+    msg_name: "Vui lòng nhập họ tên!", msg_lock: "Hệ thống đang khóa!", msg_shift: "Vui lòng chọn ít nhất 1 ca!", msg_success: "Đăng ký thành công! Chúc bạn làm việc hiệu quả.", msg_pin_err: "Mã PIN không chính xác!", msg_no_data: "Chưa có dữ liệu tuần này.", msg_copy: "Đã copy dữ liệu! Dán (Ctrl+V) vào Excel."
   },
   en: {
     title: "Shift Registration", subtitle: "Automated Scheduling System", name_label: "Identity Information", name_ph: "Enter your full name...",
@@ -339,7 +339,57 @@ const i18n = {
     open_reg: "Open Registration", close_reg: "Lock Schedule", clear_btn: "Clear This Week's Data",
     off_shift: "-- Off --", days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     status_closed: "Registration Closed (Opens Mon)", status_open: "Open (Closes 20:00 Fri)", status_manual_lock: "System locked manually", status_manual_open: "Open (Admin override)",
-    msg_name: "Please enter your name!", msg_lock: "System is locked!", msg_shift: "Please select at least 1 shift!", msg_success: "Registration successful!", msg_pin_err: "Incorrect PIN!", msg_no_data: "No data for this week."
+    msg_name: "Please enter your name!", msg_lock: "System is locked!", msg_shift: "Please select at least 1 shift!", msg_success: "Registration successful! Have a great shift.", msg_pin_err: "Incorrect PIN!", msg_no_data: "No data for this week.", msg_copy: "Data copied! Paste (Ctrl+V) into Excel."
+  },
+  zh: {
+    title: "排班注册", subtitle: "自动排班系统", name_label: "身份信息", name_ph: "请输入全名...",
+    schedule_label: "本周排班", submit_btn: "提交注册", manager_btn: "管理区域",
+    dashboard_title: "控制面板", dashboard_sub: "管理员访问权限",
+    stat_users: "员工", stat_shifts: "班次", data_table: "电子表格数据", copy_btn: "复制数据",
+    open_reg: "开放注册", close_reg: "锁定时间表", clear_btn: "清除本周数据",
+    off_shift: "-- 休息 --", days: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+    status_closed: "注册已关闭（周一开放）", status_open: "开放中（周五 20:00 关闭）", status_manual_lock: "系统已手动锁定", status_manual_open: "开放中（管理员覆盖）",
+    msg_name: "请输入姓名！", msg_lock: "系统已锁定！", msg_shift: "请至少选择一个班次！", msg_success: "注册成功！", msg_pin_err: "PIN码不正确！", msg_no_data: "本周没有数据。", msg_copy: "数据已复制！请粘贴到Excel。"
+  },
+  ja: {
+    title: "シフト登録", subtitle: "自動スケジュールシステム", name_label: "個人情報", name_ph: "フルネームを入力...",
+    schedule_label: "今週のスケジュール", submit_btn: "登録を送信", manager_btn: "管理者エリア",
+    dashboard_title: "ダッシュボード", dashboard_sub: "管理者アクセス権限",
+    stat_users: "スタッフ", stat_shifts: "シフト", data_table: "スプレッドシートデータ", copy_btn: "データをコピー",
+    open_reg: "登録を開く", close_reg: "スケジュールをロック", clear_btn: "今週のデータをクリア",
+    off_shift: "-- 休み --", days: ["月", "火", "水", "木", "金", "土", "日"],
+    status_closed: "登録終了（月曜開始）", status_open: "受付中（金曜 20:00 終了）", status_manual_lock: "手動でロックされています", status_manual_open: "受付中（管理者オーバーライド）",
+    msg_name: "名前を入力してください！", msg_lock: "システムはロックされています！", msg_shift: "少なくとも1つのシフトを選択してください！", msg_success: "登録が完了しました！", msg_pin_err: "PINが間違っています！", msg_no_data: "今週のデータはありません。", msg_copy: "コピーしました！Excelに貼り付けてください。"
+  },
+  ko: {
+    title: "근무 교대 등록", subtitle: "자동 일정 예약 시스템", name_label: "개인 정보", name_ph: "성명을 입력하세요...",
+    schedule_label: "이번 주 일정", submit_btn: "등록 제출", manager_btn: "관리자 영역",
+    dashboard_title: "대시보드", dashboard_sub: "관리자 액세스 권한",
+    stat_users: "직원", stat_shifts: "교대근무", data_table: "스프레드시트 데이터", copy_btn: "데이터 복사",
+    open_reg: "등록 열기", close_reg: "일정 잠금", clear_btn: "이번 주 데이터 지우기",
+    off_shift: "-- 휴무 --", days: ["월", "화", "수", "목", "금", "토", "일"],
+    status_closed: "등록 마감 (월요일 오픈)", status_open: "접수 중 (금요일 20:00 마감)", status_manual_lock: "수동으로 잠금됨", status_manual_open: "접수 중 (관리자 재정의)",
+    msg_name: "이름을 입력해주세요!", msg_lock: "시스템이 잠겨 있습니다!", msg_shift: "최소 1개의 교대근무를 선택해주세요!", msg_success: "등록이 완료되었습니다!", msg_pin_err: "잘못된 PIN!", msg_no_data: "이번 주 데이터가 없습니다.", msg_copy: "데이터 복사됨! Excel에 붙여넣기하세요."
+  },
+  fr: {
+    title: "Inscription aux Quarts", subtitle: "Système de Planification Automatisé", name_label: "Informations d'identité", name_ph: "Entrez votre nom complet...",
+    schedule_label: "Programme de la semaine", submit_btn: "Soumettre", manager_btn: "Espace Manager",
+    dashboard_title: "Tableau de Bord", dashboard_sub: "Accès administrateur",
+    stat_users: "Personnel", stat_shifts: "Quarts", data_table: "Données du tableur", copy_btn: "Copier",
+    open_reg: "Ouvrir l'inscription", close_reg: "Verrouiller le programme", clear_btn: "Effacer les données",
+    off_shift: "-- Repos --", days: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+    status_closed: "Inscriptions fermées (Ouvre Lun)", status_open: "Ouvert (Ferme Ven 20:00)", status_manual_lock: "Verrouillé manuellement", status_manual_open: "Ouvert (Forcé par admin)",
+    msg_name: "Veuillez entrer votre nom!", msg_lock: "Le système est verrouillé!", msg_shift: "Sélectionnez au moins 1 quart!", msg_success: "Inscription réussie!", msg_pin_err: "Code PIN incorrect!", msg_no_data: "Aucune donnée cette semaine.", msg_copy: "Copié! Collez (Ctrl+V) dans Excel."
+  },
+  nl: {
+    title: "Ploegregistratie", subtitle: "Geautomatiseerd Planningssysteem", name_label: "Identiteitsgegevens", name_ph: "Voer uw volledige naam in...",
+    schedule_label: "Rooster van deze week", submit_btn: "Registratie Indienen", manager_btn: "Beheerdersgedeelte",
+    dashboard_title: "Dashboard", dashboard_sub: "Beheerder toegang",
+    stat_users: "Personeel", stat_shifts: "Diensten", data_table: "Spreadsheet Gegevens", copy_btn: "Kopieer",
+    open_reg: "Registratie Openen", close_reg: "Rooster Vergrendelen", clear_btn: "Gegevens Wissen",
+    off_shift: "-- Vrij --", days: ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"],
+    status_closed: "Gesloten (Opent Ma)", status_open: "Geopend (Sluit Vr 20:00)", status_manual_lock: "Handmatig vergrendeld", status_manual_open: "Geopend (Beheerder override)",
+    msg_name: "Voer uw naam in!", msg_lock: "Systeem is vergrendeld!", msg_shift: "Selecteer minimaal 1 dienst!", msg_success: "Registratie succesvol!", msg_pin_err: "Onjuiste PIN!", msg_no_data: "Geen gegevens voor deze week.", msg_copy: "Gekopieerd! Plakken (Ctrl+V) in Excel."
   }
 };
 
@@ -375,7 +425,8 @@ html.setAttribute('data-theme', savedTheme);
 updateThemeIcon(savedTheme);
 
 themeBtn.onclick = () => {
-  const newTheme = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  const currentTheme = html.getAttribute('data-theme');
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
   html.setAttribute('data-theme', newTheme);
   localStorage.setItem('theme', newTheme);
   updateThemeIcon(newTheme);
@@ -392,10 +443,15 @@ function showToast(message, type = 'success') {
   const toast = document.createElement('div');
   toast.className = `toast`;
   const colors = { success: '#10b981', error: '#ef4444', warning: '#f59e0b' };
+  
   toast.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${colors[type]}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">${type === 'success' ? '<polyline points="20 6 9 17 4 12"></polyline>' : type === 'error' ? '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>' : '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>'}</svg> <span>${message}</span>`;
   container.appendChild(toast);
+  
   requestAnimationFrame(() => toast.classList.add('show'));
-  setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3500);
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 400);
+  }, 3500);
 }
 
 // ====== RENDER FORM ======
@@ -403,13 +459,15 @@ const form = document.getElementById("form");
 function renderForm() {
   const savedVals = {};
   DB_DAYS.forEach(d => { const el = document.getElementById(d); if(el) savedVals[d] = el.value; });
-  
+
   form.innerHTML = "";
   DB_DAYS.forEach((d, i) => {
     const isFullWidth = i === 6 ? 'grid-column: span 2;' : '';
     form.innerHTML += `
       <div class="day-card" style="${isFullWidth}">
-        <div class="day-header"><span>${t('days')[i]}</span></div>
+        <div class="day-header">
+          <span>${t('days')[i]}</span>
+        </div>
         <select id="${d}" class="day-select">
           <option value="">${t('off_shift')}</option>
           ${SHIFTS.map(s => `<option value="${s}" ${savedVals[d]===s?'selected':''}>${s}</option>`).join("")}
@@ -418,7 +476,7 @@ function renderForm() {
     `;
   });
 }
-applyTranslations(); 
+applyTranslations(); // Trigger first render
 
 // ====== LOGIC: LOCK STATUS ======
 let manualLock = null;
@@ -441,6 +499,7 @@ function isRegistrationLocked() {
 
 function updateStatusUI() {
   const isLocked = isRegistrationLocked();
+  
   if (isLocked) {
     lockStatus.style.backgroundColor = "var(--primary-light)";
     lockStatus.style.borderColor = "var(--primary-ring)";
@@ -462,7 +521,7 @@ submitBtn.onclick = async () => {
   if (!name) { document.getElementById("name").focus(); return showToast(t('msg_name'), "warning"); }
   if (isRegistrationLocked()) return showToast(t('msg_lock'), "error");
 
-  const safeName = name.replace(/[.#$[\]]/g, "_"); // FIX: Lọc ký tự lỗi Firebase
+  const safeName = name.replace(/[.#$[\]]/g, "_"); // FIX: Clean Firebase Key
 
   const lich = {};
   DB_DAYS.forEach(d => { const v = document.getElementById(d).value; if (v) lich[d] = v; });
@@ -495,13 +554,14 @@ managerBtn.onclick = () => {
   userCard.classList.add("hidden");
   managerBox.classList.remove("hidden");
   
-  currentPin = ""; 
+  currentPin = "";
   updateDots();
   
   document.getElementById("loginSection").classList.remove("hidden");
   document.getElementById("adminPanel").classList.add("hidden");
 };
 
+// PIN KEYPAD LOGIC
 let currentPin = "";
 const pinDots = document.querySelectorAll('.pin-dots .dot');
 const pinContainer = document.getElementById('pinDots');
@@ -514,38 +574,45 @@ function updateDots() {
   });
 }
 
-// FIX: Bàn phím bấm nhạy trên điện thoại bằng pointerdown
+// FIX: pointerdown for fast touch response on mobile
 document.querySelectorAll('.keypad-btn[data-val]').forEach(btn => {
   btn.addEventListener('pointerdown', (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     if (currentPin.length < 4) {
       currentPin += btn.getAttribute('data-val');
       updateDots();
-      if (currentPin.length === 4) setTimeout(processLogin, 150);
+      if (currentPin.length === 4) {
+        setTimeout(processLogin, 150); // Auto check when 4 digits entered
+      }
     }
   });
 });
 
 document.getElementById('keypadDel').addEventListener('pointerdown', (e) => {
   e.preventDefault();
-  if (currentPin.length > 0) { currentPin = currentPin.slice(0, -1); updateDots(); }
+  if (currentPin.length > 0) {
+    currentPin = currentPin.slice(0, -1);
+    updateDots();
+  }
 });
 
-// ====== PROCESS LOGIN & RENDER EXCEL TABLE ======
 async function processLogin() {
   if (currentPin !== "2005") {
     pinContainer.classList.add('shake');
     setTimeout(() => pinContainer.classList.remove('shake'), 400);
     showToast(t('msg_pin_err'), "error");
-    currentPin = ""; updateDots();
+    currentPin = "";
+    updateDots();
     return;
   }
 
+  // If PIN is correct, fetch data
   loginSpinner.classList.remove('hidden');
   
   try {
     const snap = await get(ref(db, "dangKy"));
     document.getElementById("loginSection").classList.add("hidden");
+    document.getElementById("managerHeader").classList.add("hidden");
     document.getElementById("adminPanel").classList.remove("hidden");
 
     if (!snap.exists()) {
@@ -556,7 +623,8 @@ async function processLogin() {
     const data = snap.val();
     let totalUsers = 0; let totalShifts = 0;
     
-    let tableHTML = `<div class="table-wrapper"><table><thead><tr><th>${t('name_label')}</th>${DB_DAYS.map((d, i) => `<th>${t('days')[i]}</th>`).join('')}</tr></thead><tbody>`;
+    // Build Table & Calculate Stats
+    let tableHTML = `<div class="table-wrapper"><table><thead><tr><th data-i18n="name_label">${t('name_label')}</th>${DB_DAYS.map((d, i) => `<th>${t('days')[i]}</th>`).join('')}</tr></thead><tbody>`;
     rawExcelData = `Name\t${DB_DAYS.join('\t')}\n`; 
 
     Object.entries(data).forEach(([name, obj]) => {
@@ -579,6 +647,7 @@ async function processLogin() {
     tableHTML += `</tbody></table></div>`;
     document.getElementById("excelTable").innerHTML = tableHTML;
     
+    // Animate Stats
     animateValue("totalUsers", 0, totalUsers, 1000);
     animateValue("totalShifts", 0, totalShifts, 1000);
 
@@ -590,15 +659,17 @@ async function processLogin() {
   }
 }
 
-// ====== ADMIN PANEL ACTIONS ======
+// Copy Data
 document.getElementById("copyBtn").onclick = () => {
   if(!rawExcelData) return;
-  navigator.clipboard.writeText(rawExcelData).then(() => showToast("OK!", "success"));
+  navigator.clipboard.writeText(rawExcelData).then(() => showToast(t('msg_copy'), "success"));
 };
-document.getElementById("unlockBtn").onclick = async () => { if(confirm("Open System?")) { await set(ref(db,"settings/lock"), false); } };
-document.getElementById("lockBtn").onclick = async () => { if(confirm("Lock System?")) { await set(ref(db,"settings/lock"), true); } };
+
+// Admin Actions
+document.getElementById("unlockBtn").onclick = async () => { if(confirm("Mở hệ thống? / Open System?")) { await set(ref(db,"settings/lock"), false); } };
+document.getElementById("lockBtn").onclick = async () => { if(confirm("Khóa hệ thống? / Lock System?")) { await set(ref(db,"settings/lock"), true); } };
 document.getElementById("clearBtn").onclick = async () => {
-  if(confirm("DELETE ALL DATA?")) {
+  if(confirm("XÓA TOÀN BỘ DỮ LIỆU? / DELETE ALL DATA?\nHành động này không thể hoàn tác!")) {
     await remove(ref(db,"dangKy"));
     document.getElementById("excelTable").innerHTML = "";
     document.getElementById("totalUsers").innerText = "0";
@@ -606,6 +677,7 @@ document.getElementById("clearBtn").onclick = async () => {
   }
 };
 
+// Helper: Animate Numbers
 function animateValue(id, start, end, duration) {
   const obj = document.getElementById(id);
   let startTimestamp = null;
