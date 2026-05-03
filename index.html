@@ -1,418 +1,528 @@
 <!DOCTYPE html>
-<html lang="vi" data-theme="light">
+<html lang="vi" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>WorkShift Pro | Enterprise Scheduling</title>
+<title>WorkShift Pro Enterprise | V2.0</title>
 <meta name="theme-color" content="#dc2626">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
-  /* ================= DESIGN SYSTEM ================= */
+  /* ================= ULTIMATE DESIGN SYSTEM ================= */
   :root[data-theme="light"] {
     --primary: #dc2626;
     --primary-hover: #b91c1c;
     --primary-light: #fef2f2;
-    --primary-ring: rgba(220, 38, 38, 0.2);
-    --bg-main: #f8fafc;
-    --bg-card: rgba(255, 255, 255, 0.95);
-    --text-primary: #0f172a;
-    --text-secondary: #64748b;
-    --border-color: #e2e8f0;
-    --input-bg: #f1f5f9;
-    --success: #10b981;
-    --danger: #ef4444;
-    --warning: #f59e0b;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-glow: 0 10px 25px -5px rgba(220, 38, 38, 0.3);
+    --primary-glow: rgba(220, 38, 38, 0.4);
+    --bg-base: #f8fafc;
+    --bg-glass: rgba(255, 255, 255, 0.7);
+    --bg-glass-heavy: rgba(255, 255, 255, 0.95);
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-glass: rgba(0, 0, 0, 0.08);
+    --input-bg: rgba(241, 245, 249, 0.8);
+    --success: #10b981; --success-bg: rgba(16, 185, 129, 0.1);
+    --warning: #f59e0b; --warning-bg: rgba(245, 158, 11, 0.1);
+    --danger: #ef4444; --danger-bg: rgba(239, 68, 68, 0.1);
+    --info: #3b82f6; --info-bg: rgba(59, 130, 246, 0.1);
+    --shadow-soft: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    --shadow-card: 0 20px 40px -10px rgba(0,0,0,0.1);
+    --canvas-dot: #cbd5e1;
+    --canvas-line: rgba(203, 213, 225, 0.5);
   }
 
   :root[data-theme="dark"] {
     --primary: #ef4444;
     --primary-hover: #f87171;
-    --primary-light: rgba(239, 68, 68, 0.1);
-    --primary-ring: rgba(239, 68, 68, 0.3);
-    --bg-main: #020617;
-    --bg-card: rgba(15, 23, 42, 0.85);
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --border-color: #1e293b;
-    --input-bg: #0f172a;
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-    --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.7);
-    --shadow-glow: 0 10px 25px -5px rgba(239, 68, 68, 0.4);
+    --primary-light: rgba(239, 68, 68, 0.15);
+    --primary-glow: rgba(239, 68, 68, 0.6);
+    --bg-base: #020617;
+    --bg-glass: rgba(15, 23, 42, 0.6);
+    --bg-glass-heavy: rgba(15, 23, 42, 0.85);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-glass: rgba(255, 255, 255, 0.1);
+    --input-bg: rgba(30, 41, 59, 0.6);
+    --success: #34d399; --success-bg: rgba(16, 185, 129, 0.15);
+    --warning: #fbbf24; --warning-bg: rgba(245, 158, 11, 0.15);
+    --danger: #f87171; --danger-bg: rgba(239, 68, 68, 0.15);
+    --info: #60a5fa; --info-bg: rgba(59, 130, 246, 0.15);
+    --shadow-soft: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    --shadow-card: 0 25px 50px -12px rgba(0,0,0,0.7);
+    --canvas-dot: #334155;
+    --canvas-line: rgba(51, 65, 85, 0.5);
   }
 
+  /* RESET & BASE */
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: var(--bg-main);
-    color: var(--text-primary);
-    transition: background-color 0.4s ease, color 0.4s ease;
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    transition: background-color 0.5s ease, color 0.5s ease;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
     overflow-x: hidden;
+    position: relative;
   }
 
-  /* Animated Background Elements */
-  .bg-shape { position: fixed; border-radius: 50%; filter: blur(80px); z-index: -1; opacity: 0.5; animation: float 15s ease-in-out infinite alternate; pointer-events: none;}
-  .shape-1 { top: -10%; left: -10%; width: 40vw; height: 40vw; background: rgba(220, 38, 38, 0.15); animation-delay: 0s; }
-  .shape-2 { bottom: -10%; right: -10%; width: 40vw; height: 40vw; background: rgba(16, 185, 129, 0.15); animation-delay: -5s; }
-  :root[data-theme="dark"] .shape-1 { background: rgba(220, 38, 38, 0.25); }
-  :root[data-theme="dark"] .shape-2 { background: rgba(59, 130, 246, 0.2); }
+  /* CANVAS BACKGROUND */
+  #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
-  @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.1); } }
+  /* MESH GRADIENTS */
+  .mesh-blob { position: fixed; border-radius: 50%; filter: blur(100px); z-index: 0; opacity: 0.4; animation: blob-bounce 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; }
+  .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--primary); animation-delay: 0s; }
+  .blob-2 { bottom: -20%; right: -10%; width: 45vw; height: 45vw; background: var(--info); animation-delay: -5s; }
+  @keyframes blob-bounce { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(5%, 10%) scale(1.2); } 100% { transform: translate(-5%, -5%) scale(0.9); } }
 
-  /* Layout & Header */
-  .header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; max-width: 600px; width: 100%; margin: 0 auto; }
-  .header-controls { display: flex; gap: 12px; align-items: center; }
+  /* TYPOGRAPHY & LAYOUT */
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .app-wrapper { position: relative; z-index: 10; display: flex; flex-direction: column; min-height: 100vh; width: 100%; max-width: 700px; margin: 0 auto; padding: 0 16px; }
   
-  .theme-toggle, .lang-select { 
-    background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-primary); 
-    height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center; 
-    cursor: pointer; transition: all 0.3s; font-family: inherit; font-weight: 600; font-size: 14px; outline: none;
+  .header { display: flex; justify-content: space-between; align-items: flex-start; padding: 32px 0 24px; }
+  .brand-group { display: flex; flex-direction: column; gap: 4px; }
+  .brand-logo { font-weight: 800; font-size: 26px; display: flex; align-items: center; gap: 12px; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--text-main) 0%, var(--text-muted) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .brand-logo svg { flex-shrink: 0; filter: drop-shadow(0 0 8px var(--primary-glow)); color: var(--primary); }
+  .update-ticker { font-size: 12px; font-weight: 600; color: var(--text-muted); display: flex; align-items: center; gap: 6px; background: var(--bg-glass); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border-glass); backdrop-filter: blur(10px); }
+  .update-pulse { width: 6px; height: 6px; background: var(--success); border-radius: 50%; box-shadow: 0 0 8px var(--success); animation: blink 1.5s infinite; }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .theme-toggle { background: var(--bg-glass); border: 1px solid var(--border-glass); color: var(--text-main); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(10px); box-shadow: var(--shadow-soft); }
+  .theme-toggle:hover { transform: rotate(15deg) scale(1.05); background: var(--input-bg); }
+
+  /* PREMIUM GLASS CARD */
+  .card {
+    background: var(--bg-glass-heavy);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-radius: 32px;
+    padding: 40px;
+    box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255,255,255,0.1);
+    border: 1px solid var(--border-glass);
+    margin-bottom: 24px;
+    animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0; transform: translateY(20px);
   }
-  .theme-toggle { width: 44px; padding: 0; }
-  .lang-select { padding: 0 16px 0 20px; appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 12px center; background-size: 14px; padding-right: 32px; }
-  .theme-toggle:hover, .lang-select:hover { background: var(--border-color); }
+  @keyframes scaleIn { to { opacity: 1; transform: translateY(0); } }
+
+  .card-header { text-align: center; margin-bottom: 36px; position: relative; }
+  .card-title { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; line-height: 1.2; }
+  .card-subtitle { color: var(--text-muted); font-size: 16px; font-weight: 500; }
+
+  /* STATUS BANNER */
+  .status-banner {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    padding: 16px 24px; border-radius: 20px; margin-bottom: 32px; font-weight: 700; font-size: 15px;
+    border: 1px solid transparent; transition: all 0.4s ease;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .pulse-ring { position: relative; display: flex; align-items: center; justify-content: center; width: 12px; height: 12px; }
+  .pulse-ring::before { content: ''; position: absolute; width: 100%; height: 100%; background: inherit; border-radius: 50%; opacity: 0.8; animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+  .pulse-ring::after { content: ''; position: absolute; width: 8px; height: 8px; background: inherit; border-radius: 50%; z-index: 1; }
+  @keyframes ping { 75%, 100% { transform: scale(3); opacity: 0; } }
+
+  /* FORMS & INPUTS */
+  .input-group { margin-bottom: 28px; }
+  .input-label { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .input-wrapper { position: relative; transition: all 0.3s; }
+  .input-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; }
   
-  .container { width: 100%; max-width: 600px; margin: 0 auto 40px; padding: 0 16px; position: relative; z-index: 1; flex: 1; }
+  .form-control {
+    width: 100%; padding: 20px 24px 20px 56px; border-radius: 20px; border: 2px solid var(--border-glass);
+    background: var(--input-bg); color: var(--text-main); font-family: inherit; font-size: 16px; font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .form-control::placeholder { color: var(--text-muted); font-weight: 500; opacity: 0.6; }
+  .form-control:focus { background: var(--bg-glass-heavy); border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-light), 0 10px 20px -10px var(--primary-glow); outline: none; transform: translateY(-2px); }
+  .form-control:focus + .input-icon { color: var(--primary); transform: translateY(-50%) scale(1.1); filter: drop-shadow(0 0 4px var(--primary-glow)); }
 
-  /* Glassmorphic Card */
-  .card { background: var(--bg-card); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: 32px; padding: 40px 32px; box-shadow: var(--shadow-lg); border: 1px solid var(--border-color); margin-bottom: 24px; animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-  @keyframes slideUp { 0% { opacity: 0; transform: translateY(40px); } 100% { opacity: 1; transform: translateY(0); } }
-
-  .header-content { text-align: center; margin-bottom: 32px; }
-  .title { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
-  .subtitle { color: var(--text-secondary); font-size: 15px; font-weight: 500; }
-
-  /* Status Banner */
-  .status-banner { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 14px 20px; border-radius: 16px; margin-bottom: 24px; font-weight: 600; font-size: 14px; border: 1px solid transparent; transition: all 0.3s; }
-  .pulse { width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 0 0 rgba(0,0,0,0.5); animation: pulsing 2s infinite; }
-  @keyframes pulsing { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 var(--pulse-color); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0,0,0,0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0,0,0,0); } }
-
-  /* Input & Forms */
-  .input-group { margin-bottom: 24px; position: relative; }
-  .input-label { display: block; font-size: 14px; font-weight: 700; color: var(--text-secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .input-wrapper { position: relative; }
-  .input-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); pointer-events: none; transition: color 0.3s; }
+  /* CALENDAR GRID */
+  .calendar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 36px; }
+  .day-card { background: var(--input-bg); border: 2px solid var(--border-glass); border-radius: 20px; padding: 16px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+  .day-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transition: 0.5s; }
+  .day-card:hover::before { left: 100%; }
+  .day-card:focus-within { border-color: var(--primary); background: var(--bg-glass-heavy); box-shadow: 0 8px 24px var(--primary-light); transform: translateY(-4px); }
   
-  input.form-control, select.form-control { width: 100%; padding: 18px 20px 18px 48px; border-radius: 16px; border: 2px solid var(--border-color); background: var(--input-bg); color: var(--text-primary); font-family: inherit; font-size: 16px; font-weight: 600; transition: all 0.3s ease; appearance: none; }
-  input.form-control:focus, select.form-control:focus { background: transparent; border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-ring); outline: none; }
-  input.form-control:focus + .input-icon { color: var(--primary); }
+  .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 800; font-size: 14px; color: var(--text-main); }
+  .day-badge { font-size: 11px; padding: 4px 8px; border-radius: 8px; background: var(--border-glass); color: var(--text-muted); }
+  
+  .custom-select {
+    width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border-glass); background: var(--bg-base); color: var(--text-main); font-weight: 700; font-size: 15px; font-family: inherit; cursor: pointer; outline: none; appearance: none; transition: all 0.2s;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center; background-size: 16px;
+  }
+  .custom-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+  .custom-select option { background: var(--bg-base); color: var(--text-main); }
 
-  /* Modern Calendar Grid */
-  .calendar-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px; }
-  .day-card { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; transition: all 0.3s; }
-  .day-card:focus-within { border-color: var(--primary); background: transparent; box-shadow: 0 4px 12px var(--primary-ring); }
-  .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 700; color: var(--text-primary); }
-  .day-select { width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); font-weight: 600; font-family: inherit; cursor: pointer; outline: none; }
-  .day-select:focus { border-color: var(--primary); }
+  /* BUTTONS WITH RIPPLE */
+  .btn {
+    width: 100%; padding: 20px; border-radius: 20px; font-family: inherit; font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: none; position: relative; overflow: hidden;
+  }
+  .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%); color: white; box-shadow: 0 10px 20px -5px var(--primary-glow); }
+  .btn-primary:hover:not(:disabled) { transform: translateY(-4px); box-shadow: 0 15px 30px -5px var(--primary-glow); filter: brightness(1.1); }
+  .btn-primary:active:not(:disabled) { transform: translateY(1px); box-shadow: 0 5px 10px -5px var(--primary-glow); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; filter: grayscale(0.5); }
+  
+  .btn-outline { background: transparent; border: 2px solid var(--border-glass); color: var(--text-main); margin-top: 16px; backdrop-filter: blur(5px); }
+  .btn-outline:hover { background: var(--border-glass); border-color: var(--text-muted); }
 
-  /* Buttons */
-  .btn { width: 100%; padding: 18px; border-radius: 16px; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: none; position: relative; overflow: hidden; }
-  .btn-primary { background: var(--primary); color: white; box-shadow: var(--shadow-glow); }
-  .btn-primary:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-3px); box-shadow: 0 15px 30px -5px rgba(220,38,38,0.5); }
-  .btn-primary:active:not(:disabled) { transform: translateY(1px); }
-  .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; box-shadow: none; }
-  .btn-outline { background: transparent; border: 2px solid var(--border-color); color: var(--text-primary); margin-top: 16px; }
-  .btn-outline:hover { background: var(--input-bg); border-color: var(--text-secondary); }
+  /* MANAGER DASHBOARD UI */
+  .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 36px; }
+  .stat-card { background: linear-gradient(135deg, var(--bg-glass) 0%, var(--primary-light) 100%); padding: 28px 24px; border-radius: 24px; text-align: center; border: 1px solid var(--primary-light); position: relative; overflow: hidden; box-shadow: var(--shadow-soft); transition: transform 0.3s; }
+  .stat-card:hover { transform: translateY(-5px); }
+  .stat-icon { position: absolute; top: -10px; right: -10px; opacity: 0.1; transform: scale(2.5); color: var(--primary); }
+  .stat-val { font-size: 42px; font-weight: 800; color: var(--primary); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; line-height: 1; text-shadow: 0 4px 12px var(--primary-glow); }
+  .stat-label { font-size: 13px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
-  /* Manager & Table Styles */
-  .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px; }
-  .stat-card { background: var(--primary-light); padding: 20px; border-radius: 20px; text-align: center; border: 1px solid var(--primary-ring); }
-  .stat-val { font-size: 32px; font-weight: 800; color: var(--primary); margin-bottom: 4px; font-variant-numeric: tabular-nums; }
-  .stat-label { font-size: 13px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; }
-  .table-wrapper { overflow-x: auto; border-radius: 16px; border: 1px solid var(--border-color); background: var(--bg-card); }
-  table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  th { background: var(--input-bg); color: var(--text-secondary); font-weight: 700; text-transform: uppercase; padding: 16px; text-align: center; border-bottom: 2px solid var(--border-color); white-space: nowrap; }
-  th:first-child { text-align: left; position: sticky; left: 0; z-index: 10; }
-  td { padding: 16px; text-align: center; border-bottom: 1px solid var(--border-color); font-weight: 600; white-space: nowrap; }
-  td:first-child { text-align: left; position: sticky; left: 0; background: var(--bg-card); border-right: 1px solid var(--border-color); }
+  /* PREMIUM TABLE */
+  .table-container { border-radius: 24px; border: 1px solid var(--border-glass); background: var(--bg-glass); overflow: hidden; box-shadow: var(--shadow-soft); margin-bottom: 24px; backdrop-filter: blur(10px); }
+  .table-wrapper { overflow-x: auto; max-height: 500px; }
+  .table-wrapper::-webkit-scrollbar { height: 8px; width: 8px; }
+  .table-wrapper::-webkit-scrollbar-track { background: var(--input-bg); }
+  .table-wrapper::-webkit-scrollbar-thumb { background: var(--border-glass); border-radius: 4px; }
+  
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14px; }
+  th { background: rgba(0,0,0,0.03); color: var(--text-muted); font-weight: 800; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; padding: 20px 16px; text-align: center; border-bottom: 1px solid var(--border-glass); white-space: nowrap; backdrop-filter: blur(5px); position: sticky; top: 0; z-index: 10; }
+  th:first-child { text-align: left; left: 0; z-index: 20; background: var(--bg-glass-heavy); box-shadow: 2px 0 5px rgba(0,0,0,0.05); }
+  
+  td { padding: 16px; text-align: center; border-bottom: 1px solid var(--border-glass); font-weight: 600; white-space: nowrap; transition: background 0.2s; }
+  td:first-child { text-align: left; position: sticky; left: 0; background: var(--bg-glass-heavy); z-index: 5; font-weight: 700; color: var(--text-main); box-shadow: 2px 0 5px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 10px;}
+  .avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--info)); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
+  
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: var(--input-bg); }
+  tr:hover td:first-child { background: var(--bg-glass-heavy); filter: brightness(0.95); }
 
-  /* PIN Keypad */
-  .pin-container { display: flex; flex-direction: column; align-items: center; margin-top: 10px; }
-  .pin-dots { display: flex; gap: 24px; margin-bottom: 40px; }
-  .pin-dots .dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--primary); transition: all 0.2s; }
-  .pin-dots .dot.filled { background-color: var(--primary); box-shadow: 0 0 10px rgba(220, 38, 38, 0.5); }
-  .pin-dots.shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
-  .pin-dots.shake .dot { border-color: var(--danger); }
-  .pin-dots.shake .dot.filled { background-color: var(--danger); box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
-  @keyframes shake { 10%, 90% { transform: translate3d(-2px, 0, 0); } 20%, 80% { transform: translate3d(4px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-8px, 0, 0); } 40%, 60% { transform: translate3d(8px, 0, 0); } }
-  .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 28px; }
-  .keypad-btn { width: 76px; height: 76px; border-radius: 50%; border: 1px solid transparent; background: var(--input-bg); color: var(--text-primary); font-size: 28px; font-weight: 500; font-family: inherit; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease; user-select: none; -webkit-tap-highlight-color: transparent; }
-  .keypad-btn:active { background: var(--border-color); transform: scale(0.9); }
-  .keypad-del { background: transparent; color: var(--text-secondary); }
-  .keypad-del:active { background: transparent; color: var(--danger); }
-  .keypad-spacer { pointer-events: none; }
+  /* SHIFT BADGES */
+  .shift-badge { display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; border-radius: 12px; font-weight: 800; font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+  .badge-c1 { background: var(--info-bg); color: var(--info); border: 1px solid rgba(59, 130, 246, 0.2); }
+  .badge-c2 { background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.2); }
+  .badge-c3 { background: rgba(168, 85, 247, 0.15); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.2); }
+  .badge-f { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
+  .badge-double { background: var(--primary-bg); color: var(--primary); border: 1px solid rgba(220, 38, 38, 0.2); box-shadow: 0 0 10px var(--primary-light); }
+  .badge-none { background: transparent; color: var(--border-glass); }
 
-  /* Utilities */
-  .toast-container { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
-  .toast { background: var(--text-primary); color: var(--bg-main); padding: 16px 24px; border-radius: 100px; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); transform: translateY(-100px); opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-  .toast.show { transform: translateY(0); opacity: 1; }
-  .spinner { animation: spin 1s linear infinite; }
-  @keyframes spin { 100% { transform: rotate(360deg); } }
+  /* PIN KEYPAD 3D */
+  .pin-container { display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
+  .pin-display { background: var(--input-bg); border: 2px solid var(--border-glass); border-radius: 20px; width: 100%; max-width: 240px; padding: 20px; display: flex; justify-content: center; gap: 20px; margin-bottom: 40px; box-shadow: inset 0 4px 10px rgba(0,0,0,0.1); }
+  .pin-dot { width: 18px; height: 18px; border-radius: 50%; border: 3px solid var(--border-glass); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .pin-dot.filled { background-color: var(--primary); border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); transform: scale(1.2); }
+  .pin-display.error { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; border-color: var(--danger); }
+  .pin-display.error .pin-dot.filled { background-color: var(--danger); border-color: var(--danger); box-shadow: 0 0 15px rgba(239, 68, 68, 0.6); }
+  
+  .keypad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 30px; }
+  .key-btn {
+    width: 80px; height: 80px; border-radius: 50%; border: none;
+    background: var(--bg-glass); color: var(--text-main);
+    font-size: 28px; font-weight: 600; font-family: 'Plus Jakarta Sans', sans-serif;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.15s ease; user-select: none;
+    box-shadow: 8px 8px 16px rgba(0,0,0,0.1), -8px -8px 16px rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+  }
+  .key-btn:active { transform: scale(0.9) translateY(4px); box-shadow: inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.05); background: var(--input-bg); color: var(--primary); }
+  .key-action { color: var(--text-muted); font-size: 16px; font-weight: 700; text-transform: uppercase; box-shadow: none; background: transparent; }
+  .key-action:active { color: var(--danger); }
+
+  /* UTILS & TOASTS */
+  .toast-container { position: fixed; top: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
+  .toast {
+    background: var(--bg-glass-heavy); color: var(--text-main); padding: 16px 24px; border-radius: 16px;
+    font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 14px; 
+    box-shadow: var(--shadow-card), 0 0 0 1px var(--border-glass); backdrop-filter: blur(20px);
+    transform: translateX(120%); opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  .toast.show { transform: translateX(0); opacity: 1; }
+  .toast-icon { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; }
+  .toast-success .toast-icon { background: var(--success-bg); color: var(--success); }
+  .toast-error .toast-icon { background: var(--danger-bg); color: var(--danger); }
+  .toast-warning .toast-icon { background: var(--warning-bg); color: var(--warning); }
+
   .hidden { display: none !important; }
-  .skeleton { background: linear-gradient(90deg, var(--input-bg) 25%, var(--border-color) 50%, var(--input-bg) 75%); background-size: 200% 100%; animation: skeletonLoad 1.5s infinite; border-radius: 8px; }
+  .skeleton { background: linear-gradient(90deg, var(--input-bg) 25%, var(--border-glass) 50%, var(--input-bg) 75%); background-size: 200% 100%; animation: skeletonLoad 1.5s infinite; border-radius: 8px; }
   @keyframes skeletonLoad { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+  
+  footer { text-align: center; padding: 40px 0; font-size: 14px; color: var(--text-muted); font-weight: 600; z-index: 10; position: relative; }
+  footer span { color: var(--primary); }
 
-  footer { text-align: center; padding: 24px 0; font-size: 14px; color: var(--text-secondary); font-weight: 500; letter-spacing: 0.5px; z-index: 1; line-height: 1.6; }
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .card { padding: 32px 20px; border-radius: 24px; }
+    .card-title { font-size: 26px; }
+    .key-btn { width: 70px; height: 70px; font-size: 24px; }
+    .keypad-grid { gap: 16px 20px; }
+    .stats-grid { grid-template-columns: 1fr; gap: 16px; }
+    .toast-container { left: 16px; right: 16px; top: 16px; align-items: center; }
+    .toast { width: 100%; transform: translateY(-100px); }
+    .toast.show { transform: translateY(0); }
+  }
 </style>
 </head>
 
 <body>
 
-<div class="bg-shape shape-1"></div>
-<div class="bg-shape shape-2"></div>
+<!-- Background Effects -->
+<canvas id="bg-canvas"></canvas>
+<div class="mesh-blob blob-1"></div>
+<div class="mesh-blob blob-2"></div>
 
-<header class="header">
-  <div style="font-weight: 800; font-size: 20px; display: flex; align-items: center; gap: 10px;">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-    WorkShift
-  </div>
-  
-  <div class="header-controls">
-    <select id="langSelect" class="lang-select">
-      <option value="vi">Tiếng Việt</option>
-      <option value="en">English</option>
-      <option value="zh">中文 (Trung)</option>
-      <option value="ja">日本語 (Nhật)</option>
-      <option value="ko">한국어 (Hàn)</option>
-      <option value="fr">Français (Pháp)</option>
-      <option value="nl">Nederlands (Hà Lan)</option>
-    </select>
-
+<div class="app-wrapper" id="app">
+  <!-- Top Navigation -->
+  <header class="header">
+    <div class="brand-group">
+      <div class="brand-logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        WorkShift <span style="font-weight: 400; opacity: 0.7;">PRO</span>
+      </div>
+      <div class="update-ticker" id="timeTicker">
+        <div class="update-pulse"></div> Cập nhật: <span class="mono" id="realTime">--/--/---- --:--:--</span>
+      </div>
+    </div>
     <button class="theme-toggle" id="themeBtn" aria-label="Toggle Theme">
-      <svg id="moonIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-      <svg id="sunIcon" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      <svg id="moonIcon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      <svg id="sunIcon" class="hidden" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
     </button>
-  </div>
-</header>
+  </header>
 
-<div id="toastContainer" class="toast-container"></div>
+  <div id="toastContainer" class="toast-container"></div>
 
-<div class="container" id="app">
-  <!-- USER REGISTRATION CARD -->
-  <div class="card" id="userCard">
-    <div class="header-content">
-      <h2 class="title" data-i18n="title">Đăng Ký Ca Làm</h2>
-      <div class="subtitle" data-i18n="subtitle">Hệ thống xếp lịch tự động</div>
+  <!-- ================= USER REGISTRATION SECTION ================= -->
+  <main class="card" id="userCard">
+    <div class="card-header">
+      <h2 class="card-title">Đăng Ký Ca Làm</h2>
+      <div class="card-subtitle">Hệ thống xếp lịch tự động & thông minh</div>
     </div>
     
     <div id="lockStatus" class="status-banner">
-      <div class="skeleton" style="width: 200px; height: 20px;"></div>
+      <div class="skeleton" style="width: 250px; height: 24px; border-radius: 12px;"></div>
     </div>
 
     <div class="input-group">
-      <label class="input-label" data-i18n="name_label">Thông tin định danh</label>
+      <label class="input-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        Định danh nhân sự
+      </label>
       <div class="input-wrapper">
-        <input type="text" id="name" class="form-control" placeholder="Nhập họ và tên đầy đủ..." autocomplete="off">
-        <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <svg class="input-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        <input type="text" id="name" class="form-control" placeholder="Ví dụ: Nguyễn Văn A..." autocomplete="off">
       </div>
     </div>
 
-    <label class="input-label" data-i18n="schedule_label">Lịch làm việc tuần này</label>
-    <div id="form" class="calendar-grid"></div>
+    <div class="input-group">
+      <label class="input-label" style="margin-bottom: 16px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        Đăng ký lịch làm việc
+      </label>
+      <div id="form" class="calendar-grid"></div>
+    </div>
 
     <button id="submitBtn" class="btn btn-primary">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-      <span data-i18n="submit_btn">Gửi Đăng Ký</span>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      Xác Nhận Đăng Ký
     </button>
     
     <button id="managerBtn" class="btn btn-outline">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-      <span data-i18n="manager_btn">Khu Vực Quản Lý</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+      Truy Cập Quản Trị
     </button>
-  </div>
+  </main>
 
-  <!-- MANAGER DASHBOARD CARD -->
-  <div class="card hidden" id="managerBox">
-    <div class="header-content" id="managerHeader">
-      <h2 class="title" data-i18n="dashboard_title">Bảng Điều Khiển</h2>
-      <div class="subtitle" data-i18n="dashboard_sub">Quyền truy cập quản trị viên</div>
+  <!-- ================= MANAGER DASHBOARD SECTION ================= -->
+  <main class="card hidden" id="managerBox">
+    <div class="card-header" id="managerHeader">
+      <h2 class="card-title" style="color: var(--primary);">Secure Access</h2>
+      <div class="card-subtitle">Vui lòng nhập mã PIN quản trị viên</div>
     </div>
 
-    <!-- PIN Keypad Section -->
+    <!-- PIN Screen -->
     <div class="pin-container" id="loginSection">
-      <div class="pin-dots" id="pinDots">
-        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div class="pin-display" id="pinDisplay">
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
       </div>
 
-      <div class="keypad">
-        <button class="keypad-btn" data-val="1">1</button>
-        <button class="keypad-btn" data-val="2">2</button>
-        <button class="keypad-btn" data-val="3">3</button>
-        <button class="keypad-btn" data-val="4">4</button>
-        <button class="keypad-btn" data-val="5">5</button>
-        <button class="keypad-btn" data-val="6">6</button>
-        <button class="keypad-btn" data-val="7">7</button>
-        <button class="keypad-btn" data-val="8">8</button>
-        <button class="keypad-btn" data-val="9">9</button>
-        <div class="keypad-spacer"></div>
-        <button class="keypad-btn" data-val="0">0</button>
-        <button class="keypad-btn keypad-del" id="keypadDel">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path><line x1="18" y1="9" x2="12" y2="15"></line><line x1="12" y1="9" x2="18" y2="15"></line></svg>
-        </button>
-      </div>
-      
-      <div id="loginSpinner" class="hidden" style="margin-top: 20px; color: var(--text-secondary);">
-        <svg class="spinner" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+      <div class="keypad-grid">
+        <button class="key-btn" data-val="1">1</button>
+        <button class="key-btn" data-val="2">2</button>
+        <button class="key-btn" data-val="3">3</button>
+        <button class="key-btn" data-val="4">4</button>
+        <button class="key-btn" data-val="5">5</button>
+        <button class="key-btn" data-val="6">6</button>
+        <button class="key-btn" data-val="7">7</button>
+        <button class="key-btn" data-val="8">8</button>
+        <button class="key-btn" data-val="9">9</button>
+        <button class="key-btn key-action" id="keypadExit">HỦY</button>
+        <button class="key-btn" data-val="0">0</button>
+        <button class="key-btn key-action" id="keypadDel">XÓA</button>
       </div>
     </div>
 
-    <!-- Admin Dashboard Data -->
+    <!-- Dashboard Screen -->
     <div id="adminPanel" class="hidden">
+      <div class="card-header" style="text-align: left; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+          <h2 class="card-title" style="font-size: 24px;">Bảng Điều Khiển</h2>
+          <div class="card-subtitle">Dữ liệu tuần hiện tại</div>
+        </div>
+        <button id="logoutBtn" style="background:var(--danger-bg); border:none; color:var(--danger); padding:8px 16px; border-radius:12px; font-weight:700; cursor:pointer; font-family:inherit; transition:0.3s;">Thoát</button>
+      </div>
+
       <div class="stats-grid">
         <div class="stat-card">
+          <svg class="stat-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
           <div class="stat-val" id="totalUsers">0</div>
-          <div class="stat-label" data-i18n="stat_users">Nhân Sự</div>
+          <div class="stat-label">Tổng Nhân Sự</div>
         </div>
         <div class="stat-card">
+          <svg class="stat-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
           <div class="stat-val" id="totalShifts">0</div>
-          <div class="stat-label" data-i18n="stat_shifts">Ca Đăng Ký</div>
+          <div class="stat-label">Tổng Ca Đăng Ký</div>
         </div>
       </div>
 
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-        <label class="input-label" style="margin: 0;" data-i18n="data_table">Dữ liệu bảng tính</label>
-        <button id="copyBtn" style="background:none; border:none; color:var(--primary); font-weight:600; cursor:pointer; display:flex; align-items:center; gap:4px; font-family:inherit;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> <span data-i18n="copy_btn">Copy Data</span>
+        <label class="input-label" style="margin: 0;">Lịch Trình Chi Tiết</label>
+        <button id="copyBtn" class="btn-outline" style="margin-top:0; padding: 8px 16px; border-radius: 12px; font-size: 13px; display:flex; align-items:center; gap:8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Xuất Excel
         </button>
       </div>
 
-      <div id="excelTable"></div>
-
-      <div class="calendar-grid" style="margin-top: 32px; margin-bottom: 16px; border-top: 1px solid var(--border-color); padding-top: 32px;">
-        <button id="unlockBtn" class="btn" style="background: var(--input-bg); color: var(--success); border: 1px solid rgba(16,185,129,0.3);">🔓 <span data-i18n="open_reg">Mở Đăng Ký</span></button>
-        <button id="lockBtn" class="btn" style="background: var(--input-bg); color: var(--warning); border: 1px solid rgba(245,158,11,0.3);">🔒 <span data-i18n="close_reg">Khóa Lịch</span></button>
+      <div class="table-container">
+        <div id="excelTable" class="table-wrapper">
+          <!-- Bảng sinh tự động ở đây -->
+        </div>
       </div>
 
-      <button id="clearBtn" class="btn btn-outline" style="color: var(--danger); border-color: rgba(239,68,68,0.3);">
-        🗑️ <span data-i18n="clear_btn">Xóa Sạch Dữ Liệu Tuần Này</span>
-      </button>
+      <div style="background: var(--bg-base); border-radius: 20px; padding: 24px; border: 1px solid var(--border-glass);">
+        <label class="input-label" style="margin-bottom: 16px;">Công cụ hệ thống</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <button id="unlockBtn" class="btn" style="padding:14px; border-radius:16px; font-size:14px; background: var(--success-bg); color: var(--success); border: 1px solid rgba(16,185,129,0.3);">🔓 Mở Đăng Ký</button>
+          <button id="lockBtn" class="btn" style="padding:14px; border-radius:16px; font-size:14px; background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(245,158,11,0.3);">🔒 Khóa Lịch</button>
+        </div>
+        <button id="clearBtn" class="btn" style="margin-top: 16px; padding:14px; border-radius:16px; font-size:14px; background: var(--danger-bg); color: var(--danger); border: 1px dashed rgba(239,68,68,0.4);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg> Xóa Sạch Dữ Liệu
+        </button>
+      </div>
     </div>
-  </div>
+  </main>
 </div>
 
 <footer>
-  © 2026<br>Developed by DangTung
+  © 2026 WorkShift <span>Pro</span> System.<br>
+  Được thiết kế dành riêng cho Enterprise.
 </footer>
 
 <script type="module">
-// ====== FIREBASE INIT (Fixed version) ======
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getDatabase, ref, set, get, remove, onValue } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+// ====== FIREBASE INIT ======
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getDatabase, ref, set, get, remove, onValue } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
 const app = initializeApp({
-  apiKey: "AIzaSyCK6yfVr9VBMGwhbvYMXkJqMoRjo4Om2LM",
+  apiKey: "AIzaSyCK6yfVr9VBMGwhbvYMXkJqMoRjo4Om2LM", // Thay bằng API của bạn khi lên production
   databaseURL: "https://an-quy-default-rtdb.asia-southeast1.firebasedatabase.app"
 });
 const db = getDatabase(app);
 
-// ====== CONSTANTS ======
-const DB_DAYS = ["T2","T3","T4","T5","T6","T7","CN"];
-const SHIFTS = ["C1","C2","C3","F1","F2","2C(C1+C2)","2C(C2+C3)"];
+// ====== SYSTEM CONFIG ======
+const DAYS = ["T2","T3","T4","T5","T6","T7","CN"];
+const SHIFTS = [
+  {id: "C1", label: "Ca 1 (Sáng)", class: "badge-c1"},
+  {id: "C2", label: "Ca 2 (Chiều)", class: "badge-c2"},
+  {id: "C3", label: "Ca 3 (Tối)", class: "badge-c3"},
+  {id: "F1", label: "Full 1", class: "badge-f"},
+  {id: "F2", label: "Full 2", class: "badge-f"},
+  {id: "2C(C1+C2)", label: "C1 + C2", class: "badge-double"},
+  {id: "2C(C2+C3)", label: "C2 + C3", class: "badge-double"}
+];
 
-// ====== i18n DICTIONARY ======
-const i18n = {
-  vi: {
-    title: "Đăng Ký Ca Làm", subtitle: "Hệ thống xếp lịch tự động", name_label: "Thông tin định danh", name_ph: "Nhập họ và tên đầy đủ...",
-    schedule_label: "Lịch làm việc tuần này", submit_btn: "Gửi Đăng Ký", manager_btn: "Khu Vực Quản Lý",
-    dashboard_title: "Bảng Điều Khiển", dashboard_sub: "Quyền truy cập quản trị viên",
-    stat_users: "Nhân Sự", stat_shifts: "Ca Đăng Ký", data_table: "Dữ liệu bảng tính", copy_btn: "Copy Data",
-    open_reg: "Mở Đăng Ký", close_reg: "Khóa Lịch", clear_btn: "Xóa Sạch Dữ Liệu Tuần Này",
-    off_shift: "-- Nghỉ --", days: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ Nhật"],
-    status_closed: "Đã đóng đăng ký (Mở Thứ 2)", status_open: "Đang mở (Đóng 20:00 T6)", status_manual_lock: "Hệ thống đã bị khóa thủ công", status_manual_open: "Đang mở (Quản lý cấp quyền)",
-    msg_name: "Vui lòng nhập họ tên!", msg_lock: "Hệ thống đang khóa!", msg_shift: "Vui lòng chọn ít nhất 1 ca!", msg_success: "Đăng ký thành công! Chúc bạn làm việc hiệu quả.", msg_pin_err: "Mã PIN không chính xác!", msg_no_data: "Chưa có dữ liệu tuần này.", msg_copy: "Đã copy dữ liệu! Dán (Ctrl+V) vào Excel."
-  },
-  en: {
-    title: "Shift Registration", subtitle: "Automated Scheduling System", name_label: "Identity Information", name_ph: "Enter your full name...",
-    schedule_label: "This week's schedule", submit_btn: "Submit Registration", manager_btn: "Manager Area",
-    dashboard_title: "Dashboard", dashboard_sub: "Admin access privileges",
-    stat_users: "Staff", stat_shifts: "Shifts", data_table: "Spreadsheet Data", copy_btn: "Copy Data",
-    open_reg: "Open Registration", close_reg: "Lock Schedule", clear_btn: "Clear This Week's Data",
-    off_shift: "-- Off --", days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    status_closed: "Registration Closed (Opens Mon)", status_open: "Open (Closes 20:00 Fri)", status_manual_lock: "System locked manually", status_manual_open: "Open (Admin override)",
-    msg_name: "Please enter your name!", msg_lock: "System is locked!", msg_shift: "Please select at least 1 shift!", msg_success: "Registration successful! Have a great shift.", msg_pin_err: "Incorrect PIN!", msg_no_data: "No data for this week.", msg_copy: "Data copied! Paste (Ctrl+V) into Excel."
-  },
-  zh: {
-    title: "排班注册", subtitle: "自动排班系统", name_label: "身份信息", name_ph: "请输入全名...",
-    schedule_label: "本周排班", submit_btn: "提交注册", manager_btn: "管理区域",
-    dashboard_title: "控制面板", dashboard_sub: "管理员访问权限",
-    stat_users: "员工", stat_shifts: "班次", data_table: "电子表格数据", copy_btn: "复制数据",
-    open_reg: "开放注册", close_reg: "锁定时间表", clear_btn: "清除本周数据",
-    off_shift: "-- 休息 --", days: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-    status_closed: "注册已关闭（周一开放）", status_open: "开放中（周五 20:00 关闭）", status_manual_lock: "系统已手动锁定", status_manual_open: "开放中（管理员覆盖）",
-    msg_name: "请输入姓名！", msg_lock: "系统已锁定！", msg_shift: "请至少选择一个班次！", msg_success: "注册成功！", msg_pin_err: "PIN码不正确！", msg_no_data: "本周没有数据。", msg_copy: "数据已复制！请粘贴到Excel。"
-  },
-  ja: {
-    title: "シフト登録", subtitle: "自動スケジュールシステム", name_label: "個人情報", name_ph: "フルネームを入力...",
-    schedule_label: "今週のスケジュール", submit_btn: "登録を送信", manager_btn: "管理者エリア",
-    dashboard_title: "ダッシュボード", dashboard_sub: "管理者アクセス権限",
-    stat_users: "スタッフ", stat_shifts: "シフト", data_table: "スプレッドシートデータ", copy_btn: "データをコピー",
-    open_reg: "登録を開く", close_reg: "スケジュールをロック", clear_btn: "今週のデータをクリア",
-    off_shift: "-- 休み --", days: ["月", "火", "水", "木", "金", "土", "日"],
-    status_closed: "登録終了（月曜開始）", status_open: "受付中（金曜 20:00 終了）", status_manual_lock: "手動でロックされています", status_manual_open: "受付中（管理者オーバーライド）",
-    msg_name: "名前を入力してください！", msg_lock: "システムはロックされています！", msg_shift: "少なくとも1つのシフトを選択してください！", msg_success: "登録が完了しました！", msg_pin_err: "PINが間違っています！", msg_no_data: "今週のデータはありません。", msg_copy: "コピーしました！Excelに貼り付けてください。"
-  },
-  ko: {
-    title: "근무 교대 등록", subtitle: "자동 일정 예약 시스템", name_label: "개인 정보", name_ph: "성명을 입력하세요...",
-    schedule_label: "이번 주 일정", submit_btn: "등록 제출", manager_btn: "관리자 영역",
-    dashboard_title: "대시보드", dashboard_sub: "관리자 액세스 권한",
-    stat_users: "직원", stat_shifts: "교대근무", data_table: "스프레드시트 데이터", copy_btn: "데이터 복사",
-    open_reg: "등록 열기", close_reg: "일정 잠금", clear_btn: "이번 주 데이터 지우기",
-    off_shift: "-- 휴무 --", days: ["월", "화", "수", "목", "금", "토", "일"],
-    status_closed: "등록 마감 (월요일 오픈)", status_open: "접수 중 (금요일 20:00 마감)", status_manual_lock: "수동으로 잠금됨", status_manual_open: "접수 중 (관리자 재정의)",
-    msg_name: "이름을 입력해주세요!", msg_lock: "시스템이 잠겨 있습니다!", msg_shift: "최소 1개의 교대근무를 선택해주세요!", msg_success: "등록이 완료되었습니다!", msg_pin_err: "잘못된 PIN!", msg_no_data: "이번 주 데이터가 없습니다.", msg_copy: "데이터 복사됨! Excel에 붙여넣기하세요."
-  },
-  fr: {
-    title: "Inscription aux Quarts", subtitle: "Système de Planification Automatisé", name_label: "Informations d'identité", name_ph: "Entrez votre nom complet...",
-    schedule_label: "Programme de la semaine", submit_btn: "Soumettre", manager_btn: "Espace Manager",
-    dashboard_title: "Tableau de Bord", dashboard_sub: "Accès administrateur",
-    stat_users: "Personnel", stat_shifts: "Quarts", data_table: "Données du tableur", copy_btn: "Copier",
-    open_reg: "Ouvrir l'inscription", close_reg: "Verrouiller le programme", clear_btn: "Effacer les données",
-    off_shift: "-- Repos --", days: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
-    status_closed: "Inscriptions fermées (Ouvre Lun)", status_open: "Ouvert (Ferme Ven 20:00)", status_manual_lock: "Verrouillé manuellement", status_manual_open: "Ouvert (Forcé par admin)",
-    msg_name: "Veuillez entrer votre nom!", msg_lock: "Le système est verrouillé!", msg_shift: "Sélectionnez au moins 1 quart!", msg_success: "Inscription réussie!", msg_pin_err: "Code PIN incorrect!", msg_no_data: "Aucune donnée cette semaine.", msg_copy: "Copié! Collez (Ctrl+V) dans Excel."
-  },
-  nl: {
-    title: "Ploegregistratie", subtitle: "Geautomatiseerd Planningssysteem", name_label: "Identiteitsgegevens", name_ph: "Voer uw volledige naam in...",
-    schedule_label: "Rooster van deze week", submit_btn: "Registratie Indienen", manager_btn: "Beheerdersgedeelte",
-    dashboard_title: "Dashboard", dashboard_sub: "Beheerder toegang",
-    stat_users: "Personeel", stat_shifts: "Diensten", data_table: "Spreadsheet Gegevens", copy_btn: "Kopieer",
-    open_reg: "Registratie Openen", close_reg: "Rooster Vergrendelen", clear_btn: "Gegevens Wissen",
-    off_shift: "-- Vrij --", days: ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"],
-    status_closed: "Gesloten (Opent Ma)", status_open: "Geopend (Sluit Vr 20:00)", status_manual_lock: "Handmatig vergrendeld", status_manual_open: "Geopend (Beheerder override)",
-    msg_name: "Voer uw naam in!", msg_lock: "Systeem is vergrendeld!", msg_shift: "Selecteer minimaal 1 dienst!", msg_success: "Registratie succesvol!", msg_pin_err: "Onjuiste PIN!", msg_no_data: "Geen gegevens voor deze week.", msg_copy: "Gekopieerd! Plakken (Ctrl+V) in Excel."
+// ====== REALTIME CLOCK ======
+function updateClock() {
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('vi-VN', {hour12: false});
+  const dateStr = now.toLocaleDateString('vi-VN');
+  document.getElementById('realTime').textContent = `${dateStr} ${timeStr}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ====== PARTICLE CANVAS BACKGROUND ======
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let particlesArray;
+
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+let mouse = { x: null, y: null, radius: 150 };
+window.addEventListener('mousemove', function(event) { mouse.x = event.x; mouse.y = event.y; });
+window.addEventListener('mouseout', function() { mouse.x = undefined; mouse.y = undefined; });
+
+class Particle {
+  constructor(x, y, directionX, directionY, size, color) {
+    this.x = x; this.y = y; this.directionX = directionX; this.directionY = directionY; this.size = size; this.color = color;
   }
-};
-
-let currentLang = localStorage.getItem('lang') || 'vi';
-const langSelect = document.getElementById('langSelect');
-if(langSelect) langSelect.value = currentLang;
-
-function t(key) { return i18n[currentLang] ? i18n[currentLang][key] : i18n['vi'][key]; }
-
-function applyTranslations() {
-  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')); });
-  document.getElementById('name').placeholder = t('name_ph');
-  renderForm();
-  updateStatusUI();
+  draw() {
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+    ctx.fillStyle = this.color; ctx.fill();
+  }
+  update() {
+    if(this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+    if(this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+    
+    // Check collision with mouse
+    let dx = mouse.x - this.x; let dy = mouse.y - this.y;
+    let distance = Math.sqrt(dx*dx + dy*dy);
+    if(distance < mouse.radius + this.size) {
+      if(mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 2;
+      if(mouse.x > this.x && this.x > this.size * 10) this.x -= 2;
+      if(mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 2;
+      if(mouse.y > this.y && this.y > this.size * 10) this.y -= 2;
+    }
+    this.x += this.directionX; this.y += this.directionY;
+    this.draw();
+  }
 }
 
-if(langSelect) {
-  langSelect.addEventListener('change', (e) => {
-    currentLang = e.target.value;
-    localStorage.setItem('lang', currentLang);
-    applyTranslations();
-  });
+function initCanvas() {
+  particlesArray = [];
+  let numberOfParticles = (canvas.height * canvas.width) / 12000;
+  for(let i=0; i<numberOfParticles; i++){
+    let size = (Math.random() * 2) + 1;
+    let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+    let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+    let directionX = (Math.random() * 0.4) - 0.2;
+    let directionY = (Math.random() * 0.4) - 0.2;
+    let color = getComputedStyle(document.documentElement).getPropertyValue('--canvas-dot').trim();
+    particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+  }
 }
+
+function animateCanvas() {
+  requestAnimationFrame(animateCanvas);
+  ctx.clearRect(0,0,innerWidth, innerHeight);
+  let lineColor = getComputedStyle(document.documentElement).getPropertyValue('--canvas-line').trim();
+  
+  for(let i=0; i<particlesArray.length; i++){
+    particlesArray[i].update();
+    // Connect particles
+    for(let j=i; j<particlesArray.length; j++){
+      let distance = ((particlesArray[i].x - particlesArray[j].x) * (particlesArray[i].x - particlesArray[j].x)) + ((particlesArray[i].y - particlesArray[j].y) * (particlesArray[i].y - particlesArray[j].y));
+      if(distance < (canvas.width/7) * (canvas.height/7)) {
+        ctx.beginPath(); ctx.strokeStyle = lineColor; ctx.lineWidth = 1;
+        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+initCanvas(); animateCanvas();
 
 // ====== THEME MANAGER ======
 const themeBtn = document.getElementById('themeBtn');
@@ -420,16 +530,16 @@ const html = document.documentElement;
 const sunIcon = document.getElementById('sunIcon');
 const moonIcon = document.getElementById('moonIcon');
 
-const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+const savedTheme = localStorage.getItem('theme') || 'dark';
 html.setAttribute('data-theme', savedTheme);
 updateThemeIcon(savedTheme);
 
 themeBtn.onclick = () => {
-  const currentTheme = html.getAttribute('data-theme');
-  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  const newTheme = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
   html.setAttribute('data-theme', newTheme);
   localStorage.setItem('theme', newTheme);
   updateThemeIcon(newTheme);
+  initCanvas(); // Re-init colors for particles
 };
 
 function updateThemeIcon(theme) {
@@ -437,48 +547,49 @@ function updateThemeIcon(theme) {
   else { sunIcon.classList.add('hidden'); moonIcon.classList.remove('hidden'); }
 }
 
-// ====== TOAST MANAGER ======
+// ====== TOAST NOTIFICATIONS ======
 function showToast(message, type = 'success') {
   const container = document.getElementById('toastContainer');
   const toast = document.createElement('div');
-  toast.className = `toast`;
-  const colors = { success: '#10b981', error: '#ef4444', warning: '#f59e0b' };
+  toast.className = `toast toast-${type}`;
   
-  toast.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${colors[type]}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">${type === 'success' ? '<polyline points="20 6 9 17 4 12"></polyline>' : type === 'error' ? '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>' : '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>'}</svg> <span>${message}</span>`;
+  const icons = {
+    success: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>',
+    error: '<circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line>',
+    warning: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>'
+  };
+  
+  toast.innerHTML = `<div class="toast-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">${icons[type]}</svg></div> <span>${message}</span>`;
   container.appendChild(toast);
   
-  requestAnimationFrame(() => toast.classList.add('show'));
+  // Trigger Reflow
+  void toast.offsetWidth;
+  toast.classList.add('show');
+  
   setTimeout(() => {
     toast.classList.remove('show');
     setTimeout(() => toast.remove(), 400);
   }, 3500);
 }
 
-// ====== RENDER FORM ======
+// ====== RENDER USER FORM ======
 const form = document.getElementById("form");
-function renderForm() {
-  const savedVals = {};
-  DB_DAYS.forEach(d => { const el = document.getElementById(d); if(el) savedVals[d] = el.value; });
-
-  form.innerHTML = "";
-  DB_DAYS.forEach((d, i) => {
-    const isFullWidth = i === 6 ? 'grid-column: span 2;' : '';
-    form.innerHTML += `
-      <div class="day-card" style="${isFullWidth}">
-        <div class="day-header">
-          <span>${t('days')[i]}</span>
-        </div>
-        <select id="${d}" class="day-select">
-          <option value="">${t('off_shift')}</option>
-          ${SHIFTS.map(s => `<option value="${s}" ${savedVals[d]===s?'selected':''}>${s}</option>`).join("")}
-        </select>
+DAYS.forEach((d) => {
+  form.innerHTML += `
+    <div class="day-card">
+      <div class="day-header">
+        <span>${d === 'CN' ? 'Chủ Nhật' : 'Thứ ' + d.charAt(1)}</span>
+        <span class="day-badge">${d}</span>
       </div>
-    `;
-  });
-}
-applyTranslations(); // Trigger first render
+      <select id="${d}" class="custom-select">
+        <option value="">-- Nghỉ --</option>
+        ${SHIFTS.map(s => `<option value="${s.id}">${s.id}</option>`).join("")}
+      </select>
+    </div>
+  `;
+});
 
-// ====== LOGIC: LOCK STATUS ======
+// ====== LOCK STATUS LOGIC ======
 let manualLock = null;
 const lockStatus = document.getElementById("lockStatus");
 const submitBtn = document.getElementById("submitBtn");
@@ -492,80 +603,92 @@ function isRegistrationLocked() {
   if (manualLock === true) return true;
   if (manualLock === false) return false;
   const n = new Date(), d = n.getDay(), h = n.getHours();
-  if (d === 5 && h >= 20) return true;
-  if (d === 6 || d === 0) return true;
+  if (d === 5 && h >= 20) return true; // Sau 20h T6
+  if (d === 6 || d === 0) return true; // T7, CN
   return false;
 }
 
 function updateStatusUI() {
   const isLocked = isRegistrationLocked();
-  
   if (isLocked) {
-    lockStatus.style.backgroundColor = "var(--primary-light)";
-    lockStatus.style.borderColor = "var(--primary-ring)";
+    lockStatus.style.background = "var(--danger-bg)";
     lockStatus.style.color = "var(--danger)";
-    lockStatus.innerHTML = `<div class="pulse" style="--pulse-color: rgba(239, 68, 68, 0.6); background: var(--danger);"></div> ${manualLock === true ? t('status_manual_lock') : t('status_closed')}`;
+    lockStatus.innerHTML = `<div class="pulse-ring" style="background: var(--danger);"></div> Hệ thống đóng (Mở lại vào Thứ 2)`;
     submitBtn.disabled = true;
+    submitBtn.innerHTML = "Đã Khóa Đăng Ký";
   } else {
-    lockStatus.style.backgroundColor = "rgba(16, 185, 129, 0.1)";
-    lockStatus.style.borderColor = "rgba(16, 185, 129, 0.3)";
+    lockStatus.style.background = "var(--success-bg)";
     lockStatus.style.color = "var(--success)";
-    lockStatus.innerHTML = `<div class="pulse" style="--pulse-color: rgba(16, 185, 129, 0.6); background: var(--success);"></div> ${manualLock === false ? t('status_manual_open') : t('status_open')}`;
+    lockStatus.innerHTML = `<div class="pulse-ring" style="background: var(--success);"></div> Đang mở (Tự động đóng: 20:00 Thứ 6)`;
     submitBtn.disabled = false;
+    submitBtn.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> Xác Nhận Đăng Ký`;
   }
 }
 
-// ====== LOGIC: SUBMIT ======
+// ====== SUBMIT FORM ======
 submitBtn.onclick = async () => {
-  const name = document.getElementById("name").value.trim();
-  if (!name) { document.getElementById("name").focus(); return showToast(t('msg_name'), "warning"); }
-  if (isRegistrationLocked()) return showToast(t('msg_lock'), "error");
-
-  const safeName = name.replace(/[.#$[\]]/g, "_"); // FIX: Clean Firebase Key
+  const nameInput = document.getElementById("name");
+  const name = nameInput.value.trim();
+  if (!name) { nameInput.focus(); return showToast("Thiếu thông tin định danh!", "warning"); }
+  if (isRegistrationLocked()) return showToast("Lỗi: Hệ thống đã khóa", "error");
 
   const lich = {};
-  DB_DAYS.forEach(d => { const v = document.getElementById(d).value; if (v) lich[d] = v; });
+  DAYS.forEach(d => { const v = document.getElementById(d).value; if (v) lich[d] = v; });
 
-  if (!Object.keys(lich).length) return showToast(t('msg_shift'), "warning");
+  if (!Object.keys(lich).length) return showToast("Vui lòng chọn ít nhất 1 ca làm việc!", "warning");
 
-  submitBtn.innerHTML = `<svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>`;
+  const originalText = submitBtn.innerHTML;
+  submitBtn.innerHTML = `<svg class="spinner" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg> Đang xử lý...`;
   submitBtn.disabled = true;
 
   try {
-    await set(ref(db, "dangKy/" + safeName), { lich });
-    showToast(t('msg_success'), "success");
-    document.getElementById("name").value = "";
-    DB_DAYS.forEach(d => document.getElementById(d).value = "");
+    // Check if name exists (Basic override prevention visually, but ultimately overwrites in DB. To strictly prevent, we read first)
+    const existing = await get(ref(db, "dangKy/" + name));
+    if(existing.exists() && !confirm(`Tên "${name}" đã có dữ liệu. Bạn có muốn ghi đè?`)) {
+      submitBtn.innerHTML = originalText; submitBtn.disabled = false; return;
+    }
+    
+    await set(ref(db, "dangKy/" + name), { lich, timestamp: Date.now() });
+    showToast("Đăng ký thành công! Chúc bạn làm việc hiệu quả.", "success");
+    nameInput.value = ""; DAYS.forEach(d => document.getElementById(d).value = "");
   } catch (e) {
-    showToast("Error: " + e.message, "error");
+    showToast("Lỗi mạng: " + e.message, "error");
   } finally {
-    submitBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> <span data-i18n="submit_btn">${t('submit_btn')}</span>`;
+    submitBtn.innerHTML = originalText;
     submitBtn.disabled = false;
   }
 };
 
-// ====== MANAGER LOGIC & KEYPAD ======
+// ====== MANAGER NAVIGATION ======
 const managerBtn = document.getElementById("managerBtn");
+const logoutBtn = document.getElementById("logoutBtn");
 const userCard = document.getElementById("userCard");
 const managerBox = document.getElementById("managerBox");
-let rawExcelData = "";
+const loginSection = document.getElementById("loginSection");
+const adminPanel = document.getElementById("adminPanel");
+const managerHeader = document.getElementById("managerHeader");
 
 managerBtn.onclick = () => {
-  userCard.classList.add("hidden");
-  managerBox.classList.remove("hidden");
-  
-  currentPin = "";
-  updateDots();
-  
-  document.getElementById("loginSection").classList.remove("hidden");
-  document.getElementById("adminPanel").classList.add("hidden");
+  userCard.classList.add("hidden"); managerBox.classList.remove("hidden");
+  resetPin();
 };
 
-// PIN KEYPAD LOGIC
+logoutBtn.onclick = () => {
+  adminPanel.classList.add("hidden");
+  managerBox.classList.add("hidden");
+  userCard.classList.remove("hidden");
+  loginSection.classList.remove("hidden");
+  managerHeader.classList.remove("hidden");
+  resetPin();
+};
+
+document.getElementById("keypadExit").onclick = logoutBtn.onclick;
+
+// ====== PIN LOGIC & 3D KEYPAD ======
 let currentPin = "";
-const pinDots = document.querySelectorAll('.pin-dots .dot');
-const pinContainer = document.getElementById('pinDots');
-const loginSpinner = document.getElementById('loginSpinner');
+const pinDots = document.querySelectorAll('.pin-dot');
+const pinDisplay = document.getElementById('pinDisplay');
+let rawExcelData = "";
 
 function updateDots() {
   pinDots.forEach((dot, index) => {
@@ -574,106 +697,129 @@ function updateDots() {
   });
 }
 
-// FIX: pointerdown for fast touch response on mobile
-document.querySelectorAll('.keypad-btn[data-val]').forEach(btn => {
-  btn.addEventListener('pointerdown', (e) => {
-    e.preventDefault();
+function resetPin() { currentPin = ""; updateDots(); }
+
+document.querySelectorAll('.key-btn[data-val]').forEach(btn => {
+  btn.addEventListener('click', () => {
     if (currentPin.length < 4) {
       currentPin += btn.getAttribute('data-val');
       updateDots();
-      if (currentPin.length === 4) {
-        setTimeout(processLogin, 150); // Auto check when 4 digits entered
-      }
+      if (currentPin.length === 4) setTimeout(processLogin, 200);
     }
   });
 });
 
-document.getElementById('keypadDel').addEventListener('pointerdown', (e) => {
-  e.preventDefault();
-  if (currentPin.length > 0) {
-    currentPin = currentPin.slice(0, -1);
-    updateDots();
-  }
+document.getElementById('keypadDel').addEventListener('click', () => {
+  if (currentPin.length > 0) { currentPin = currentPin.slice(0, -1); updateDots(); }
 });
 
 async function processLogin() {
-  if (currentPin !== "2005") {
-    pinContainer.classList.add('shake');
-    setTimeout(() => pinContainer.classList.remove('shake'), 400);
-    showToast(t('msg_pin_err'), "error");
-    currentPin = "";
-    updateDots();
+  const adminPin = "2005"; // Trong thực tế nên fetch từ Firebase
+  if (currentPin !== adminPin) {
+    pinDisplay.classList.add('error');
+    navigator.vibrate && navigator.vibrate(200); // Rung trên mobile
+    setTimeout(() => pinDisplay.classList.remove('error'), 400);
+    showToast("Mã PIN không hợp lệ", "error");
+    resetPin();
     return;
   }
 
-  // If PIN is correct, fetch data
-  loginSpinner.classList.remove('hidden');
+  showToast("Xác thực thành công", "success");
+  loginSection.classList.add("hidden");
+  managerHeader.classList.add("hidden");
+  adminPanel.classList.remove("hidden");
+  loadAdminData();
+}
+
+function getBadgeClass(shiftId) {
+  const found = SHIFTS.find(s => s.id === shiftId);
+  return found ? found.class : "badge-none";
+}
+
+async function loadAdminData() {
+  document.getElementById("excelTable").innerHTML = `<div style="padding: 40px; text-align: center;"><div class="skeleton" style="height: 200px; width: 100%;"></div></div>`;
   
   try {
     const snap = await get(ref(db, "dangKy"));
-    document.getElementById("loginSection").classList.add("hidden");
-    document.getElementById("managerHeader").classList.add("hidden");
-    document.getElementById("adminPanel").classList.remove("hidden");
-
     if (!snap.exists()) {
-      document.getElementById("excelTable").innerHTML = `<div style="text-align:center; padding: 40px; color: var(--text-secondary);">${t('msg_no_data')}</div>`;
+      document.getElementById("excelTable").innerHTML = `<div style="text-align:center; padding: 40px; color: var(--text-muted); font-weight: 600;">Trống. Chưa có dữ liệu tuần này.</div>`;
+      document.getElementById("totalUsers").innerText = "0";
+      document.getElementById("totalShifts").innerText = "0";
       return;
     }
 
     const data = snap.val();
     let totalUsers = 0; let totalShifts = 0;
     
-    // Build Table & Calculate Stats
-    let tableHTML = `<div class="table-wrapper"><table><thead><tr><th data-i18n="name_label">${t('name_label')}</th>${DB_DAYS.map((d, i) => `<th>${t('days')[i]}</th>`).join('')}</tr></thead><tbody>`;
-    rawExcelData = `Name\t${DB_DAYS.join('\t')}\n`; 
+    // Build Table
+    let tableHTML = `<table><thead><tr><th>Họ & Tên</th>${DAYS.map(d => `<th>${d}</th>`).join('')}</tr></thead><tbody>`;
+    rawExcelData = `Họ và Tên\t${DAYS.join('\t')}\n`; 
 
-    Object.entries(data).forEach(([name, obj]) => {
-      // Bỏ qua tài khoản test
-      if (name === "DenDo" || name === "QuyChe") return;
+    // Sort by name (alphabetical)
+    const sortedNames = Object.keys(data).sort();
 
+    sortedNames.forEach((name) => {
+      const obj = data[name];
       totalUsers++;
-      tableHTML += `<tr><td>${name}</td>`;
+      const initial = name.charAt(0).toUpperCase();
+      tableHTML += `<tr><td><div class="avatar">${initial}</div> ${name}</td>`;
       rawExcelData += `${name}\t`;
-      DB_DAYS.forEach((day, index) => {
-         const shift = obj.lich?.[day] || '-';
-         if(shift !== '-') totalShifts++;
-         tableHTML += `<td style="color: ${shift === '-' ? 'var(--text-secondary)' : 'var(--primary)'}">${shift}</td>`;
-         rawExcelData += `${shift}${index === DB_DAYS.length - 1 ? '' : '\t'}`;
+      
+      DAYS.forEach((day, index) => {
+         const shift = obj.lich?.[day];
+         if(shift) totalShifts++;
+         const badgeClass = shift ? getBadgeClass(shift) : 'badge-none';
+         const displayVal = shift || '-';
+         tableHTML += `<td><span class="shift-badge ${badgeClass}">${displayVal}</span></td>`;
+         rawExcelData += `${displayVal}${index === DAYS.length - 1 ? '' : '\t'}`;
       });
       tableHTML += `</tr>`;
       rawExcelData += `\n`;
     });
 
-    tableHTML += `</tbody></table></div>`;
+    tableHTML += `</tbody></table>`;
     document.getElementById("excelTable").innerHTML = tableHTML;
     
-    // Animate Stats
     animateValue("totalUsers", 0, totalUsers, 1000);
     animateValue("totalShifts", 0, totalShifts, 1000);
 
   } catch (e) { 
-    showToast("Error: " + e.message, "error"); 
-    currentPin = ""; updateDots();
-  } finally {
-    loginSpinner.classList.add('hidden');
+    showToast("Lỗi tải dữ liệu: " + e.message, "error"); 
   }
 }
 
-// Copy Data
+// ====== ADMIN ACTIONS ======
 document.getElementById("copyBtn").onclick = () => {
-  if(!rawExcelData) return;
-  navigator.clipboard.writeText(rawExcelData).then(() => showToast(t('msg_copy'), "success"));
+  if(!rawExcelData) return showToast("Không có dữ liệu", "warning");
+  navigator.clipboard.writeText(rawExcelData)
+    .then(() => showToast("Đã copy! Mở Excel/Sheets và ấn Ctrl+V", "success"))
+    .catch(() => showToast("Trình duyệt không hỗ trợ Copy", "error"));
 };
 
-// Admin Actions
-document.getElementById("unlockBtn").onclick = async () => { if(confirm("Mở hệ thống? / Open System?")) { await set(ref(db,"settings/lock"), false); } };
-document.getElementById("lockBtn").onclick = async () => { if(confirm("Khóa hệ thống? / Lock System?")) { await set(ref(db,"settings/lock"), true); } };
+document.getElementById("unlockBtn").onclick = async () => { 
+  if(confirm("Mở hệ thống đăng ký?")) { 
+    await set(ref(db,"settings/lock"), false); 
+    showToast("Hệ thống đã được MỞ", "success"); 
+  } 
+};
+
+document.getElementById("lockBtn").onclick = async () => { 
+  if(confirm("Khóa hệ thống đăng ký?")) { 
+    await set(ref(db,"settings/lock"), true); 
+    showToast("Hệ thống đã KHÓA", "warning"); 
+  } 
+};
+
 document.getElementById("clearBtn").onclick = async () => {
-  if(confirm("XÓA TOÀN BỘ DỮ LIỆU? / DELETE ALL DATA?\nHành động này không thể hoàn tác!")) {
-    await remove(ref(db,"dangKy"));
-    document.getElementById("excelTable").innerHTML = "";
-    document.getElementById("totalUsers").innerText = "0";
-    document.getElementById("totalShifts").innerText = "0";
+  if(confirm("CẢNH BÁO MỨC ĐỘ CAO\nBạn có chắc chắn muốn xóa TOÀN BỘ dữ liệu?\nHành động này không thể hoàn tác!")) {
+    const promptPin = prompt("Nhập mã PIN để xác nhận xóa:");
+    if(promptPin === "2005") {
+      await remove(ref(db,"dangKy"));
+      showToast("Đã dọn dẹp sạch sẽ database!", "success");
+      loadAdminData(); // Reload empty UI
+    } else {
+      showToast("Sai mã PIN, hủy thao tác xóa.", "error");
+    }
   }
 };
 
