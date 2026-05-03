@@ -1,645 +1,1741 @@
 <!DOCTYPE html>
 <html lang="vi" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<!-- TỐI ƯU HÓA VIEWPORT & KHÓA ZOOM TRIỆT ĐỂ CHO iOS -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="WorkShift">
-<title>WorkShift Pro Enterprise | V2.2</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <!-- TỐI ƯU HÓA VIEWPORT & KHÓA ZOOM TRIỆT ĐỂ CHO iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover">
+    
+    <!-- PWA & BẢN ĐỊA HÓA iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="WorkShift Pro">
+    <meta name="theme-color" content="#020617">
+    
+    <title>WorkShift Pro Enterprise | Final</title>
+    
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
-<style>
-  /* ================= ULTIMATE DESIGN SYSTEM ================= */
-  :root[data-theme="light"] {
-    --primary: #dc2626;
-    --primary-hover: #b91c1c;
-    --primary-light: #fef2f2;
-    --primary-glow: rgba(220, 38, 38, 0.4);
-    --bg-base: #f8fafc;
-    --bg-glass: rgba(255, 255, 255, 0.7);
-    --bg-glass-heavy: rgba(255, 255, 255, 0.95);
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --border-glass: rgba(0, 0, 0, 0.08);
-    --input-bg: rgba(241, 245, 249, 0.8);
-    --success: #10b981; --success-bg: rgba(16, 185, 129, 0.1);
-    --warning: #f59e0b; --warning-bg: rgba(245, 158, 11, 0.1);
-    --danger: #ef4444; --danger-bg: rgba(239, 68, 68, 0.1);
-    --info: #3b82f6; --info-bg: rgba(59, 130, 246, 0.1);
-    --shadow-soft: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-    --shadow-card: 0 20px 40px -10px rgba(0,0,0,0.1);
-    --canvas-dot: #cbd5e1;
-    --canvas-line: rgba(203, 213, 225, 0.5);
-    --blob-1: #8b5cf6; /* Twilight Purple */
-    --blob-2: #ec4899; /* Twilight Pink */
-  }
+    <style>
+        /* =========================================================
+           01. DESIGN SYSTEM & CSS VARIABLES
+        ========================================================= */
+        :root[data-theme="light"] {
+            --primary: #dc2626;
+            --primary-hover: #b91c1c;
+            --primary-light: #fef2f2;
+            --primary-glow: rgba(220, 38, 38, 0.3);
+            
+            --bg-base: #f8fafc;
+            --bg-glass: rgba(255, 255, 255, 0.75);
+            --bg-glass-heavy: rgba(255, 255, 255, 0.95);
+            
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            
+            --border-glass: rgba(0, 0, 0, 0.08);
+            --input-bg: rgba(241, 245, 249, 0.8);
+            
+            --success: #10b981; --success-bg: rgba(16, 185, 129, 0.1);
+            --warning: #f59e0b; --warning-bg: rgba(245, 158, 11, 0.1);
+            --danger: #ef4444;  --danger-bg: rgba(239, 68, 68, 0.1);
+            --info: #3b82f6;    --info-bg: rgba(59, 130, 246, 0.1);
+            
+            --shadow-soft: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            --shadow-card: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+            
+            --canvas-dot: #cbd5e1;
+            --canvas-line: rgba(203, 213, 225, 0.4);
+            
+            --blob-1: #8b5cf6;
+            --blob-2: #ec4899;
+        }
 
-  :root[data-theme="dark"] {
-    --primary: #ef4444;
-    --primary-hover: #f87171;
-    --primary-light: rgba(239, 68, 68, 0.15);
-    --primary-glow: rgba(239, 68, 68, 0.6);
-    --bg-base: #020617;
-    --bg-glass: rgba(15, 23, 42, 0.6);
-    --bg-glass-heavy: rgba(15, 23, 42, 0.85);
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --border-glass: rgba(255, 255, 255, 0.1);
-    --input-bg: rgba(30, 41, 59, 0.6);
-    --success: #34d399; --success-bg: rgba(16, 185, 129, 0.15);
-    --warning: #fbbf24; --warning-bg: rgba(245, 158, 11, 0.15);
-    --danger: #f87171; --danger-bg: rgba(239, 68, 68, 0.15);
-    --info: #60a5fa; --info-bg: rgba(59, 130, 246, 0.15);
-    --shadow-soft: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-    --shadow-card: 0 25px 50px -12px rgba(0,0,0,0.7);
-    --canvas-dot: #334155;
-    --canvas-line: rgba(51, 65, 85, 0.5);
-    --blob-1: #6366f1; /* Cinematic Deep Blue/Purple */
-    --blob-2: #f43f5e; /* Cinematic Comet Red */
-  }
+        :root[data-theme="dark"] {
+            --primary: #ef4444;
+            --primary-hover: #f87171;
+            --primary-light: rgba(239, 68, 68, 0.15);
+            --primary-glow: rgba(239, 68, 68, 0.6);
+            
+            --bg-base: #020617;
+            --bg-glass: rgba(15, 23, 42, 0.6);
+            --bg-glass-heavy: rgba(15, 23, 42, 0.85);
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(30, 41, 59, 0.6);
+            
+            --success: #34d399; --success-bg: rgba(16, 185, 129, 0.15);
+            --warning: #fbbf24; --warning-bg: rgba(245, 158, 11, 0.15);
+            --danger: #f87171;  --danger-bg: rgba(239, 68, 68, 0.15);
+            --info: #60a5fa;    --info-bg: rgba(59, 130, 246, 0.15);
+            
+            --shadow-soft: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            
+            --canvas-dot: #334155;
+            --canvas-line: rgba(51, 65, 85, 0.5);
+            
+            --blob-1: #6366f1;
+            --blob-2: #f43f5e;
+        }
 
-  /* RESET & BASE - TỐI ƯU HÓA iOS */
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: var(--bg-base);
-    color: var(--text-main);
-    transition: background-color 0.5s ease, color 0.5s ease;
-    min-height: 100vh;
-    display: flex; flex-direction: column;
-    overflow-x: hidden;
-    position: relative;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-font-smoothing: antialiased;
-  }
+        /* =========================================================
+           02. RESET & BASE (iOS OPTIMIZED)
+        ========================================================= */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-  /* CRITICAL ZOOM FIX CHO iPHONE */
-  input[type="text"], input[type="number"], select, textarea, .form-control, .custom-select {
-    font-size: 16px !important;
-  }
-  button, select, input, .key-btn {
-    touch-action: manipulation;
-  }
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            transition: background-color 0.5s ease, color 0.5s ease;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+            
+            /* Tinh chỉnh cho iOS */
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-  /* CANVAS BACKGROUND */
-  #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
 
-  /* MESH GRADIENTS (Cinematic Vibe) */
-  .mesh-blob { position: fixed; border-radius: 50%; filter: blur(120px); -webkit-filter: blur(120px); z-index: 0; opacity: 0.35; animation: blob-bounce 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; }
-  .blob-1 { top: -10%; left: -10%; width: 55vw; height: 55vw; background: var(--blob-1); animation-delay: 0s; }
-  .blob-2 { bottom: -20%; right: -10%; width: 50vw; height: 50vw; background: var(--blob-2); animation-delay: -5s; }
-  @keyframes blob-bounce { 0% { transform: translate(0, 0) scale(1); } 50% { transform: translate(5%, 10%) scale(1.1); } 100% { transform: translate(-5%, -5%) scale(0.9); } }
+        /* KHÓA ZOOM TRIỆT ĐỂ TRÊN SAFARI iOS */
+        input[type="text"], 
+        input[type="number"], 
+        select, 
+        textarea, 
+        .form-control, 
+        .custom-select {
+            font-size: 16px !important; 
+        }
 
-  /* TYPOGRAPHY & LAYOUT */
-  .mono { font-family: 'JetBrains Mono', monospace; }
-  .app-wrapper { 
-    position: relative; z-index: 10; display: flex; flex-direction: column; min-height: 100vh; width: 100%; max-width: 700px; margin: 0 auto; padding: 0 16px;
-    padding-top: max(16px, env(safe-area-inset-top));
-    padding-bottom: max(16px, env(safe-area-inset-bottom));
-  }
-  
-  .header { display: flex; justify-content: space-between; align-items: flex-start; padding: 24px 0 24px; }
-  .brand-group { display: flex; flex-direction: column; gap: 6px; }
-  .brand-logo { font-weight: 800; font-size: 24px; display: flex; align-items: center; gap: 10px; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--text-main) 0%, var(--text-muted) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .brand-logo svg { filter: drop-shadow(0 0 8px var(--primary-glow)); color: var(--primary); }
-  
-  .update-ticker { font-size: 11px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 6px; background: var(--bg-glass); padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border-glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-  .update-pulse { width: 6px; height: 6px; background: var(--success); border-radius: 50%; box-shadow: 0 0 8px var(--success); animation: blink 1.5s infinite; }
-  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        button, 
+        select, 
+        input, 
+        .key-btn {
+            touch-action: manipulation;
+        }
 
-  .theme-toggle { background: var(--bg-glass); border: 1px solid var(--border-glass); color: var(--text-main); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-  .theme-toggle:active { transform: scale(0.9) rotate(15deg); }
+        /* =========================================================
+           03. BACKGROUND EFFECTS (CANVAS & MESH)
+        ========================================================= */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
 
-  /* PREMIUM GLASS CARD */
-  .card {
-    background: var(--bg-glass-heavy);
-    backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-    border-radius: 32px; padding: 36px 28px;
-    box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255,255,255,0.1);
-    border: 1px solid var(--border-glass); margin-bottom: 24px;
-    animation: scaleIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    opacity: 0; transform: translateY(30px);
-  }
-  @keyframes scaleIn { to { opacity: 1; transform: translateY(0); } }
+        .mesh-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            -webkit-filter: blur(120px);
+            z-index: 0;
+            opacity: 0.35;
+            animation: blob-bounce 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            will-change: transform;
+        }
 
-  .card-header { text-align: center; margin-bottom: 32px; }
-  .card-title { font-size: 28px; font-weight: 800; letter-spacing: -1px; margin-bottom: 6px; }
-  .card-subtitle { color: var(--text-muted); font-size: 14px; font-weight: 500; }
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 55vw;
+            height: 55vw;
+            background: var(--blob-1);
+            animation-delay: 0s;
+        }
 
-  /* STATUS BANNER */
-  .status-banner {
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    padding: 14px; border-radius: 16px; margin-bottom: 28px; font-weight: 700; font-size: 14px;
-    transition: all 0.4s ease; box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
-  }
-  .pulse-ring { position: relative; width: 10px; height: 10px; }
-  .pulse-ring::before { content: ''; position: absolute; width: 100%; height: 100%; background: inherit; border-radius: 50%; opacity: 0.8; animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite; }
-  .pulse-ring::after { content: ''; position: absolute; width: 6px; height: 6px; left: 2px; top: 2px; background: inherit; border-radius: 50%; z-index: 1; }
-  @keyframes ping { 75%, 100% { transform: scale(3.5); opacity: 0; } }
+        .blob-2 {
+            bottom: -20%;
+            right: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: var(--blob-2);
+            animation-delay: -5s;
+        }
 
-  /* INPUTS */
-  .input-label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-  .input-wrapper { position: relative; margin-bottom: 24px; }
-  .input-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; transition: 0.3s; }
-  .form-control {
-    width: 100%; padding: 18px 20px 18px 52px; border-radius: 18px; border: 2px solid var(--border-glass);
-    background: var(--input-bg); color: var(--text-main); font-family: inherit; font-weight: 600;
-    transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); -webkit-appearance: none; appearance: none;
-  }
-  .form-control:focus { background: var(--bg-glass-heavy); border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-light); outline: none; }
-  .form-control:focus + .input-icon { color: var(--primary); }
+        @keyframes blob-bounce {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(5%, 10%) scale(1.1); }
+            100% { transform: translate(-5%, -5%) scale(0.9); }
+        }
 
-  /* CALENDAR GRID */
-  .calendar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 32px; }
-  .day-card { background: var(--input-bg); border: 2px solid var(--border-glass); border-radius: 16px; padding: 14px; transition: 0.3s; }
-  .day-card:focus-within { border-color: var(--primary); background: var(--bg-glass-heavy); box-shadow: 0 4px 16px var(--primary-light); }
-  .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-weight: 800; font-size: 13px; color: var(--text-main); }
-  .day-badge { font-size: 10px; padding: 4px 8px; border-radius: 6px; background: var(--border-glass); color: var(--text-muted); }
-  .custom-select {
-    width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border-glass); background: var(--bg-base); color: var(--text-main); font-weight: 700; 
-    font-family: inherit; outline: none; transition: 0.2s;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 10px center; -webkit-appearance: none; appearance: none;
-  }
+        /* =========================================================
+           04. APP LAYOUT & SAFE AREAS
+        ========================================================= */
+        .app-wrapper {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 16px;
+            
+            /* Tự động tính toán khoảng trống an toàn của Apple */
+            padding-top: max(16px, env(safe-area-inset-top));
+            padding-bottom: max(16px, env(safe-area-inset-bottom));
+        }
 
-  /* BUTTONS */
-  .btn {
-    width: 100%; padding: 18px; border-radius: 18px; font-family: inherit; font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
-    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
-    transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); border: none;
-  }
-  .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%); color: white; box-shadow: 0 10px 20px -5px var(--primary-glow); }
-  .btn-primary:active:not(:disabled) { transform: scale(0.96); box-shadow: 0 4px 10px -5px var(--primary-glow); }
-  .btn-primary:disabled { opacity: 0.6; filter: grayscale(0.5); }
-  .btn-outline { background: transparent; border: 2px solid var(--border-glass); color: var(--text-main); margin-top: 12px; }
-  .btn-outline:active { transform: scale(0.96); background: var(--border-glass); }
+        /* =========================================================
+           05. HEADER & BRANDING
+        ========================================================= */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 24px 0;
+        }
 
-  /* BENTO BOX DASHBOARD (NEW LAYOUT) */
-  .bento-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
-  .bento-card { background: var(--bg-glass-heavy); border: 1px solid var(--border-glass); border-radius: 24px; padding: 20px; box-shadow: var(--shadow-soft); position: relative; overflow: hidden; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-  
-  .stat-val { font-size: 36px; font-weight: 800; color: var(--primary); font-family: 'JetBrains Mono', monospace; line-height: 1; margin-bottom: 4px; text-shadow: 0 4px 12px var(--primary-glow); }
-  .stat-label { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-  .bento-icon { position: absolute; top: -15px; right: -15px; opacity: 0.05; transform: scale(3); color: var(--primary); pointer-events: none;}
+        .brand-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
 
-  /* ACTION DOCK (QUICK ACTIONS) */
-  .action-dock { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
-  .dock-btn { 
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; 
-    padding: 16px 8px; border-radius: 20px; border: 1px solid var(--border-glass); background: var(--bg-glass-heavy); color: var(--text-main); 
-    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-    box-shadow: var(--shadow-soft); transition: 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer;
-  }
-  .dock-btn svg { width: 22px; height: 22px; color: var(--info); }
-  .dock-btn:active { transform: scale(0.9); background: var(--input-bg); }
-  .dock-btn.danger svg { color: var(--danger); }
-  .dock-btn.warning svg { color: var(--warning); }
-  .dock-btn.success svg { color: var(--success); }
+        .brand-logo {
+            font-weight: 800;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--text-main) 0%, var(--text-muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-  /* TABLE AREA */
-  .table-container { border-radius: 24px; border: 1px solid var(--border-glass); background: var(--bg-glass); overflow: hidden; box-shadow: var(--shadow-soft); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-  .table-wrapper { overflow-x: auto; max-height: 400px; -webkit-overflow-scrolling: touch; }
-  .table-wrapper::-webkit-scrollbar { display: none; }
-  
-  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
-  th { background: rgba(0,0,0,0.03); color: var(--text-muted); font-weight: 800; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; padding: 16px 12px; text-align: center; border-bottom: 1px solid var(--border-glass); white-space: nowrap; position: sticky; top: 0; z-index: 10; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-  th:first-child { text-align: left; left: 0; z-index: 20; background: var(--bg-glass-heavy); box-shadow: 2px 0 5px rgba(0,0,0,0.05); }
-  td { padding: 14px 12px; text-align: center; border-bottom: 1px solid var(--border-glass); font-weight: 600; white-space: nowrap; }
-  td:first-child { text-align: left; position: sticky; left: 0; background: var(--bg-glass-heavy); z-index: 5; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 10px; box-shadow: 2px 0 5px rgba(0,0,0,0.05); }
-  
-  .avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--info)); color: white; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; flex-shrink: 0; }
+        .brand-logo svg {
+            filter: drop-shadow(0 0 8px var(--primary-glow));
+            color: var(--primary);
+        }
 
-  /* SHIFT BADGES */
-  .shift-badge { display: inline-flex; padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 11px; font-family: 'JetBrains Mono', monospace; }
-  .badge-c1 { background: var(--info-bg); color: var(--info); border: 1px solid rgba(59, 130, 246, 0.2); }
-  .badge-c2 { background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.2); }
-  .badge-c3 { background: rgba(168, 85, 247, 0.15); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.2); }
-  .badge-f { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
-  .badge-double { background: var(--primary-bg); color: var(--primary); border: 1px solid rgba(220, 38, 38, 0.2); }
-  .badge-none { background: transparent; color: var(--border-glass); }
+        .update-ticker {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-glass);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border-glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
 
-  /* PIN KEYPAD 3D */
-  .pin-container { display: flex; flex-direction: column; align-items: center; padding: 10px 0; }
-  .pin-display { background: var(--input-bg); border: 2px solid var(--border-glass); border-radius: 20px; width: 100%; max-width: 200px; padding: 16px; display: flex; justify-content: center; gap: 16px; margin-bottom: 30px; box-shadow: inset 0 4px 10px rgba(0,0,0,0.1); }
-  .pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 3px solid var(--border-glass); transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-  .pin-dot.filled { background-color: var(--primary); border-color: var(--primary); box-shadow: 0 0 12px var(--primary-glow); transform: scale(1.3); }
-  .pin-display.error { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; border-color: var(--danger); }
-  .pin-display.error .pin-dot.filled { background-color: var(--danger); border-color: var(--danger); }
-  
-  .keypad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 24px; }
-  .key-btn {
-    width: 72px; height: 72px; border-radius: 50%; border: none;
-    background: var(--bg-glass); color: var(--text-main);
-    font-size: 26px; font-weight: 600; font-family: inherit;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 6px 6px 12px rgba(0,0,0,0.1), -6px -6px 12px rgba(255,255,255,0.05);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); cursor: pointer; transition: 0.1s;
-  }
-  .key-btn:active { transform: scale(0.85); box-shadow: inset 4px 4px 8px rgba(0,0,0,0.1); background: var(--input-bg); color: var(--primary); }
-  .key-action { color: var(--text-muted); font-size: 14px; font-weight: 700; text-transform: uppercase; background: transparent; box-shadow: none; }
-  
-  .toast-container { position: fixed; top: max(24px, env(safe-area-inset-top)); right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
-  .toast { background: var(--bg-glass-heavy); color: var(--text-main); padding: 14px 20px; border-radius: 16px; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-card), 0 0 0 1px var(--border-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); transform: translateX(120%); opacity: 0; transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
-  .toast.show { transform: translateX(0); opacity: 1; }
-  .toast-icon { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; }
-  .toast-success .toast-icon { background: var(--success-bg); color: var(--success); }
-  .toast-error .toast-icon { background: var(--danger-bg); color: var(--danger); }
-  .toast-warning .toast-icon { background: var(--warning-bg); color: var(--warning); }
+        .update-pulse {
+            width: 6px;
+            height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--success);
+            animation: blink 1.5s infinite;
+        }
 
-  .hidden { display: none !important; }
-  .skeleton { background: linear-gradient(90deg, var(--input-bg) 25%, var(--border-glass) 50%, var(--input-bg) 75%); background-size: 200% 100%; animation: skeletonLoad 1.5s infinite; border-radius: 8px; }
-  @keyframes skeletonLoad { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-  
-  footer { text-align: center; padding: 30px 0; font-size: 13px; color: var(--text-muted); font-weight: 600; z-index: 10; position: relative; }
-  footer span { color: var(--primary); }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
 
-  @media (max-width: 600px) {
-    .card { padding: 28px 20px; border-radius: 28px; }
-    .card-title { font-size: 24px; }
-    .bento-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-    .bento-card { padding: 16px; border-radius: 20px; }
-    .stat-val { font-size: 32px; }
-    .action-dock { gap: 10px; }
-    .dock-btn { padding: 12px 6px; border-radius: 16px; font-size: 10px;}
-    .toast-container { left: 16px; right: 16px; align-items: center; }
-    .toast { width: 100%; transform: translateY(-100px); }
-    .toast.show { transform: translateY(0); }
-  }
-</style>
+        .theme-toggle {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            color: var(--text-main);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.9) rotate(15deg);
+        }
+
+        /* =========================================================
+           06. GLASS CARD COMPONENTS
+        ========================================================= */
+        .card {
+            background: var(--bg-glass-heavy);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 32px;
+            padding: 36px 28px;
+            box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255,255,255,0.1);
+            border: 1px solid var(--border-glass);
+            margin-bottom: 24px;
+            animation: scaleIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes scaleIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .card-title {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 6px;
+        }
+
+        .card-subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* =========================================================
+           07. STATUS BANNER
+        ========================================================= */
+        .status-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px;
+            border-radius: 16px;
+            margin-bottom: 28px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.4s ease;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .pulse-ring {
+            position: relative;
+            width: 10px;
+            height: 10px;
+        }
+
+        .pulse-ring::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+
+        .pulse-ring::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            left: 2px;
+            top: 2px;
+            background: inherit;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        @keyframes ping {
+            75%, 100% {
+                transform: scale(3.5);
+                opacity: 0;
+            }
+        }
+
+        /* =========================================================
+           08. FORMS, INPUTS & SELECTS
+        ========================================================= */
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .input-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+            transition: 0.3s;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 18px 20px 18px 52px;
+            border-radius: 18px;
+            border: 2px solid var(--border-glass);
+            background: var(--input-bg);
+            color: var(--text-main);
+            font-family: inherit;
+            font-weight: 600;
+            transition: 0.3s;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .form-control:focus {
+            background: var(--bg-glass-heavy);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+            outline: none;
+        }
+
+        .form-control:focus + .input-icon {
+            color: var(--primary);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .day-card {
+            background: var(--input-bg);
+            border: 2px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 14px;
+            transition: 0.3s;
+        }
+
+        .day-card:focus-within {
+            border-color: var(--primary);
+            background: var(--bg-glass-heavy);
+            box-shadow: 0 4px 16px var(--primary-light);
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-weight: 800;
+            font-size: 13px;
+            color: var(--text-main);
+        }
+
+        .day-badge {
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: var(--border-glass);
+            color: var(--text-muted);
+        }
+
+        .custom-select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border-glass);
+            background: var(--bg-base);
+            color: var(--text-main);
+            font-weight: 700;
+            font-family: inherit;
+            outline: none;
+            transition: 0.2s;
+            
+            /* Tự tạo mũi tên select đẹp mắt */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        /* =========================================================
+           09. BUTTONS & ACTIONS
+        ========================================================= */
+        .btn {
+            width: 100%;
+            padding: 18px;
+            border-radius: 18px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+            color: white;
+            box-shadow: 0 10px 20px -5px var(--primary-glow);
+        }
+
+        .btn-primary:active:not(:disabled) {
+            transform: scale(0.96);
+            box-shadow: 0 4px 10px -5px var(--primary-glow);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            filter: grayscale(0.5);
+            cursor: not-allowed;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border-glass);
+            color: var(--text-main);
+            margin-top: 12px;
+        }
+
+        .btn-outline:active {
+            transform: scale(0.96);
+            background: var(--border-glass);
+        }
+
+        /* =========================================================
+           10. BENTO DASHBOARD (ADMIN PANEL)
+        ========================================================= */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .bento-card {
+            background: var(--bg-glass-heavy);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .stat-val {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary);
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1;
+            margin-bottom: 4px;
+            text-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .bento-icon {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            opacity: 0.05;
+            transform: scale(3);
+            color: var(--primary);
+            pointer-events: none;
+        }
+
+        /* ACTION DOCK */
+        .action-dock {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .dock-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 8px;
+            border-radius: 20px;
+            border: 1px solid var(--border-glass);
+            background: var(--bg-glass-heavy);
+            color: var(--text-main);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: var(--shadow-soft);
+            transition: 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+        }
+
+        .dock-btn svg {
+            width: 22px;
+            height: 22px;
+            color: var(--info);
+        }
+
+        .dock-btn:active {
+            transform: scale(0.9);
+            background: var(--input-bg);
+        }
+
+        .dock-btn.danger svg { color: var(--danger); }
+        .dock-btn.warning svg { color: var(--warning); }
+        .dock-btn.success svg { color: var(--success); }
+
+        /* =========================================================
+           11. DATA TABLE (MOMENTUM SCROLL iOS)
+        ========================================================= */
+        .table-container {
+            border-radius: 24px;
+            border: 1px solid var(--border-glass);
+            background: var(--bg-glass);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            max-height: 400px;
+            /* Yêu cầu bắt buộc để cuộn mượt trên iOS Safari */
+            -webkit-overflow-scrolling: touch; 
+        }
+
+        .table-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 13px;
+        }
+
+        th {
+            background: rgba(0,0,0,0.03);
+            color: var(--text-muted);
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+            padding: 16px 12px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-glass);
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        th:first-child {
+            text-align: left;
+            left: 0;
+            z-index: 20;
+            background: var(--bg-glass-heavy);
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+        }
+
+        td {
+            padding: 14px 12px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-glass);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        td:first-child {
+            text-align: left;
+            position: sticky;
+            left: 0;
+            background: var(--bg-glass-heavy);
+            z-index: 5;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+        }
+
+        .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Shift Badges Styling */
+        .shift-badge {
+            display: inline-flex;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .badge-c1 { background: var(--info-bg); color: var(--info); border: 1px solid rgba(59, 130, 246, 0.2); }
+        .badge-c2 { background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.2); }
+        .badge-c3 { background: rgba(168, 85, 247, 0.15); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.2); }
+        .badge-f { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
+        .badge-double { background: var(--primary-bg); color: var(--primary); border: 1px solid rgba(220, 38, 38, 0.2); }
+        .badge-none { background: transparent; color: var(--border-glass); }
+
+        /* =========================================================
+           12. SECURE PIN KEYPAD (NEUMORPHISM 3D)
+        ========================================================= */
+        .pin-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .pin-display {
+            background: var(--input-bg);
+            border: 2px solid var(--border-glass);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 200px;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 30px;
+            box-shadow: inset 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .pin-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 3px solid var(--border-glass);
+            transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .pin-dot.filled {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 12px var(--primary-glow);
+            transform: scale(1.3);
+        }
+
+        .pin-display.error {
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+            border-color: var(--danger);
+        }
+
+        .pin-display.error .pin-dot.filled {
+            background-color: var(--danger);
+            border-color: var(--danger);
+        }
+        
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-8px, 0, 0); }
+            40%, 60% { transform: translate3d(8px, 0, 0); }
+        }
+
+        .keypad-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px 24px;
+        }
+
+        .key-btn {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-glass);
+            color: var(--text-main);
+            font-size: 26px;
+            font-weight: 600;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.1), -6px -6px 12px rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .key-btn:active {
+            transform: scale(0.85);
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.1);
+            background: var(--input-bg);
+            color: var(--primary);
+        }
+
+        .key-action {
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        /* =========================================================
+           13. UTILITIES & TOAST NOTIFICATIONS
+        ========================================================= */
+        .toast-container {
+            position: fixed;
+            top: max(24px, env(safe-area-inset-top));
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: var(--bg-glass-heavy);
+            color: var(--text-main);
+            padding: 14px 20px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow-card), 0 0 0 1px var(--border-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transform: translateX(120%);
+            opacity: 0;
+            transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+        }
+
+        .toast-success .toast-icon { background: var(--success-bg); color: var(--success); }
+        .toast-error .toast-icon { background: var(--danger-bg); color: var(--danger); }
+        .toast-warning .toast-icon { background: var(--warning-bg); color: var(--warning); }
+
+        .hidden { display: none !important; }
+
+        .skeleton {
+            background: linear-gradient(90deg, var(--input-bg) 25%, var(--border-glass) 50%, var(--input-bg) 75%);
+            background-size: 200% 100%;
+            animation: skeletonLoad 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes skeletonLoad {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* =========================================================
+           14. FOOTER
+        ========================================================= */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 600;
+            z-index: 10;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        footer span {
+            color: var(--primary);
+        }
+
+        /* =========================================================
+           15. RESPONSIVE DESIGN (MOBILE FINE-TUNING)
+        ========================================================= */
+        @media (max-width: 600px) {
+            .card {
+                padding: 28px 20px;
+                border-radius: 28px;
+            }
+            .card-title {
+                font-size: 24px;
+            }
+            .bento-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            .bento-card {
+                padding: 16px;
+                border-radius: 20px;
+            }
+            .stat-val {
+                font-size: 32px;
+            }
+            .action-dock {
+                gap: 10px;
+            }
+            .dock-btn {
+                padding: 12px 6px;
+                border-radius: 16px;
+                font-size: 10px;
+            }
+            .toast-container {
+                left: 16px;
+                right: 16px;
+                align-items: center;
+            }
+            .toast {
+                width: 100%;
+                transform: translateY(-100px);
+            }
+            .toast.show {
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
 
+<!-- Hiệu ứng không gian nền -->
 <canvas id="bg-canvas"></canvas>
 <div class="mesh-blob blob-1"></div>
 <div class="mesh-blob blob-2"></div>
 
 <div class="app-wrapper" id="app">
-  <header class="header">
-    <div class="brand-group">
-      <div class="brand-logo">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-        WorkShift <span style="font-weight: 400; opacity: 0.7;">PRO</span>
-      </div>
-      <div class="update-ticker" id="timeTicker">
-        <div class="update-pulse"></div> Đồng bộ: <span class="mono" id="realTime">--:--:--</span>
-      </div>
-    </div>
-    <button class="theme-toggle" id="themeBtn" aria-label="Toggle Theme">
-      <svg id="moonIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-      <svg id="sunIcon" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-    </button>
-  </header>
-
-  <div id="toastContainer" class="toast-container"></div>
-
-  <!-- ================= USER SECTION ================= -->
-  <main class="card" id="userCard">
-    <div class="card-header">
-      <h2 class="card-title">Đăng Ký Ca Làm</h2>
-      <div class="card-subtitle">Hệ thống nội bộ An Cafe</div>
-    </div>
-    
-    <div id="lockStatus" class="status-banner">
-      <div class="skeleton" style="width: 200px; height: 20px; border-radius: 10px;"></div>
-    </div>
-
-    <div class="input-wrapper">
-      <label class="input-label">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-        Định danh nhân sự
-      </label>
-      <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-      <input type="text" id="name" class="form-control" placeholder="Ví dụ: Đăng Tùng..." autocomplete="off">
-    </div>
-
-    <div class="input-group">
-      <label class="input-label" style="margin-bottom: 12px;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-        Đăng ký lịch làm việc
-      </label>
-      <div id="form" class="calendar-grid"></div>
-    </div>
-
-    <button id="submitBtn" class="btn btn-primary">Xác Nhận Đăng Ký</button>
-    <button id="managerBtn" class="btn btn-outline">Khu Vực Quản Lý</button>
-  </main>
-
-  <!-- ================= ADMIN SECTION ================= -->
-  <main class="card hidden" id="managerBox">
-    
-    <!-- PIN Screen -->
-    <div id="loginSection">
-      <div class="card-header" id="managerHeader">
-        <h2 class="card-title" style="color: var(--primary);">Secure Access</h2>
-        <div class="card-subtitle">Yêu cầu mã PIN quản trị</div>
-      </div>
-      <div class="pin-container">
-        <div class="pin-display" id="pinDisplay">
-          <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+    <!-- TOP NAVIGATION -->
+    <header class="header">
+        <div class="brand-group">
+            <div class="brand-logo">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                WorkShift <span style="font-weight: 400; opacity: 0.7;">PRO</span>
+            </div>
+            <div class="update-ticker" id="timeTicker">
+                <div class="update-pulse"></div> 
+                Đồng bộ realtime: <span class="mono" id="realTime">--:--:--</span>
+            </div>
         </div>
-        <div class="keypad-grid">
-          <button class="key-btn" data-val="1">1</button><button class="key-btn" data-val="2">2</button><button class="key-btn" data-val="3">3</button>
-          <button class="key-btn" data-val="4">4</button><button class="key-btn" data-val="5">5</button><button class="key-btn" data-val="6">6</button>
-          <button class="key-btn" data-val="7">7</button><button class="key-btn" data-val="8">8</button><button class="key-btn" data-val="9">9</button>
-          <button class="key-btn key-action" id="keypadExit">HỦY</button><button class="key-btn" data-val="0">0</button><button class="key-btn key-action" id="keypadDel">XÓA</button>
-        </div>
-      </div>
-    </div>
+        
+        <!-- Theme Toggle Switch -->
+        <button class="theme-toggle" id="themeBtn" aria-label="Toggle Theme">
+            <svg id="moonIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <svg id="sunIcon" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+        </button>
+    </header>
 
-    <!-- Dashboard Screen (Bento Layout) -->
-    <div id="adminPanel" class="hidden">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-        <h2 class="card-title" style="font-size: 24px; margin:0;">Dashboard</h2>
-        <button id="logoutBtn" style="background:var(--border-glass); border:none; color:var(--text-main); padding:8px 16px; border-radius:12px; font-weight:700; cursor:pointer; font-family:inherit;">Thoát</button>
-      </div>
+    <!-- Hệ thống thông báo nổi (Toast) -->
+    <div id="toastContainer" class="toast-container"></div>
 
-      <!-- Bento Grid Stats -->
-      <div class="bento-grid">
-        <div class="bento-card">
-          <svg class="bento-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
-          <div class="stat-val" id="totalUsers">0</div>
-          <div class="stat-label">Nhân Sự</div>
+    <!-- ==========================================
+         PHẦN 1: KHU VỰC ĐĂNG KÝ CHO NHÂN VIÊN
+    =========================================== -->
+    <main class="card" id="userCard">
+        <div class="card-header">
+            <h2 class="card-title">Đăng Ký Ca Làm</h2>
+            <div class="card-subtitle">Hệ thống xếp lịch nội bộ | An Cafe & QuyChe Network</div>
         </div>
-        <div class="bento-card">
-          <svg class="bento-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg>
-          <div class="stat-val" id="totalShifts">0</div>
-          <div class="stat-label">Ca Đăng Ký</div>
+        
+        <!-- Trạng thái hệ thống (Khóa/Mở) -->
+        <div id="lockStatus" class="status-banner">
+            <div class="skeleton" style="width: 200px; height: 20px; border-radius: 10px;"></div>
         </div>
-      </div>
 
-      <!-- Action Dock -->
-      <div class="action-dock">
-        <div class="dock-btn success" id="unlockBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg> Mở Lịch
+        <!-- Khung nhập tên -->
+        <div class="input-wrapper">
+            <label class="input-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                Định danh nhân sự
+            </label>
+            <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <input type="text" id="name" class="form-control" placeholder="Ví dụ: Đăng Tùng..." autocomplete="off">
         </div>
-        <div class="dock-btn warning" id="lockBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Khóa
-        </div>
-        <div class="dock-btn" id="copyBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> Xuất
-        </div>
-        <div class="dock-btn danger" id="clearBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> Xóa
-        </div>
-      </div>
 
-      <!-- Table Section -->
-      <div class="table-container">
-        <div id="excelTable" class="table-wrapper"></div>
-      </div>
-    </div>
-  </main>
+        <!-- Lưới chọn ca làm việc theo ngày -->
+        <div class="input-wrapper" style="margin-bottom: 0;">
+            <label class="input-label" style="margin-bottom: 12px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Đăng ký lịch làm việc (Tuần này)
+            </label>
+            <div id="form" class="calendar-grid">
+                <!-- Javascript sẽ tự động render các ngày vào đây -->
+            </div>
+        </div>
+
+        <!-- Các nút hành động chính -->
+        <button id="submitBtn" class="btn btn-primary">
+            Xác Nhận Đăng Ký
+        </button>
+        <button id="managerBtn" class="btn btn-outline">
+            Truy Cập Khu Vực Quản Lý
+        </button>
+    </main>
+
+    <!-- ==========================================
+         PHẦN 2: KHU VỰC DÀNH CHO QUẢN TRỊ VIÊN
+    =========================================== -->
+    <main class="card hidden" id="managerBox">
+        
+        <!-- 2.1 Bàn phím mã PIN ảo (Bảo mật iOS Style) -->
+        <div id="loginSection">
+            <div class="card-header" id="managerHeader">
+                <h2 class="card-title" style="color: var(--primary);">Secure Access</h2>
+                <div class="card-subtitle">Yêu cầu nhập mã PIN quản trị viên</div>
+            </div>
+            
+            <div class="pin-container">
+                <div class="pin-display" id="pinDisplay">
+                    <div class="pin-dot"></div>
+                    <div class="pin-dot"></div>
+                    <div class="pin-dot"></div>
+                    <div class="pin-dot"></div>
+                </div>
+                
+                <div class="keypad-grid">
+                    <button class="key-btn" data-val="1">1</button>
+                    <button class="key-btn" data-val="2">2</button>
+                    <button class="key-btn" data-val="3">3</button>
+                    <button class="key-btn" data-val="4">4</button>
+                    <button class="key-btn" data-val="5">5</button>
+                    <button class="key-btn" data-val="6">6</button>
+                    <button class="key-btn" data-val="7">7</button>
+                    <button class="key-btn" data-val="8">8</button>
+                    <button class="key-btn" data-val="9">9</button>
+                    <button class="key-btn key-action" id="keypadExit">HỦY</button>
+                    <button class="key-btn" data-val="0">0</button>
+                    <button class="key-btn key-action" id="keypadDel">XÓA</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2.2 Bảng Điều Khiển Quản Trị (Bento Dashboard) -->
+        <div id="adminPanel" class="hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h2 class="card-title" style="font-size: 24px; margin:0;">Dashboard</h2>
+                <button id="logoutBtn" style="background:var(--border-glass); border:none; color:var(--text-main); padding:8px 16px; border-radius:12px; font-weight:700; cursor:pointer; font-family:inherit;">
+                    Thoát
+                </button>
+            </div>
+
+            <!-- Bento Stats -->
+            <div class="bento-grid">
+                <div class="bento-card">
+                    <svg class="bento-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                    </svg>
+                    <div class="stat-val" id="totalUsers">0</div>
+                    <div class="stat-label">Tổng Nhân Sự</div>
+                </div>
+                <div class="bento-card">
+                    <svg class="bento-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                    </svg>
+                    <div class="stat-val" id="totalShifts">0</div>
+                    <div class="stat-label">Ca Đăng Ký</div>
+                </div>
+            </div>
+
+            <!-- Thanh Hành Động Nhanh (Action Dock) -->
+            <div class="action-dock">
+                <div class="dock-btn success" id="unlockBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
+                    </svg> 
+                    Mở Lịch
+                </div>
+                <div class="dock-btn warning" id="lockBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg> 
+                    Khóa
+                </div>
+                <div class="dock-btn" id="copyBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg> 
+                    Xuất File
+                </div>
+                <div class="dock-btn danger" id="clearBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg> 
+                    Dọn Dẹp
+                </div>
+            </div>
+
+            <!-- Bảng Dữ Liệu Khung Ngang -->
+            <div class="table-container">
+                <div id="excelTable" class="table-wrapper">
+                    <!-- Javascript Data Render -->
+                </div>
+            </div>
+        </div>
+    </main>
 </div>
 
 <footer>
-  © 2026 WorkShift <span>Pro</span> | QuyChe Network<br>
+    © 2026 WorkShift <span>Pro</span> Enterprise.<br>
+    Được thiết kế phục vụ riêng cho hệ thống QuyChe Network x An Cafe.
 </footer>
 
+<!-- =========================================================
+     JAVASCRIPT MODULES & LOGIC
+========================================================= -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getDatabase, ref, set, get, remove, onValue } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+    // --- 1. FIREBASE INITIALIZATION ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getDatabase, ref, set, get, remove, onValue } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
 
-const app = initializeApp({
-  apiKey: "AIzaSyCK6yfVr9VBMGwhbvYMXkJqMoRjo4Om2LM", 
-  databaseURL: "https://an-quy-default-rtdb.asia-southeast1.firebasedatabase.app"
-});
-const db = getDatabase(app);
+    const firebaseConfig = {
+        apiKey: "AIzaSyCK6yfVr9VBMGwhbvYMXkJqMoRjo4Om2LM", 
+        databaseURL: "https://an-quy-default-rtdb.asia-southeast1.firebasedatabase.app"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-const DAYS = ["T2","T3","T4","T5","T6","T7","CN"];
-const SHIFTS = [
-  {id: "C1", label: "Ca 1 (Sáng)", class: "badge-c1"},
-  {id: "C2", label: "Ca 2 (Chiều)", class: "badge-c2"},
-  {id: "C3", label: "Ca 3 (Tối)", class: "badge-c3"},
-  {id: "F1", label: "Full 1", class: "badge-f"},
-  {id: "F2", label: "Full 2", class: "badge-f"},
-  {id: "2C(C1+C2)", label: "C1 + C2", class: "badge-double"},
-  {id: "2C(C2+C3)", label: "C2 + C3", class: "badge-double"}
-];
+    // --- 2. HỆ THỐNG CẤU HÌNH BIẾN ---
+    const DAYS = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+    const SHIFTS = [
+        { id: "C1", label: "Ca 1 (Sáng)", class: "badge-c1" },
+        { id: "C2", label: "Ca 2 (Chiều)", class: "badge-c2" },
+        { id: "C3", label: "Ca 3 (Tối)", class: "badge-c3" },
+        { id: "F1", label: "Full 1", class: "badge-f" },
+        { id: "F2", label: "Full 2", class: "badge-f" },
+        { id: "2C(C1+C2)", label: "C1 + C2", class: "badge-double" },
+        { id: "2C(C2+C3)", label: "C2 + C3", class: "badge-double" }
+    ];
 
-function updateClock() {
-  const now = new Date();
-  document.getElementById('realTime').textContent = now.toLocaleTimeString('vi-VN', {hour12: false});
-}
-setInterval(updateClock, 1000); updateClock();
-
-const canvas = document.getElementById('bg-canvas');
-const ctx = canvas.getContext('2d');
-let particlesArray;
-
-function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-window.addEventListener('resize', resizeCanvas); resizeCanvas();
-
-let mouse = { x: null, y: null, radius: 100 };
-window.addEventListener('touchmove', e => { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; });
-window.addEventListener('touchend', () => { mouse.x = undefined; mouse.y = undefined; });
-window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
-window.addEventListener('mouseout', () => { mouse.x = undefined; mouse.y = undefined; });
-
-class Particle {
-  constructor(x, y, dx, dy, size, color) { this.x=x; this.y=y; this.dx=dx; this.dy=dy; this.size=size; this.color=color; }
-  draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2, false); ctx.fillStyle=this.color; ctx.fill(); }
-  update() {
-    if(this.x > canvas.width || this.x < 0) this.dx = -this.dx;
-    if(this.y > canvas.height || this.y < 0) this.dy = -this.dy;
-    let dist = Math.sqrt((mouse.x-this.x)**2 + (mouse.y-this.y)**2);
-    if(dist < mouse.radius + this.size) {
-      if(mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 1.5;
-      if(mouse.x > this.x && this.x > this.size * 10) this.x -= 1.5;
-      if(mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 1.5;
-      if(mouse.y > this.y && this.y > this.size * 10) this.y -= 1.5;
+    // --- 3. MODULE ĐỒNG BỘ THỜI GIAN THỰC ---
+    function updateClock() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('vi-VN', { hour12: false });
+        document.getElementById('realTime').textContent = timeString;
     }
-    this.x += this.dx; this.y += this.dy; this.draw();
-  }
-}
+    setInterval(updateClock, 1000); 
+    updateClock();
 
-function initCanvas() {
-  particlesArray = [];
-  let noOfParticles = (canvas.height * canvas.width) / 10000;
-  for(let i=0; i<noOfParticles; i++){
-    let size = (Math.random() * 2) + 1;
-    let color = getComputedStyle(document.documentElement).getPropertyValue('--canvas-dot').trim();
-    particlesArray.push(new Particle(
-      Math.random() * (innerWidth - size*2) + size*2, 
-      Math.random() * (innerHeight - size*2) + size*2, 
-      (Math.random() * 0.4) - 0.2, (Math.random() * 0.4) - 0.2, size, color
-    ));
-  }
-}
+    // --- 4. MODULE CANVAS MẠNG NHỆN TƯƠNG TÁC (CONSTELLATION) ---
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particlesArray;
 
-function animateCanvas() {
-  requestAnimationFrame(animateCanvas);
-  ctx.clearRect(0,0,innerWidth, innerHeight);
-  let lineColor = getComputedStyle(document.documentElement).getPropertyValue('--canvas-line').trim();
-  for(let i=0; i<particlesArray.length; i++){
-    particlesArray[i].update();
-    for(let j=i; j<particlesArray.length; j++){
-      if(((particlesArray[i].x-particlesArray[j].x)**2 + (particlesArray[i].y-particlesArray[j].y)**2) < (canvas.width/7)*(canvas.height/7)) {
-        ctx.beginPath(); ctx.strokeStyle = lineColor; ctx.lineWidth = 1;
-        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-        ctx.lineTo(particlesArray[j].x, particlesArray[j].y); ctx.stroke();
-      }
+    function resizeCanvas() { 
+        canvas.width = window.innerWidth; 
+        canvas.height = window.innerHeight; 
     }
-  }
-}
-initCanvas(); animateCanvas();
+    window.addEventListener('resize', resizeCanvas); 
+    resizeCanvas();
 
-const themeBtn = document.getElementById('themeBtn'), html = document.documentElement;
-const savedTheme = localStorage.getItem('theme') || 'dark';
-html.setAttribute('data-theme', savedTheme);
-updateThemeIcon(savedTheme);
-
-themeBtn.onclick = () => {
-  const newTheme = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-  html.setAttribute('data-theme', newTheme); localStorage.setItem('theme', newTheme);
-  updateThemeIcon(newTheme); initCanvas();
-};
-
-function updateThemeIcon(theme) {
-  document.getElementById('moonIcon').classList.toggle('hidden', theme === 'dark');
-  document.getElementById('sunIcon').classList.toggle('hidden', theme === 'light');
-}
-
-function showToast(msg, type = 'success') {
-  const container = document.getElementById('toastContainer');
-  const toast = document.createElement('div'); toast.className = `toast toast-${type}`;
-  const icons = {
-    success: '<polyline points="20 6 9 17 4 12"></polyline>',
-    error: '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>',
-    warning: '<line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>'
-  };
-  toast.innerHTML = `<div class="toast-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${icons[type]}</svg></div> <span>${msg}</span>`;
-  container.appendChild(toast);
-  void toast.offsetWidth; toast.classList.add('show');
-  setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 500); }, 3000);
-}
-
-const form = document.getElementById("form");
-DAYS.forEach(d => {
-  form.innerHTML += `<div class="day-card"><div class="day-header"><span>${d === 'CN' ? 'Chủ Nhật' : 'Thứ ' + d.charAt(1)}</span><span class="day-badge">${d}</span></div><select id="${d}" class="custom-select"><option value="">-- Nghỉ --</option>${SHIFTS.map(s => `<option value="${s.id}">${s.id}</option>`).join("")}</select></div>`;
-});
-
-let manualLock = null;
-onValue(ref(db, "settings/lock"), snap => { manualLock = snap.exists() ? snap.val() : null; updateStatusUI(); });
-
-function isLocked() {
-  if(manualLock === true) return true; if(manualLock === false) return false;
-  const n = new Date(), d = n.getDay(), h = n.getHours();
-  return (d === 5 && h >= 20) || d === 6 || d === 0;
-}
-
-function updateStatusUI() {
-  const lockStatus = document.getElementById("lockStatus"), submitBtn = document.getElementById("submitBtn");
-  if (isLocked()) {
-    lockStatus.style.background = "var(--danger-bg)"; lockStatus.style.color = "var(--danger)";
-    lockStatus.innerHTML = `<div class="pulse-ring" style="background: var(--danger);"></div> Hệ thống đóng (Mở lại Thứ 2)`;
-    submitBtn.disabled = true; submitBtn.innerHTML = "Đã Khóa Đăng Ký";
-  } else {
-    lockStatus.style.background = "var(--success-bg)"; lockStatus.style.color = "var(--success)";
-    lockStatus.innerHTML = `<div class="pulse-ring" style="background: var(--success);"></div> Đang mở (Đóng tự động 20h T6)`;
-    submitBtn.disabled = false; submitBtn.innerHTML = `Xác Nhận Đăng Ký`;
-  }
-}
-
-document.getElementById("submitBtn").onclick = async () => {
-  const nameInput = document.getElementById("name"), name = nameInput.value.trim();
-  if(!name) return showToast("Nhập tên để đăng ký!", "warning");
-  if(isLocked()) return showToast("Hệ thống đã khóa", "error");
-  
-  const lich = {}; DAYS.forEach(d => { const v = document.getElementById(d).value; if(v) lich[d] = v; });
-  if(!Object.keys(lich).length) return showToast("Chọn ít nhất 1 ca làm!", "warning");
-
-  const btn = document.getElementById("submitBtn"), orgText = btn.innerHTML;
-  btn.innerHTML = "Đang xử lý..."; btn.disabled = true;
-
-  try {
-    const existing = await get(ref(db, "dangKy/" + name));
-    if(existing.exists() && !confirm(`Tên "${name}" đã có dữ liệu. Ghi đè?`)) { btn.innerHTML = orgText; btn.disabled = false; return; }
-    await set(ref(db, "dangKy/" + name), { lich, timestamp: Date.now() });
-    showToast("Đăng ký thành công!", "success");
-    nameInput.value = ""; DAYS.forEach(d => document.getElementById(d).value = "");
-  } catch(e) { showToast("Lỗi: " + e.message, "error"); }
-  finally { btn.innerHTML = orgText; btn.disabled = false; }
-};
-
-document.getElementById("managerBtn").onclick = () => {
-  document.getElementById("userCard").classList.add("hidden"); document.getElementById("managerBox").classList.remove("hidden"); resetPin();
-};
-
-document.getElementById("logoutBtn").onclick = document.getElementById("keypadExit").onclick = () => {
-  document.getElementById("adminPanel").classList.add("hidden"); document.getElementById("managerBox").classList.add("hidden");
-  document.getElementById("userCard").classList.remove("hidden"); document.getElementById("loginSection").classList.remove("hidden");
-};
-
-let currentPin = "", rawExcelData = "";
-function updateDots() { document.querySelectorAll('.pin-dot').forEach((dot, i) => dot.classList.toggle('filled', i < currentPin.length)); }
-function resetPin() { currentPin = ""; updateDots(); }
-
-document.querySelectorAll('.key-btn[data-val]').forEach(btn => {
-  btn.addEventListener('pointerdown', () => {
-    if(currentPin.length < 4) { currentPin += btn.dataset.val; updateDots(); if(currentPin.length === 4) setTimeout(processLogin, 150); }
-  });
-});
-document.getElementById('keypadDel').addEventListener('pointerdown', () => { if(currentPin.length > 0) { currentPin = currentPin.slice(0, -1); updateDots(); } });
-
-async function processLogin() {
-  if(currentPin !== "2005") {
-    document.getElementById('pinDisplay').classList.add('error');
-    if(navigator.vibrate) navigator.vibrate(50);
-    setTimeout(() => document.getElementById('pinDisplay').classList.remove('error'), 400);
-    showToast("Mã PIN sai", "error"); resetPin(); return;
-  }
-  document.getElementById("loginSection").classList.add("hidden"); document.getElementById("adminPanel").classList.remove("hidden");
-  loadAdminData();
-}
-
-async function loadAdminData() {
-  document.getElementById("excelTable").innerHTML = `<div style="padding: 40px; text-align: center;"><div class="skeleton" style="height: 150px;"></div></div>`;
-  try {
-    const snap = await get(ref(db, "dangKy"));
-    if(!snap.exists()) {
-      document.getElementById("excelTable").innerHTML = `<div style="padding: 30px; color: var(--text-muted); text-align: center;">Chưa có dữ liệu</div>`;
-      document.getElementById("totalUsers").innerText = "0"; document.getElementById("totalShifts").innerText = "0"; return;
-    }
-    const data = snap.val(); let totalUsers = 0, totalShifts = 0;
-    let tableHTML = `<table><thead><tr><th>Họ & Tên</th>${DAYS.map(d=>`<th>${d}</th>`).join('')}</tr></thead><tbody>`;
-    rawExcelData = `Họ và Tên\t${DAYS.join('\t')}\n`;
-    Object.keys(data).sort().forEach(name => {
-      totalUsers++; tableHTML += `<tr><td><div class="avatar">${name.charAt(0).toUpperCase()}</div>${name}</td>`; rawExcelData += `${name}\t`;
-      DAYS.forEach((day, i) => {
-        const shift = data[name].lich?.[day]; if(shift) totalShifts++;
-        const badgeClass = shift ? SHIFTS.find(s=>s.id===shift)?.class : 'badge-none';
-        tableHTML += `<td><span class="shift-badge ${badgeClass}">${shift||'-'}</span></td>`;
-        rawExcelData += `${shift||'-'}${i === DAYS.length-1 ? '' : '\t'}`;
-      });
-      tableHTML += `</tr>`; rawExcelData += `\n`;
+    let mouse = { x: null, y: null, radius: 100 };
+    
+    // Tối ưu hóa tương tác Touch cho iOS Safari
+    window.addEventListener('touchmove', e => { 
+        mouse.x = e.touches[0].clientX; 
+        mouse.y = e.touches[0].clientY; 
     });
-    document.getElementById("excelTable").innerHTML = tableHTML + `</tbody></table>`;
-    animateValue("totalUsers", 0, totalUsers, 800); animateValue("totalShifts", 0, totalShifts, 800);
-  } catch(e) { showToast("Lỗi tải data", "error"); }
-}
+    window.addEventListener('touchend', () => { 
+        mouse.x = undefined; 
+        mouse.y = undefined; 
+    });
+    
+    // Tương tác chuột trên Desktop
+    window.addEventListener('mousemove', e => { 
+        mouse.x = e.x; 
+        mouse.y = e.y; 
+    });
+    window.addEventListener('mouseout', () => { 
+        mouse.x = undefined; 
+        mouse.y = undefined; 
+    });
 
-document.getElementById("copyBtn").onclick = () => {
-  if(!rawExcelData) return showToast("Trống", "warning");
-  navigator.clipboard.writeText(rawExcelData).then(()=>showToast("Đã copy dữ liệu", "success"));
-};
-document.getElementById("unlockBtn").onclick = async () => { if(confirm("Mở lịch?")) { await set(ref(db,"settings/lock"), false); showToast("Đã mở", "success"); } };
-document.getElementById("lockBtn").onclick = async () => { if(confirm("Khóa lịch?")) { await set(ref(db,"settings/lock"), true); showToast("Đã khóa", "warning"); } };
-document.getElementById("clearBtn").onclick = async () => {
-  if(confirm("XÓA TẤT CẢ DỮ LIỆU?") && prompt("Mã PIN:") === "2005") { await remove(ref(db,"dangKy")); showToast("Đã dọn dẹp", "success"); loadAdminData(); }
-};
+    class Particle {
+        constructor(x, y, dx, dy, size, color) { 
+            this.x = x; 
+            this.y = y; 
+            this.dx = dx; 
+            this.dy = dy; 
+            this.size = size; 
+            this.color = color; 
+        }
+        
+        draw() { 
+            ctx.beginPath(); 
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false); 
+            ctx.fillStyle = this.color; 
+            ctx.fill(); 
+        }
+        
+        update() {
+            if(this.x > canvas.width || this.x < 0) this.dx = -this.dx;
+            if(this.y > canvas.height || this.y < 0) this.dy = -this.dy;
+            
+            // Xử lý va chạm vật lý với khu vực con trỏ chuột/touch
+            let dist = Math.sqrt((mouse.x - this.x) ** 2 + (mouse.y - this.y) ** 2);
+            if(dist < mouse.radius + this.size) {
+                if(mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 1.5;
+                if(mouse.x > this.x && this.x > this.size * 10) this.x -= 1.5;
+                if(mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 1.5;
+                if(mouse.y > this.y && this.y > this.size * 10) this.y -= 1.5;
+            }
+            this.x += this.dx; 
+            this.y += this.dy; 
+            this.draw();
+        }
+    }
 
-function animateValue(id, start, end, duration) {
-  let obj = document.getElementById(id), startTimestamp = null;
-  const step = (timestamp) => {
-    if(!startTimestamp) startTimestamp = timestamp;
-    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-    obj.innerHTML = Math.floor(progress * (end - start) + start);
-    if(progress < 1) window.requestAnimationFrame(step);
-  }; window.requestAnimationFrame(step);
-}
+    function initCanvas() {
+        particlesArray = [];
+        let noOfParticles = (canvas.height * canvas.width) / 10000;
+        
+        for(let i = 0; i < noOfParticles; i++) {
+            let size = (Math.random() * 2) + 1;
+            let color = getComputedStyle(document.documentElement).getPropertyValue('--canvas-dot').trim();
+            particlesArray.push(new Particle(
+                Math.random() * (innerWidth - size * 2) + size * 2, 
+                Math.random() * (innerHeight - size * 2) + size * 2, 
+                (Math.random() * 0.4) - 0.2, 
+                (Math.random() * 0.4) - 0.2, 
+                size, 
+                color
+            ));
+        }
+    }
+
+    function animateCanvas() {
+        requestAnimationFrame(animateCanvas);
+        ctx.clearRect(0, 0, innerWidth, innerHeight);
+        let lineColor = getComputedStyle(document.documentElement).getPropertyValue('--canvas-line').trim();
+        
+        for(let i = 0; i < particlesArray.length; i++) {
+            particlesArray[i].update();
+            for(let j = i; j < particlesArray.length; j++) {
+                // Tính khoảng cách để vẽ tia liên kết lưới
+                if(((particlesArray[i].x - particlesArray[j].x) ** 2 + (particlesArray[i].y - particlesArray[j].y) ** 2) < (canvas.width / 7) * (canvas.height / 7)) {
+                    ctx.beginPath(); 
+                    ctx.strokeStyle = lineColor; 
+                    ctx.lineWidth = 1;
+                    ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                    ctx.lineTo(particlesArray[j].x, particlesArray[j].y); 
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+    
+    initCanvas(); 
+    animateCanvas();
+
+    // --- 5. MODULE QUẢN LÝ GIAO DIỆN LIGHT/DARK THEME ---
+    const themeBtn = document.getElementById('themeBtn');
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('theme') || 'dark'; // Mặc định là Dark Theme chuẩn Cinematic
+    
+    html.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    themeBtn.onclick = () => {
+        const newTheme = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', newTheme); 
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme); 
+        initCanvas(); // Vẽ lại màu của Canvas Grid
+    };
+
+    function updateThemeIcon(theme) {
+        document.getElementById('moonIcon').classList.toggle('hidden', theme === 'dark');
+        document.getElementById('sunIcon').classList.toggle('hidden', theme === 'light');
+    }
+
+    // --- 6. HỆ THỐNG TOAST THÔNG BÁO ---
+    function showToast(msg, type = 'success') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div'); 
+        toast.className = `toast toast-${type}`;
+        
+        const icons = {
+            success: '<polyline points="20 6 9 17 4 12"></polyline>',
+            error: '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>',
+            warning: '<line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>'
+        };
+        
+        toast.innerHTML = `
+            <div class="toast-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    ${icons[type]}
+                </svg>
+            </div> 
+            <span>${msg}</span>
+        `;
+        
+        container.appendChild(toast);
+        
+        // Trigger Reflow để chạy CSS Transition
+        void toast.offsetWidth; 
+        toast.classList.add('show');
+        
+        setTimeout(() => { 
+            toast.classList.remove('show'); 
+            setTimeout(() => toast.remove(), 500); 
+        }, 3000);
+    }
+
+    // --- 7. TẠO LƯỚI ĐĂNG KÝ CA LÀM THEO TỪNG NGÀY TRONG TUẦN ---
+    const form = document.getElementById("form");
+    DAYS.forEach(dayName => {
+        const fullDayName = dayName === 'CN' ? 'Chủ Nhật' : 'Thứ ' + dayName.charAt(1);
+        
+        // Tạo các option từ mảng cấu hình CA LÀM
+        const optionsHtml = SHIFTS.map(s => `<option value="${s.id}">${s.id}</option>`).join("");
+        
+        form.innerHTML += `
+            <div class="day-card">
+                <div class="day-header">
+                    <span>${fullDayName}</span>
+                    <span class="day-badge">${dayName}</span>
+                </div>
+                <select id="${dayName}" class="custom-select">
+                    <option value="">-- Nghỉ --</option>
+                    ${optionsHtml}
+                </select>
+            </div>
+        `;
+    });
+
+    // --- 8. LOGIC KHÓA/MỞ HỆ THỐNG THEO THỜI GIAN THỰC ---
+    let manualLock = null;
+    
+    // Lắng nghe lệnh Khóa từ Quản Trị Viên trên Firebase
+    onValue(ref(db, "settings/lock"), snap => { 
+        manualLock = snap.exists() ? snap.val() : null; 
+        updateStatusUI(); 
+    });
+
+    // Logic tự động khóa theo thời gian cứng (Sau 20:00 T6 đến hết CN)
+    function isSystemLocked() {
+        if(manualLock === true) return true; 
+        if(manualLock === false) return false;
+        
+        const now = new Date();
+        const dayOfWeek = now.getDay(); 
+        const hours = now.getHours();
+        
+        // 5: Thứ 6, 6: Thứ 7, 0: Chủ Nhật
+        return (dayOfWeek === 5 && hours >= 20) || dayOfWeek === 6 || dayOfWeek === 0;
+    }
+
+    function updateStatusUI() {
+        const lockStatus = document.getElementById("lockStatus");
+        const submitBtn = document.getElementById("submitBtn");
+        
+        if (isSystemLocked()) {
+            lockStatus.style.background = "var(--danger-bg)"; 
+            lockStatus.style.color = "var(--danger)";
+            lockStatus.innerHTML = `<div class="pulse-ring" style="background: var(--danger);"></div> Hệ thống đã ĐÓNG (Mở lại Thứ 2)`;
+            submitBtn.disabled = true; 
+            submitBtn.innerHTML = "Đã Khóa Đăng Ký";
+        } else {
+            lockStatus.style.background = "var(--success-bg)"; 
+            lockStatus.style.color = "var(--success)";
+            lockStatus.innerHTML = `<div class="pulse-ring" style="background: var(--success);"></div> Hệ thống đang MỞ (Đóng tự động 20h T6)`;
+            submitBtn.disabled = false; 
+            submitBtn.innerHTML = `Xác Nhận Đăng Ký`;
+        }
+    }
+
+    // --- 9. XỬ LÝ SỰ KIỆN GỬI FORM LÊN FIREBASE ---
+    document.getElementById("submitBtn").onclick = async () => {
+        const nameInput = document.getElementById("name");
+        const employeeName = nameInput.value.trim();
+        
+        if(!employeeName) {
+            nameInput.focus();
+            return showToast("Vui lòng nhập định danh nhân sự!", "warning");
+        }
+        
+        if(isSystemLocked()) {
+            return showToast("Hệ thống đã khóa, không thể đăng ký", "error");
+        }
+        
+        // Thu thập các ca đã chọn
+        const schedule = {}; 
+        DAYS.forEach(day => { 
+            const selectedShift = document.getElementById(day).value; 
+            if(selectedShift) schedule[day] = selectedShift; 
+        });
+        
+        if(!Object.keys(schedule).length) {
+            return showToast("Vui lòng đăng ký ít nhất 1 ca làm việc!", "warning");
+        }
+
+        const btn = document.getElementById("submitBtn");
+        const originalText = btn.innerHTML;
+        
+        // Hiệu ứng Loading Loading iOS
+        btn.innerHTML = `Đang đồng bộ dữ liệu...`; 
+        btn.disabled = true;
+
+        try {
+            // Kiểm tra chống ghi đè dữ liệu nếu tên đã tồn tại
+            const existingSnapshot = await get(ref(db, "dangKy/" + employeeName));
+            if(existingSnapshot.exists() && !confirm(`Định danh "${employeeName}" đã có dữ liệu. Bạn có muốn ghi đè lịch mới?`)) { 
+                btn.innerHTML = originalText; 
+                btn.disabled = false; 
+                return; 
+            }
+            
+            // Lưu dữ liệu
+            await set(ref(db, "dangKy/" + employeeName), { 
+                lich: schedule, 
+                timestamp: Date.now() 
+            });
+            
+            showToast("Đăng ký hoàn tất! Chúc bạn làm việc hiệu quả.", "success");
+            
+            // Xóa form
+            nameInput.value = ""; 
+            DAYS.forEach(day => document.getElementById(day).value = "");
+            
+        } catch(error) { 
+            showToast("Lỗi kết nối mạng: " + error.message, "error"); 
+        } finally { 
+            btn.innerHTML = originalText; 
+            btn.disabled = false; 
+        }
+    };
+
+    // --- 10. ĐIỀU HƯỚNG GIỮA KHU VỰC USER VÀ MANAGER ---
+    document.getElementById("managerBtn").onclick = () => {
+        document.getElementById("userCard").classList.add("hidden"); 
+        document.getElementById("managerBox").classList.remove("hidden"); 
+        resetPinDisplay();
+    };
+
+    document.getElementById("logoutBtn").onclick = document.getElementById("keypadExit").onclick = () => {
+        document.getElementById("adminPanel").classList.add("hidden"); 
+        document.getElementById("managerBox").classList.add("hidden");
+        document.getElementById("userCard").classList.remove("hidden"); 
+        document.getElementById("loginSection").classList.remove("hidden");
+    };
+
+    // --- 11. XỬ LÝ BÀN PHÍM MÃ PIN ẢO 3D ---
+    let currentPinInput = "";
+    let rawExcelDataExport = "";
+    
+    function updatePinDots() { 
+        document.querySelectorAll('.pin-dot').forEach((dot, i) => {
+            dot.classList.toggle('filled', i < currentPinInput.length);
+        }); 
+    }
+    
+    function resetPinDisplay() { 
+        currentPinInput = ""; 
+        updatePinDots(); 
+    }
+
+    // Gắn sự kiện cho các nút số
+    // Sử dụng 'pointerdown' để loại bỏ độ trễ phản hồi trên màn hình cảm ứng iOS
+    document.querySelectorAll('.key-btn[data-val]').forEach(button => {
+        button.addEventListener('pointerdown', () => {
+            if(currentPinInput.length < 4) { 
+                currentPinInput += button.dataset.val; 
+                updatePinDots(); 
+                
+                // Nếu đủ 4 số thì tự động kiểm tra
+                if(currentPinInput.length === 4) {
+                    setTimeout(processLoginAttempt, 150); 
+                }
+            }
+        });
+    });
+    
+    document.getElementById('keypadDel').addEventListener('pointerdown', () => { 
+        if(currentPinInput.length > 0) { 
+            currentPinInput = currentPinInput.slice(0, -1); 
+            updatePinDots(); 
+        } 
+    });
+
+    async function processLoginAttempt() {
+        // Mã PIN Cấu Hình (Mặc định: 2005)
+        const ADMIN_PIN = "2005";
+        
+        if(currentPinInput !== ADMIN_PIN) {
+            document.getElementById('pinDisplay').classList.add('error');
+            
+            // Haptic Feedback API cho các máy Android (Apple khóa API này trên Safari Web)
+            if(navigator.vibrate) navigator.vibrate(50);
+            
+            setTimeout(() => document.getElementById('pinDisplay').classList.remove('error'), 400);
+            showToast("Mã PIN không chính xác", "error"); 
+            resetPinDisplay(); 
+            return;
+        }
+        
+        // Đăng nhập thành công
+        document.getElementById("loginSection").classList.add("hidden"); 
+        document.getElementById("adminPanel").classList.remove("hidden");
+        fetchAndRenderAdminData();
+    }
+
+    // --- 12. LOGIC DASHBOARD QUẢN TRỊ VIÊN ---
+    async function fetchAndRenderAdminData() {
+        const tableContainer = document.getElementById("excelTable");
+        
+        // Skeleton Loaders
+        tableContainer.innerHTML = `
+            <div style="padding: 40px; text-align: center;">
+                <div class="skeleton" style="height: 150px; border-radius: 16px;"></div>
+            </div>
+        `;
+        
+        try {
+            const snapshot = await get(ref(db, "dangKy"));
+            
+            if(!snapshot.exists()) {
+                tableContainer.innerHTML = `
+                    <div style="padding: 40px; color: var(--text-muted); text-align: center; font-weight: 600;">
+                        Không có dữ liệu trong tuần này.
+                    </div>
+                `;
+                document.getElementById("totalUsers").innerText = "0"; 
+                document.getElementById("totalShifts").innerText = "0"; 
+                return;
+            }
+            
+            const data = snapshot.val(); 
+            let countUsers = 0;
+            let countShifts = 0;
+            
+            // Khởi tạo bảng HTML và dữ liệu Excel thô
+            let htmlTable = `<table><thead><tr><th>Định danh nhân sự</th>`;
+            htmlTable += DAYS.map(day => `<th>${day}</th>`).join('');
+            htmlTable += `</tr></thead><tbody>`;
+            
+            rawExcelDataExport = `Định Danh Nhân Sự\t${DAYS.join('\t')}\n`;
+            
+            // Sắp xếp danh sách tên nhân viên theo Alphabet
+            const sortedNames = Object.keys(data).sort();
+            
+            sortedNames.forEach(employeeName => {
+                countUsers++; 
+                
+                // Lấy chữ cái đầu tiên làm Avatar Placeholder
+                const avatarChar = employeeName.charAt(0).toUpperCase();
+                
+                htmlTable += `
+                    <tr>
+                        <td>
+                            <div class="avatar">${avatarChar}</div>
+                            ${employeeName}
+                        </td>
+                `; 
+                
+                rawExcelDataExport += `${employeeName}\t`;
+                
+                DAYS.forEach((day, index) => {
+                    const shiftRegistered = data[employeeName].lich?.[day]; 
+                    
+                    if(shiftRegistered) countShifts++;
+                    
+                    // Tìm class CSS tương ứng với mã ca làm (C1, C2...)
+                    const shiftInfoObj = SHIFTS.find(s => s.id === shiftRegistered);
+                    const cssBadgeClass = shiftRegistered ? shiftInfoObj?.class : 'badge-none';
+                    const displayValue = shiftRegistered || '-';
+                    
+                    htmlTable += `<td><span class="shift-badge ${cssBadgeClass}">${displayValue}</span></td>`;
+                    rawExcelDataExport += `${displayValue}${index === DAYS.length - 1 ? '' : '\t'}`;
+                });
+                
+                htmlTable += `</tr>`; 
+                rawExcelDataExport += `\n`;
+            });
+            
+            tableContainer.innerHTML = htmlTable + `</tbody></table>`;
+            
+            // Chạy Animation cho các con số thống kê
+            animateNumberCounter("totalUsers", 0, countUsers, 800); 
+            animateNumberCounter("totalShifts", 0, countShifts, 800);
+            
+        } catch(error) { 
+            showToast("Lỗi khi tải dữ liệu từ máy chủ", "error"); 
+        }
+    }
+
+    // --- 13. CÁC HÀNH ĐỘNG CỦA QUẢN TRỊ VIÊN ---
+    
+    // Copy bảng dữ liệu ra format Excel
+    document.getElementById("copyBtn").onclick = () => {
+        if(!rawExcelDataExport) return showToast("Bảng dữ liệu đang trống", "warning");
+        
+        navigator.clipboard.writeText(rawExcelDataExport)
+            .then(() => showToast("Đã copy toàn bộ dữ liệu. Hãy dán vào Excel/Sheets.", "success"))
+            .catch(() => showToast("Trình duyệt từ chối quyền Copy", "error"));
+    };
+    
+    // Lệnh Mở Lịch Đăng Ký
+    document.getElementById("unlockBtn").onclick = async () => { 
+        if(confirm("Mở lại hệ thống đăng ký ca làm?")) { 
+            await set(ref(db,"settings/lock"), false); 
+            showToast("Hệ thống đã được MỞ khóa", "success"); 
+        } 
+    };
+    
+    // Lệnh Khóa Lịch Đăng Ký
+    document.getElementById("lockBtn").onclick = async () => { 
+        if(confirm("Ép đóng hệ thống đăng ký ngay lập tức?")) { 
+            await set(ref(db,"settings/lock"), true); 
+            showToast("Hệ thống đã KHÓA", "warning"); 
+        } 
+    };
+    
+    // Lệnh Xóa Dữ Liệu (Reset Tuần Mới)
+    document.getElementById("clearBtn").onclick = async () => {
+        if(confirm("CẢNH BÁO QUAN TRỌNG: Bạn đang yêu cầu xóa sạch dữ liệu.\nHành động này không thể hoàn tác. Tiếp tục?")) {
+            const validationPin = prompt("Vui lòng nhập lại mã PIN để xác nhận Lệnh XÓA:");
+            if(validationPin === "2005") { 
+                await remove(ref(db,"dangKy")); 
+                showToast("Dữ liệu hệ thống đã được dọn dẹp sạch sẽ", "success"); 
+                fetchAndRenderAdminData(); // Tải lại bảng điều khiển rỗng
+            } else {
+                showToast("Lệnh xóa bị hủy do nhập sai mã PIN", "error");
+            }
+        }
+    };
+
+    // --- 14. HÀM TIỆN ÍCH (UTILITIES) ---
+    
+    // Hàm tạo hiệu ứng số nhảy từ 0 đến Số lượng (Easing Number Counter)
+    function animateNumberCounter(elementId, startValue, endValue, durationMs) {
+        let element = document.getElementById(elementId);
+        let startTimestamp = null;
+        
+        const step = (timestamp) => {
+            if(!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / durationMs, 1);
+            
+            element.innerHTML = Math.floor(progress * (endValue - startValue) + startValue);
+            
+            if(progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        }; 
+        
+        window.requestAnimationFrame(step);
+    }
 </script>
+
 </body>
 </html>
