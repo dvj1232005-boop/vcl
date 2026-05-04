@@ -911,17 +911,24 @@
         ========================================================= */
         footer {
             text-align: center;
-            padding: 30px 0;
+            padding: 30px 0 40px; /* Thêm padding dưới để an toàn trên mobile */
             font-size: 13px;
             color: var(--text-muted);
-            font-weight: 600;
+            font-weight: 500;
             z-index: 10;
             position: relative;
             line-height: 1.6;
+            letter-spacing: 0.3px;
+        }
+
+        footer strong {
+            color: var(--primary);
+            font-weight: 800;
         }
 
         footer span {
             color: var(--primary);
+            font-weight: 700;
         }
 
         /* =========================================================
@@ -1032,8 +1039,8 @@
             <div class="skeleton" style="width: 200px; height: 20px; border-radius: 10px;"></div>
         </div>
 
-        <!-- Khung nhập tên -->
-        <div class="input-wrapper">
+        <!-- Khung nhập tên (Đã fix lỗi lệch icon) -->
+        <div style="margin-bottom: 24px;">
             <label class="input-label">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -1041,15 +1048,17 @@
                 </svg>
                 Định danh nhân sự
             </label>
-            <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-            <input type="text" id="name" class="form-control" placeholder="Ví dụ: Đăng Tùng..." autocomplete="off">
+            <div class="input-wrapper" style="margin-bottom: 0;">
+                <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <input type="text" id="name" class="form-control" placeholder="Ví dụ: Đăng Tùng..." autocomplete="off">
+            </div>
         </div>
 
         <!-- Lưới chọn ca làm việc theo ngày -->
-        <div class="input-wrapper" style="margin-bottom: 0;">
+        <div style="margin-bottom: 32px;">
             <label class="input-label" style="margin-bottom: 12px;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -1059,7 +1068,7 @@
                 </svg>
                 Đăng ký lịch làm việc (Tuần này)
             </label>
-            <div id="form" class="calendar-grid">
+            <div id="form" class="calendar-grid" style="margin-bottom: 0;">
                 <!-- Javascript sẽ tự động render các ngày vào đây -->
             </div>
         </div>
@@ -1187,7 +1196,7 @@
 
 <footer>
     © 2026 WorkShift <span>Pro</span> Enterprise.<br>
-    Được thiết kế phục vụ riêng cho hệ thống QuyChe Network x An Cafe.
+    Designed & Engineered by <strong>Dang Tung</strong>. All rights reserved.
 </footer>
 
 <!-- =========================================================
@@ -1397,11 +1406,14 @@
     DAYS.forEach(dayName => {
         const fullDayName = dayName === 'CN' ? 'Chủ Nhật' : 'Thứ ' + dayName.charAt(1);
         
+        // CSS giúp thẻ Chủ Nhật trải dài chiếm toàn bộ cột (full width)
+        const gridSpanStyle = dayName === 'CN' ? 'grid-column: 1 / -1;' : '';
+        
         // Tạo các option từ mảng cấu hình CA LÀM
         const optionsHtml = SHIFTS.map(s => `<option value="${s.id}">${s.id}</option>`).join("");
         
         form.innerHTML += `
-            <div class="day-card">
+            <div class="day-card" style="${gridSpanStyle}">
                 <div class="day-header">
                     <span>${fullDayName}</span>
                     <span class="day-badge">${dayName}</span>
