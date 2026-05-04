@@ -344,6 +344,7 @@
             position: relative;
             width: 10px;
             height: 10px;
+            flex-shrink: 0;
         }
 
         .pulse-ring::before {
@@ -1448,6 +1449,7 @@
         return (dayOfWeek === 5 && hours >= 20) || dayOfWeek === 6 || dayOfWeek === 0;
     }
 
+    // HÀM UPDATE STATUS MỚI VỚI GIAO DIỆN HI-TECH
     function updateStatusUI() {
         const lockStatus = document.getElementById("lockStatus");
         const submitBtn = document.getElementById("submitBtn");
@@ -1455,13 +1457,39 @@
         if (isSystemLocked()) {
             lockStatus.style.background = "var(--danger-bg)"; 
             lockStatus.style.color = "var(--danger)";
-            lockStatus.innerHTML = `<div class="pulse-ring" style="background: var(--danger);"></div> Hệ thống đã ĐÓNG (Mở lại Thứ 2)`;
+            lockStatus.style.border = "1px solid rgba(239, 68, 68, 0.3)";
+            lockStatus.style.boxShadow = "0 0 20px rgba(239, 68, 68, 0.15), inset 0 0 15px rgba(239, 68, 68, 0.05)";
+            lockStatus.innerHTML = `
+                <div style="display: flex; align-items: center; width: 100%; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div class="pulse-ring" style="background: var(--danger); box-shadow: 0 0 12px var(--danger);"></div>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.5px;">HỆ THỐNG: <strong style="color: var(--danger); text-shadow: 0 0 10px rgba(239,68,68,0.8);">ĐÓNG</strong></span>
+                    </div>
+                    <div style="font-size: 11px; font-family: 'JetBrains Mono', monospace; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(239,68,68,0.3); display: flex; align-items: center; gap: 4px; color: var(--text-muted);">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--info)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.59-9.5l5.67-5.67"></path></svg>
+                        Mở lại: <span style="color: var(--info); font-weight: 700;">Thứ 2</span>
+                    </div>
+                </div>
+            `;
             submitBtn.disabled = true; 
             submitBtn.innerHTML = "Đã Khóa Đăng Ký";
         } else {
             lockStatus.style.background = "var(--success-bg)"; 
             lockStatus.style.color = "var(--success)";
-            lockStatus.innerHTML = `<div class="pulse-ring" style="background: var(--success);"></div> Hệ thống đang MỞ (Đóng tự động 20h T6)`;
+            lockStatus.style.border = "1px solid rgba(16, 185, 129, 0.3)";
+            lockStatus.style.boxShadow = "0 0 20px rgba(16, 185, 129, 0.15), inset 0 0 15px rgba(16, 185, 129, 0.05)";
+            lockStatus.innerHTML = `
+                <div style="display: flex; align-items: center; width: 100%; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div class="pulse-ring" style="background: var(--success); box-shadow: 0 0 12px var(--success);"></div>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.5px;">HỆ THỐNG: <strong style="color: var(--success); text-shadow: 0 0 10px rgba(16,185,129,0.8);">MỞ</strong></span>
+                    </div>
+                    <div style="font-size: 11px; font-family: 'JetBrains Mono', monospace; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(16,185,129,0.3); display: flex; align-items: center; gap: 4px; color: var(--text-muted);">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        Khóa tự động: <span style="color: var(--warning); font-weight: 700;">20:00 T6</span>
+                    </div>
+                </div>
+            `;
             submitBtn.disabled = false; 
             submitBtn.innerHTML = `Xác Nhận Đăng Ký`;
         }
