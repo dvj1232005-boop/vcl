@@ -16,7 +16,7 @@
     <!-- FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
 
     <style>
         /* =========================================================
@@ -91,6 +91,10 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        html, body {
+            touch-action: manipulation; /* Chặn hoàn toàn double-tap zoom gây khó chịu */
         }
 
         body {
@@ -224,6 +228,8 @@
             background: linear-gradient(135deg, var(--text-main) 0%, var(--text-muted) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            cursor: pointer;
+            user-select: none;
         }
 
         .brand-logo svg {
@@ -258,6 +264,38 @@
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lang-toggle {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            color: var(--text-main);
+            height: 44px;
+            padding: 0 30px 0 14px;
+            border-radius: 22px;
+            font-weight: 700;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            transition: 0.3s;
+        }
+
+        .lang-toggle:focus {
+            border-color: var(--primary);
         }
 
         .theme-toggle {
@@ -542,8 +580,31 @@
         }
 
         /* =========================================================
-           10. BENTO DASHBOARD (ADMIN PANEL)
+           10. HI-TECH BENTO DASHBOARD (ADMIN PANEL)
         ========================================================= */
+        /* Dashboard Container Effect */
+        .dashboard-container {
+            position: relative;
+        }
+        
+        .dashboard-container::before {
+            content: '';
+            position: absolute;
+            top: -20px; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0.5;
+        }
+
+        .dashboard-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px dashed var(--border-glass);
+        }
+
         .bento-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -552,50 +613,84 @@
         }
 
         .bento-card {
-            background: var(--bg-glass-heavy);
+            background: linear-gradient(145deg, var(--bg-glass-heavy) 0%, rgba(15, 23, 42, 0.4) 100%);
             border: 1px solid var(--border-glass);
             border-radius: 24px;
-            padding: 20px;
-            box-shadow: var(--shadow-soft);
+            padding: 24px;
+            box-shadow: var(--shadow-soft), inset 0 0 20px rgba(0,0,0,0.2);
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            
+            /* Radar Grid Background */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Cyberpunk Corner Accents */
+        .bento-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 30px; height: 30px;
+            border-top: 2px solid var(--primary);
+            border-left: 2px solid var(--primary);
+            border-top-left-radius: 24px;
+            opacity: 0.5;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4), inset 0 0 0 1px var(--primary-glow);
         }
 
         .stat-val {
-            font-size: 36px;
+            font-size: 42px;
             font-weight: 800;
-            color: var(--primary);
+            color: var(--text-main);
             font-family: 'JetBrains Mono', monospace;
             line-height: 1;
-            margin-bottom: 4px;
-            text-shadow: 0 4px 12px var(--primary-glow);
+            margin-bottom: 8px;
+            text-shadow: 0 0 15px var(--primary-glow);
+            position: relative;
+            z-index: 2;
         }
 
         .stat-label {
             font-size: 12px;
             font-weight: 800;
-            color: var(--text-muted);
+            color: var(--primary);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            position: relative;
+            z-index: 2;
         }
 
         .bento-icon {
             position: absolute;
-            top: -15px;
-            right: -15px;
-            opacity: 0.05;
-            transform: scale(3);
+            top: 50%;
+            right: -10px;
+            transform: translateY(-50%) scale(3.5);
             color: var(--primary);
+            opacity: 0.05;
             pointer-events: none;
+            z-index: 1;
         }
 
-        /* ACTION DOCK */
+        /* ACTION DOCK V2 */
         .action-dock {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 28px;
+            border: 1px solid var(--border-glass);
+            box-shadow: inset 0 4px 15px rgba(0,0,0,0.3);
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 24px;
         }
 
@@ -604,53 +699,75 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             padding: 16px 8px;
             border-radius: 20px;
-            border: 1px solid var(--border-glass);
-            background: var(--bg-glass-heavy);
+            background: var(--bg-glass);
             color: var(--text-main);
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            box-shadow: var(--shadow-soft);
-            transition: 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             cursor: pointer;
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
         }
 
-        .dock-btn svg {
-            width: 22px;
-            height: 22px;
-            color: var(--info);
+        .dock-btn::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 20px; height: 3px;
+            border-radius: 3px;
+            background: currentColor;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .dock-btn:hover {
+            background: var(--bg-glass-heavy);
         }
 
         .dock-btn:active {
-            transform: scale(0.9);
-            background: var(--input-bg);
+            transform: scale(0.92);
         }
 
-        .dock-btn.danger svg { color: var(--danger); }
-        .dock-btn.warning svg { color: var(--warning); }
-        .dock-btn.success svg { color: var(--success); }
+        .dock-btn.success { color: var(--success); }
+        .dock-btn.warning { color: var(--warning); }
+        .dock-btn.info { color: var(--info); }
+        .dock-btn.danger { color: var(--danger); }
+
+        .dock-btn:hover::before {
+            opacity: 1;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .dock-btn svg {
+            width: 24px;
+            height: 24px;
+            filter: drop-shadow(0 0 5px currentColor);
+        }
 
         /* =========================================================
-           11. DATA TABLE (MOMENTUM SCROLL iOS)
+           11. DATA TABLE (CYBERPUNK SCROLL)
         ========================================================= */
         .table-container {
             border-radius: 24px;
             border: 1px solid var(--border-glass);
             background: var(--bg-glass);
             overflow: hidden;
-            box-shadow: var(--shadow-soft);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+            position: relative;
         }
 
         .table-wrapper {
             overflow-x: auto;
             max-height: 400px;
-            /* Yêu cầu bắt buộc để cuộn mượt trên iOS Safari */
             -webkit-overflow-scrolling: touch; 
         }
 
@@ -660,21 +777,20 @@
 
         table {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
+            border-collapse: collapse;
             font-size: 13px;
         }
 
         th {
-            background: rgba(0,0,0,0.03);
+            background: rgba(0,0,0,0.4);
             color: var(--text-muted);
             font-weight: 800;
             text-transform: uppercase;
             font-size: 11px;
             letter-spacing: 1px;
-            padding: 16px 12px;
+            padding: 18px 12px;
             text-align: center;
-            border-bottom: 1px solid var(--border-glass);
+            border-bottom: 2px solid var(--primary); /* Neon Accent */
             white-space: nowrap;
             position: sticky;
             top: 0;
@@ -687,16 +803,25 @@
             text-align: left;
             left: 0;
             z-index: 20;
-            background: var(--bg-glass-heavy);
-            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            background: rgba(0,0,0,0.6);
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
         }
 
         td {
-            padding: 14px 12px;
+            padding: 16px 12px;
             text-align: center;
             border-bottom: 1px solid var(--border-glass);
             font-weight: 600;
             white-space: nowrap;
+            transition: background 0.2s;
+        }
+        
+        tr {
+            position: relative;
+        }
+
+        tr:hover td {
+            background: rgba(255,255,255,0.05);
         }
 
         td:first-child {
@@ -709,105 +834,88 @@
             color: var(--text-main);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            border-left: 3px solid transparent;
+            transition: 0.2s;
+        }
+
+        tr:hover td:first-child {
+            border-left: 3px solid var(--primary);
+            /* Bỏ hiệu ứng chuyển màu nền đen khi hover tên NV */
         }
 
         .avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            border-radius: 10px; /* Techy slightly square avatar */
             background: linear-gradient(135deg, var(--primary), var(--info));
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
-            font-weight: bold;
+            font-size: 12px;
+            font-weight: 800;
             flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
 
         /* Shift Badges Styling */
         .shift-badge {
             display: inline-flex;
-            padding: 4px 10px;
+            padding: 6px 12px;
             border-radius: 8px;
             font-weight: 800;
             font-size: 11px;
             font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .badge-c1 { background: var(--info-bg); color: var(--info); border: 1px solid rgba(59, 130, 246, 0.2); }
-        .badge-c2 { background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.2); }
-        .badge-c3 { background: rgba(168, 85, 247, 0.15); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.2); }
-        .badge-f { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
-        .badge-double { background: var(--primary-bg); color: var(--primary); border: 1px solid rgba(220, 38, 38, 0.2); }
-        .badge-none { background: transparent; color: var(--border-glass); }
+        .badge-c1 { background: var(--info-bg); color: var(--info); border: 1px solid rgba(59, 130, 246, 0.3); }
+        .badge-c2 { background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge-c3 { background: rgba(168, 85, 247, 0.15); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .badge-f { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .badge-double { background: var(--primary-bg); color: var(--primary); border: 1px solid rgba(220, 38, 38, 0.4); box-shadow: 0 0 10px var(--primary-light);}
+        .badge-none { background: transparent; color: var(--border-glass); box-shadow: none;}
 
         /* =========================================================
-           12. SLIDE TO UNLOCK (HI-TECH AUTH)
+           12. SECRET SWIPE ZONE (MẢNG KÍNH ĐỤC ẨN TOÀN MÀN HÌNH)
         ========================================================= */
-        .slider-auth-container {
-            width: 100%;
-            max-width: 320px;
-            margin: 20px auto 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .slider-track {
-            width: 100%;
-            height: 64px;
-            background: var(--input-bg);
-            border-radius: 32px;
-            border: 2px solid var(--border-glass);
-            position: relative;
-            box-shadow: inset 0 4px 10px rgba(0,0,0,0.1);
-            touch-action: none; /* Rất quan trọng: Ngăn chặn cuộn màn hình khi đang kéo trên iOS */
-        }
-
-        .slider-fill {
+        .swipe-auth-zone {
             position: absolute;
-            top: 0;
+            top: 0; 
             left: 0;
+            width: 100%;
             height: 100%;
-            width: 64px; /* Default matches thumb + padding */
-            background: var(--info);
-            border-radius: 32px;
-            transition: background 0.3s;
-        }
-
-        .slider-thumb {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            width: 52px;
-            height: 52px;
-            background: var(--bg-glass-heavy);
-            border-radius: 50%;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            z-index: 10;
+            touch-action: none; /* Ngăn chặn cuộn trang khi đang vuốt ngang */
             cursor: grab;
-            color: var(--text-main);
-            z-index: 2;
-            border: 1px solid var(--border-glass);
-            touch-action: none;
+            background: transparent; /* Tàng hình hoàn toàn */
+            border-radius: 32px;
+            transition: background 0.3s ease;
         }
-
-        .slider-thumb:active {
+        
+        .swipe-auth-zone:active {
             cursor: grabbing;
-            transform: scale(0.95);
         }
 
-        .slider-text {
+        /* Nút Thoát (Tech Style) */
+        .btn-exit {
+            background: transparent;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--danger);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 12px;
+            text-transform: uppercase;
+            cursor: pointer;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-muted);
+            transition: 0.3s;
+        }
+        .btn-exit:hover {
+            background: var(--danger-bg);
+            box-shadow: 0 0 15px var(--danger-bg);
         }
 
         /* =========================================================
@@ -894,7 +1002,7 @@
             font-weight: 800;
         }
 
-        footer span {
+        footer span.pro-text {
             color: var(--primary);
             font-weight: 700;
         }
@@ -911,7 +1019,6 @@
                 font-size: 24px;
             }
             .bento-grid {
-                grid-template-columns: 1fr 1fr;
                 gap: 12px;
             }
             .bento-card {
@@ -922,10 +1029,11 @@
                 font-size: 32px;
             }
             .action-dock {
-                gap: 10px;
+                gap: 8px;
+                padding: 10px;
             }
             .dock-btn {
-                padding: 12px 6px;
+                padding: 12px 4px;
                 border-radius: 16px;
                 font-size: 10px;
             }
@@ -967,27 +1075,37 @@
             </div>
             <div class="update-ticker" id="timeTicker">
                 <div class="update-pulse"></div> 
-                Đồng bộ realtime: <span class="mono" id="realTime">--:--:--</span>
+                <span data-i18n="realtime">Đồng bộ realtime:</span> <span class="mono" id="realTime">--:--:--</span>
             </div>
         </div>
         
-        <!-- Theme Toggle Switch -->
-        <button class="theme-toggle" id="themeBtn" aria-label="Toggle Theme">
-            <svg id="moonIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-            <svg id="sunIcon" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-        </button>
+        <!-- Controls: Language & Theme -->
+        <div class="header-controls">
+            <select id="langSelect" class="lang-toggle">
+                <option value="vi">🇻🇳 VI</option>
+                <option value="en">🇬🇧 EN</option>
+                <option value="zh">🇨🇳 ZH</option>
+                <option value="ko">🇰🇷 KO</option>
+                <option value="ja">🇯🇵 JA</option>
+            </select>
+
+            <button class="theme-toggle" id="themeBtn" aria-label="Toggle Theme">
+                <svg id="moonIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+                <svg id="sunIcon" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
+        </div>
     </header>
 
     <!-- Hệ thống thông báo nổi (Toast) -->
@@ -998,8 +1116,8 @@
     =========================================== -->
     <main class="card" id="userCard">
         <div class="card-header">
-            <h2 class="card-title">Đăng Ký Ca Làm</h2>
-            <div class="card-subtitle">Hệ thống xếp lịch nội bộ | An Cafe & QuyChe Network</div>
+            <h2 class="card-title" data-i18n="title">Đăng Ký Ca Làm</h2>
+            <div class="card-subtitle" data-i18n="subtitle">Hệ thống xếp lịch nội bộ | An Cafe & QuyChe Network</div>
         </div>
         
         <!-- Trạng thái hệ thống (Khóa/Mở) -->
@@ -1007,21 +1125,21 @@
             <div class="skeleton" style="width: 100%; height: 38px; border-radius: 12px;"></div>
         </div>
 
-        <!-- Khung nhập tên (Đã fix lỗi lệch icon) -->
+        <!-- Khung nhập tên -->
         <div style="margin-bottom: 24px;">
             <label class="input-label">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                 </svg>
-                Định danh nhân sự
+                <span data-i18n="employeeId">Định danh nhân sự</span>
             </label>
             <div class="input-wrapper" style="margin-bottom: 0;">
                 <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                 </svg>
-                <input type="text" id="name" class="form-control" placeholder="Ví dụ: Đăng Tùng..." autocomplete="off">
+                <input type="text" id="name" class="form-control" placeholder="Ví dụ: Đăng Tùng..." data-i18n-placeholder="placeholder" autocomplete="off">
             </div>
         </div>
 
@@ -1034,7 +1152,7 @@
                     <line x1="8" y1="2" x2="8" y2="6"></line>
                     <line x1="3" y1="10" x2="21" y2="10"></line>
                 </svg>
-                Đăng ký lịch làm việc (Tuần này)
+                <span data-i18n="schedule">Đăng ký lịch làm việc (Tuần này)</span>
             </label>
             <div id="form" class="calendar-grid" style="margin-bottom: 0;">
                 <!-- Javascript sẽ tự động render các ngày vào đây -->
@@ -1042,10 +1160,10 @@
         </div>
 
         <!-- Các nút hành động chính -->
-        <button id="submitBtn" class="btn btn-primary">
+        <button id="submitBtn" class="btn btn-primary" data-i18n="confirmBtn">
             Xác Nhận Đăng Ký
         </button>
-        <button id="managerBtn" class="btn btn-outline">
+        <button id="managerBtn" class="btn btn-outline" data-i18n="managerBtn">
             Truy Cập Khu Vực Quản Lý
         </button>
     </main>
@@ -1053,35 +1171,30 @@
     <!-- ==========================================
          PHẦN 2: KHU VỰC DÀNH CHO QUẢN TRỊ VIÊN
     =========================================== -->
-    <main class="card hidden" id="managerBox">
+    <main class="card hidden" id="managerBox" style="position: relative; min-height: 250px; display: flex; flex-direction: column; justify-content: center;">
         
-        <!-- 2.1 Slider Auth (HI-TECH CYBERPUNK UNLOCK) -->
-        <div id="loginSection">
-            <div class="card-header" id="managerHeader">
-                <h2 class="card-title" style="color: var(--primary);">Secure Access</h2>
-                <div class="card-subtitle">Hệ thống nhận diện quản trị viên</div>
+        <!-- 2.1 SECRET SWIPE AUTH (Bảo Mật Ẩn Tuyệt Đối) -->
+        <div id="loginSection" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <div class="card-header" id="managerHeader" style="margin-bottom: 0; position: relative; z-index: 11; pointer-events: none;">
+                <h2 class="card-title" style="color: var(--primary);" data-i18n="secureAccess">Secure Access</h2>
+                <div class="card-subtitle" data-i18n="highPrivilege">Hệ thống phân quyền cấp cao</div>
             </div>
             
-            <div class="slider-auth-container" id="sliderAuth">
-                <div class="slider-track" id="sliderTrack">
-                    <div class="slider-fill" id="sliderFill"></div>
-                    <div class="slider-thumb" id="sliderThumb">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="13 17 18 12 13 7"></polyline>
-                            <polyline points="6 17 11 12 6 7"></polyline>
-                        </svg>
-                    </div>
-                </div>
-                <div class="slider-text" id="sliderText">Kéo để mở khóa (0%)</div>
-            </div>
+            <!-- Vùng vuốt tàng hình phủ toàn bộ khu vực màn hình này -->
+            <canvas id="swipeTrailCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; border-radius: 32px;"></canvas>
+            <div class="swipe-auth-zone" id="swipeZone"></div>
         </div>
 
-        <!-- 2.2 Bảng Điều Khiển Quản Trị (Bento Dashboard) -->
-        <div id="adminPanel" class="hidden">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <h2 class="card-title" style="font-size: 24px; margin:0;">Dashboard</h2>
-                <button id="logoutBtn" style="background:var(--border-glass); border:none; color:var(--text-main); padding:8px 16px; border-radius:12px; font-weight:700; cursor:pointer; font-family:inherit;">
-                    Thoát
+        <!-- 2.2 Bảng Điều Khiển Quản Trị (Hi-Tech Dashboard) -->
+        <div id="adminPanel" class="hidden dashboard-container">
+            <div class="dashboard-header-flex">
+                <div>
+                    <h2 class="card-title" style="font-size: 20px; margin:0; text-align: left; display: flex; align-items: center; gap: 8px;">
+                        <span style="color: var(--primary); font-family: 'JetBrains Mono', monospace;">>_</span> <span data-i18n="dashboard">DASHBOARD</span>
+                    </h2>
+                </div>
+                <button id="logoutBtn" class="btn-exit" data-i18n="lockSys">
+                    Khóa Hệ Thống
                 </button>
             </div>
 
@@ -1093,7 +1206,7 @@
                         <circle cx="9" cy="7" r="4"></circle>
                     </svg>
                     <div class="stat-val" id="totalUsers">0</div>
-                    <div class="stat-label">Tổng Nhân Sự</div>
+                    <div class="stat-label" data-i18n="totalEmp">Tổng Nhân Sự</div>
                 </div>
                 <div class="bento-card">
                     <svg class="bento-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1102,27 +1215,27 @@
                         <line x1="8" y1="2" x2="8" y2="6"></line>
                     </svg>
                     <div class="stat-val" id="totalShifts">0</div>
-                    <div class="stat-label">Ca Đăng Ký</div>
+                    <div class="stat-label" data-i18n="totalShifts">Ca Đăng Ký</div>
                 </div>
             </div>
 
-            <!-- Thanh Hành Động Nhanh (Action Dock) -->
+            <!-- Thanh Hành Động Nhanh (Action Dock V2) -->
             <div class="action-dock">
                 <div class="dock-btn success" id="unlockBtn">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                         <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
                     </svg> 
-                    Mở Lịch
+                    <span data-i18n="openShift">Mở Lịch</span>
                 </div>
                 <div class="dock-btn warning" id="lockBtn">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                     </svg> 
-                    Khóa
+                    <span data-i18n="lock">Khóa</span>
                 </div>
-                <div class="dock-btn" id="copyBtn">
+                <div class="dock-btn info" id="copyBtn">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                         <polyline points="14 2 14 8 20 8"></polyline>
@@ -1130,14 +1243,14 @@
                         <line x1="16" y1="17" x2="8" y2="17"></line>
                         <polyline points="10 9 9 9 8 9"></polyline>
                     </svg> 
-                    Xuất File
+                    <span data-i18n="export">Xuất File</span>
                 </div>
                 <div class="dock-btn danger" id="clearBtn">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="3 6 5 6 21 6"></polyline>
                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                     </svg> 
-                    Dọn Dẹp
+                    <span data-i18n="cleanup">Dọn Dẹp</span>
                 </div>
             </div>
 
@@ -1152,14 +1265,88 @@
 </div>
 
 <footer>
-    © 2026 WorkShift <span>Pro</span> Enterprise.<br>
-    Designed & Engineered by <strong>Dang Tung</strong>. All rights reserved.
+    © 2026 WorkShift <span class="pro-text">Pro</span> Enterprise.<br>
+    <span data-i18n="designed">Designed & Engineered by</span> <strong>Dang Tung</strong>. <span data-i18n="rights">All rights reserved.</span>
 </footer>
 
 <!-- =========================================================
      JAVASCRIPT MODULES & LOGIC
 ========================================================= -->
 <script type="module">
+    // --- 0. MULTI-LANGUAGE SYSTEM (I18N) ---
+    const i18n = {
+        vi: {
+            realtime: "Đồng bộ realtime:", title: "Đăng Ký Ca Làm", subtitle: "Hệ thống xếp lịch nội bộ | An Cafe & QuyChe Network", employeeId: "Định danh nhân sự", placeholder: "Ví dụ: Đăng Tùng...", schedule: "Đăng ký lịch làm việc (Tuần này)", confirmBtn: "Xác Nhận Đăng Ký", managerBtn: "Truy Cập Khu Vực Quản Lý", secureAccess: "Secure Access", highPrivilege: "Hệ thống phân quyền cấp cao", dashboard: "DASHBOARD", lockSys: "Khóa Hệ Thống", totalEmp: "Tổng Nhân Sự", totalShifts: "Ca Đăng Ký", openShift: "Mở Lịch", lock: "Khóa", export: "Xuất File", cleanup: "Dọn Dẹp", designed: "Designed & Engineered by", rights: "All rights reserved.",
+            dayFullName_T2: "Thứ 2", dayFullName_T3: "Thứ 3", dayFullName_T4: "Thứ 4", dayFullName_T5: "Thứ 5", dayFullName_T6: "Thứ 6", dayFullName_T7: "Thứ 7", dayFullName_CN: "Chủ Nhật",
+            dayShort_T2: "T2", dayShort_T3: "T3", dayShort_T4: "T4", dayShort_T5: "T5", dayShort_T6: "T6", dayShort_T7: "T7", dayShort_CN: "CN",
+            off: "-- Nghỉ --", sysLocked: "Hệ thống khóa", stopReg: "Ngưng nhận đăng ký", reopenAt: "Mở lại vào", monday: "Thứ 2", sysOpen: "Đang mở cửa", sysOnline: "Hệ thống trực tuyến", autoLock: "Khóa tự động", emptyData: "Không có dữ liệu trong tuần này.", staffIdentity: "Định danh nhân sự"
+        },
+        en: {
+            realtime: "Realtime sync:", title: "Shift Registration", subtitle: "Internal Scheduling System | An Cafe & QuyChe Network", employeeId: "Employee Identity", placeholder: "Example: Dang Tung...", schedule: "Register Work Shift (This week)", confirmBtn: "Confirm Registration", managerBtn: "Access Management Area", secureAccess: "Secure Access", highPrivilege: "High Privilege System", dashboard: "DASHBOARD", lockSys: "Lock System", totalEmp: "Total Staff", totalShifts: "Registered Shifts", openShift: "Open Shift", lock: "Lock", export: "Export", cleanup: "Clean Up", designed: "Designed & Engineered by", rights: "All rights reserved.",
+            dayFullName_T2: "Monday", dayFullName_T3: "Tuesday", dayFullName_T4: "Wednesday", dayFullName_T5: "Thursday", dayFullName_T6: "Friday", dayFullName_T7: "Saturday", dayFullName_CN: "Sunday",
+            dayShort_T2: "Mon", dayShort_T3: "Tue", dayShort_T4: "Wed", dayShort_T5: "Thu", dayShort_T6: "Fri", dayShort_T7: "Sat", dayShort_CN: "Sun",
+            off: "-- Off --", sysLocked: "System Locked", stopReg: "Stop accepting registrations", reopenAt: "Reopens at", monday: "Monday", sysOpen: "System Open", sysOnline: "System Online", autoLock: "Auto lock", emptyData: "No data available this week.", staffIdentity: "Staff Identity"
+        },
+        zh: {
+            realtime: "同步实时:", title: "排班注册", subtitle: "内部排班系统 | An Cafe & QuyChe Network", employeeId: "员工身份", placeholder: "示例：Dang Tung...", schedule: "注册工作班次（本周）", confirmBtn: "确认注册", managerBtn: "访问管理区", secureAccess: "安全访问", highPrivilege: "高权限系统", dashboard: "仪表板", lockSys: "锁定系统", totalEmp: "总员工", totalShifts: "注册班次", openShift: "开放班次", lock: "锁定", export: "导出", cleanup: "清理", designed: "设计与工程 by", rights: "保留所有权利.",
+            dayFullName_T2: "星期一", dayFullName_T3: "星期二", dayFullName_T4: "星期三", dayFullName_T5: "星期四", dayFullName_T6: "星期五", dayFullName_T7: "星期六", dayFullName_CN: "星期日",
+            dayShort_T2: "周一", dayShort_T3: "周二", dayShort_T4: "周三", dayShort_T5: "周四", dayShort_T6: "周五", dayShort_T7: "周六", dayShort_CN: "周日",
+            off: "-- 休息 --", sysLocked: "系统已锁定", stopReg: "停止接受注册", reopenAt: "重新开放于", monday: "星期一", sysOpen: "系统开放", sysOnline: "系统在线", autoLock: "自动锁定", emptyData: "本周没有数据.", staffIdentity: "员工身份"
+        },
+        ko: {
+            realtime: "실시간 동기화:", title: "근무 교대 등록", subtitle: "내부 일정 시스템 | An Cafe & QuyChe Network", employeeId: "직원 신원", placeholder: "예: Dang Tung...", schedule: "근무 교대 등록 (이번 주)", confirmBtn: "등록 확인", managerBtn: "관리 영역 접근", secureAccess: "보안 접근", highPrivilege: "고권한 시스템", dashboard: "대시보드", lockSys: "시스템 잠금", totalEmp: "총 직원", totalShifts: "등록된 교대", openShift: "교대 열기", lock: "잠금", export: "내보내기", cleanup: "정리", designed: "설계 및 엔지니어링 by", rights: "모든 권리 보유.",
+            dayFullName_T2: "월요일", dayFullName_T3: "화요일", dayFullName_T4: "수요일", dayFullName_T5: "목요일", dayFullName_T6: "금요일", dayFullName_T7: "토요일", dayFullName_CN: "일요일",
+            dayShort_T2: "월", dayShort_T3: "화", dayShort_T4: "수", dayShort_T5: "목", dayShort_T6: "금", dayShort_T7: "토", dayShort_CN: "일",
+            off: "-- 휴무 --", sysLocked: "시스템 잠김", stopReg: "등록 접수 중지", reopenAt: "다시 열림", monday: "월요일", sysOpen: "시스템 열림", sysOnline: "시스템 온라인", autoLock: "자동 잠금", emptyData: "이번 주 데이터가 없습니다.", staffIdentity: "직원 신원"
+        },
+        ja: {
+            realtime: "リアルタイム同期:", title: "シフト登録", subtitle: "内部スケジュールシステム | An Cafe & QuyChe Network", employeeId: "従業員ID", placeholder: "例：Dang Tung...", schedule: "シフト登録（今週）", confirmBtn: "登録の確認", managerBtn: "管理エリアへのアクセス", secureAccess: "セキュアアクセス", highPrivilege: "高権限システム", dashboard: "ダッシュボード", lockSys: "システムロック", totalEmp: "総従業員", totalShifts: "登録済みシフト", openShift: "シフトを開く", lock: "ロック", export: "エクスポート", cleanup: "クリーンアップ", designed: "設計とエンジニアリング by", rights: "全著作権所有.",
+            dayFullName_T2: "月曜日", dayFullName_T3: "火曜日", dayFullName_T4: "水曜日", dayFullName_T5: "木曜日", dayFullName_T6: "金曜日", dayFullName_T7: "土曜日", dayFullName_CN: "日曜日",
+            dayShort_T2: "月", dayShort_T3: "火", dayShort_T4: "水", dayShort_T5: "木", dayShort_T6: "金", dayShort_T7: "土", dayShort_CN: "日",
+            off: "-- 休み --", sysLocked: "システムロック中", stopReg: "登録受付停止", reopenAt: "再開時間", monday: "月曜日", sysOpen: "システム稼働中", sysOnline: "システムオンライン", autoLock: "自動ロック", emptyData: "今週のデータはありません。", staffIdentity: "従業員ID"
+        }
+    };
+
+    let currentLang = localStorage.getItem('lang') || 'vi';
+    document.getElementById('langSelect').value = currentLang;
+
+    function t(key) {
+        return i18n[currentLang][key] || key;
+    }
+
+    function updateLanguageUI() {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            el.innerText = t(el.getAttribute('data-i18n'));
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
+        });
+        
+        // Update Calendar texts
+        DAYS.forEach((day, index) => {
+            const fullDayEl = document.getElementById(`fullDayText_${day}`);
+            const shortDayEl = document.getElementById(`shortDayText_${day}`);
+            if(fullDayEl) fullDayEl.innerText = t('dayFullName_' + day);
+            if(shortDayEl) shortDayEl.innerText = t('dayShort_' + day);
+        });
+
+        // Update empty select options
+        document.querySelectorAll('.custom-select option[value=""]').forEach(el => {
+            el.innerText = t('off');
+        });
+
+        updateStatusUI(); // Refresh status banner texts
+        if (!document.getElementById("adminPanel").classList.contains("hidden")) {
+            fetchAndRenderAdminData(); // Refresh table headers
+        }
+    }
+
+    document.getElementById('langSelect').addEventListener('change', (e) => {
+        currentLang = e.target.value;
+        localStorage.setItem('lang', currentLang);
+        updateLanguageUI();
+    });
+
     // --- 1. FIREBASE INITIALIZATION ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
     import { getDatabase, ref, set, get, remove, onValue } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
@@ -1307,7 +1494,7 @@
     // --- 5. MODULE QUẢN LÝ GIAO DIỆN LIGHT/DARK THEME ---
     const themeBtn = document.getElementById('themeBtn');
     const html = document.documentElement;
-    const savedTheme = localStorage.getItem('theme') || 'dark'; // Mặc định là Dark Theme chuẩn Cinematic
+    const savedTheme = localStorage.getItem('theme') || 'dark'; 
     
     html.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
@@ -1347,11 +1534,8 @@
         `;
         
         container.appendChild(toast);
-        
-        // Trigger Reflow để chạy CSS Transition
         void toast.offsetWidth; 
         toast.classList.add('show');
-        
         setTimeout(() => { 
             toast.classList.remove('show'); 
             setTimeout(() => toast.remove(), 500); 
@@ -1361,22 +1545,20 @@
     // --- 7. TẠO LƯỚI ĐĂNG KÝ CA LÀM THEO TỪNG NGÀY TRONG TUẦN ---
     const form = document.getElementById("form");
     DAYS.forEach(dayName => {
-        const fullDayName = dayName === 'CN' ? 'Chủ Nhật' : 'Thứ ' + dayName.charAt(1);
-        
-        // CSS giúp thẻ Chủ Nhật trải dài chiếm toàn bộ cột (full width)
+        const fullDayName = t('dayFullName_' + dayName);
+        const shortDayName = t('dayShort_' + dayName);
+        const offText = t('off');
         const gridSpanStyle = dayName === 'CN' ? 'grid-column: 1 / -1;' : '';
-        
-        // Tạo các option từ mảng cấu hình CA LÀM
         const optionsHtml = SHIFTS.map(s => `<option value="${s.id}">${s.id}</option>`).join("");
         
         form.innerHTML += `
             <div class="day-card" style="${gridSpanStyle}">
                 <div class="day-header">
-                    <span>${fullDayName}</span>
-                    <span class="day-badge">${dayName}</span>
+                    <span id="fullDayText_${dayName}">${fullDayName}</span>
+                    <span class="day-badge" id="shortDayText_${dayName}">${shortDayName}</span>
                 </div>
                 <select id="${dayName}" class="custom-select">
-                    <option value="">-- Nghỉ --</option>
+                    <option value="">${offText}</option>
                     ${optionsHtml}
                 </select>
             </div>
@@ -1386,13 +1568,11 @@
     // --- 8. LOGIC KHÓA/MỞ HỆ THỐNG THEO THỜI GIAN THỰC ---
     let manualLock = null;
     
-    // Lắng nghe lệnh Khóa từ Quản Trị Viên trên Firebase
     onValue(ref(db, "settings/lock"), snap => { 
         manualLock = snap.exists() ? snap.val() : null; 
         updateStatusUI(); 
     });
 
-    // Logic tự động khóa theo thời gian cứng (Sau 20:00 T6 đến hết CN)
     function isSystemLocked() {
         if(manualLock === true) return true; 
         if(manualLock === false) return false;
@@ -1401,11 +1581,9 @@
         const dayOfWeek = now.getDay(); 
         const hours = now.getHours();
         
-        // 5: Thứ 6, 6: Thứ 7, 0: Chủ Nhật
         return (dayOfWeek === 5 && hours >= 20) || dayOfWeek === 6 || dayOfWeek === 0;
     }
 
-    // HÀM UPDATE STATUS MỚI VỚI GIAO DIỆN HI-TECH
     function updateStatusUI() {
         const lockStatus = document.getElementById("lockStatus");
         const submitBtn = document.getElementById("submitBtn");
@@ -1422,18 +1600,18 @@
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                         </div>
                         <div style="display: flex; flex-direction: column; gap: 3px;">
-                            <span style="font-size: 14px; font-weight: 800; color: var(--danger); text-transform: uppercase; line-height: 1;">Hệ thống khóa</span>
-                            <span style="font-size: 11px; font-weight: 600; color: var(--text-muted); line-height: 1;">Ngưng nhận đăng ký</span>
+                            <span style="font-size: 14px; font-weight: 800; color: var(--danger); text-transform: uppercase; line-height: 1;">${t('sysLocked')}</span>
+                            <span style="font-size: 11px; font-weight: 600; color: var(--text-muted); line-height: 1;">${t('stopReg')}</span>
                         </div>
                     </div>
                     <div style="text-align: right; display: flex; flex-direction: column; gap: 3px; background: rgba(0,0,0,0.25); padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); flex-shrink: 0;">
-                        <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; line-height: 1;">Mở lại vào</span>
-                        <span style="font-size: 12px; color: var(--info); font-family: 'JetBrains Mono', monospace; font-weight: 800; line-height: 1;">Thứ 2</span>
+                        <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; line-height: 1;">${t('reopenAt')}</span>
+                        <span style="font-size: 12px; color: var(--info); font-family: 'JetBrains Mono', monospace; font-weight: 800; line-height: 1;">${t('monday')}</span>
                     </div>
                 </div>
             `;
             submitBtn.disabled = true; 
-            submitBtn.innerHTML = "Đã Khóa Đăng Ký";
+            submitBtn.innerHTML = t('sysLocked');
         } else {
             lockStatus.style.background = "linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05))";
             lockStatus.style.border = "1px solid rgba(16, 185, 129, 0.2)";
@@ -1446,18 +1624,18 @@
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                         </div>
                         <div style="display: flex; flex-direction: column; gap: 3px;">
-                            <span style="font-size: 14px; font-weight: 800; color: var(--success); text-transform: uppercase; line-height: 1;">Đang mở cửa</span>
-                            <span style="font-size: 11px; font-weight: 600; color: var(--text-muted); line-height: 1;">Hệ thống trực tuyến</span>
+                            <span style="font-size: 14px; font-weight: 800; color: var(--success); text-transform: uppercase; line-height: 1;">${t('sysOpen')}</span>
+                            <span style="font-size: 11px; font-weight: 600; color: var(--text-muted); line-height: 1;">${t('sysOnline')}</span>
                         </div>
                     </div>
                     <div style="text-align: right; display: flex; flex-direction: column; gap: 3px; background: rgba(0,0,0,0.25); padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); flex-shrink: 0;">
-                        <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; line-height: 1;">Khóa tự động</span>
+                        <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; line-height: 1;">${t('autoLock')}</span>
                         <span style="font-size: 12px; color: var(--warning); font-family: 'JetBrains Mono', monospace; font-weight: 800; line-height: 1;">20:00 T6</span>
                     </div>
                 </div>
             `;
             submitBtn.disabled = false; 
-            submitBtn.innerHTML = `Xác Nhận Đăng Ký`;
+            submitBtn.innerHTML = t('confirmBtn');
         }
     }
 
@@ -1468,14 +1646,13 @@
         
         if(!employeeName) {
             nameInput.focus();
-            return showToast("Vui lòng nhập định danh nhân sự!", "warning");
+            return showToast(t('placeholder'), "warning");
         }
         
         if(isSystemLocked()) {
-            return showToast("Hệ thống đã khóa, không thể đăng ký", "error");
+            return showToast(t('sysLocked'), "error");
         }
         
-        // Thu thập các ca đã chọn
         const schedule = {}; 
         DAYS.forEach(day => { 
             const selectedShift = document.getElementById(day).value; 
@@ -1483,39 +1660,35 @@
         });
         
         if(!Object.keys(schedule).length) {
-            return showToast("Vui lòng đăng ký ít nhất 1 ca làm việc!", "warning");
+            return showToast(t('off'), "warning");
         }
 
         const btn = document.getElementById("submitBtn");
         const originalText = btn.innerHTML;
-        
-        // Hiệu ứng Loading Loading iOS
-        btn.innerHTML = `Đang đồng bộ dữ liệu...`; 
+        btn.innerHTML = `...`; 
         btn.disabled = true;
 
         try {
-            // Kiểm tra chống ghi đè dữ liệu nếu tên đã tồn tại
-            const existingSnapshot = await get(ref(db, "dangKy/" + employeeName));
-            if(existingSnapshot.exists() && !confirm(`Định danh "${employeeName}" đã có dữ liệu. Bạn có muốn ghi đè lịch mới?`)) { 
+            const snapshot = await get(ref(db, "dangKy/" + employeeName));
+            if(snapshot.exists() && !confirm(`Định danh "${employeeName}" đã có dữ liệu. Bạn có muốn ghi đè lịch mới?`)) { 
                 btn.innerHTML = originalText; 
                 btn.disabled = false; 
                 return; 
             }
             
-            // Lưu dữ liệu
             await set(ref(db, "dangKy/" + employeeName), { 
                 lich: schedule, 
                 timestamp: Date.now() 
             });
             
-            showToast("Đăng ký hoàn tất! Chúc bạn làm việc hiệu quả.", "success");
+            showToast("Success", "success");
             
-            // Xóa form
             nameInput.value = ""; 
             DAYS.forEach(day => document.getElementById(day).value = "");
             
         } catch(error) { 
-            showToast("Lỗi kết nối mạng: " + error.message, "error"); 
+            console.error("Firebase fetch error:", error);
+            showToast("Error: " + error.message, "error"); 
         } finally { 
             btn.innerHTML = originalText; 
             btn.disabled = false; 
@@ -1526,7 +1699,7 @@
     document.getElementById("managerBtn").onclick = () => {
         document.getElementById("userCard").classList.add("hidden"); 
         document.getElementById("managerBox").classList.remove("hidden"); 
-        resetSlider();
+        initSwipeTrail();
     };
 
     document.getElementById("logoutBtn").onclick = () => {
@@ -1536,121 +1709,117 @@
         document.getElementById("loginSection").classList.remove("hidden");
     };
 
-    // --- 11. XỬ LÝ THANH TRƯỢT CYBERPUNK (SLIDE TO UNLOCK) ---
-    let isDragging = false;
-    let authTriggered = false;
-    const sliderTrack = document.getElementById('sliderTrack');
-    const sliderThumb = document.getElementById('sliderThumb');
-    const sliderFill = document.getElementById('sliderFill');
-    const sliderText = document.getElementById('sliderText');
+    // --- 11. XỬ LÝ VUỐT NGANG ẨN & VỆT KÉO (SECRET SWIPE TRAIL) ---
+    let startX = 0;
+    let isSwiping = false;
+    let swipeTriggered = false;
+    let trailPoints = [];
+    
+    const swipeZone = document.getElementById('swipeZone');
+    const trailCanvas = document.getElementById('swipeTrailCanvas');
+    const tCtx = trailCanvas.getContext('2d');
 
-    function updateSlider(clientX) {
-        if (authTriggered) return;
-        
-        const rect = sliderTrack.getBoundingClientRect();
-        // Căn giữa ngón tay vào thumb (thumb size 52px, half is 26px)
-        let x = clientX - rect.left - 26; 
-        let max = rect.width - 56; // Track 100% trừ đi Thumb 52px và viền 4px
-        
-        if (x < 4) x = 4;
-        if (x > max) x = max;
-        
-        // Tính toán phần trăm (từ 0 đến 100)
-        let percent = ((x - 4) / (max - 4)) * 100;
-        
-        sliderThumb.style.left = `${x}px`;
-        sliderFill.style.width = `${x + 52}px`;
-        
-        sliderText.innerHTML = `Hệ thống an ninh: <span style="color: var(--text-main)">${Math.round(percent)}%</span>`;
+    function initSwipeTrail() {
+        swipeTriggered = false;
+        isSwiping = false;
+        trailPoints = [];
+        tCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+        resizeTrailCanvas();
+    }
 
-        // ĐỔI MÀU HI-TECH THEO PHẦN TRĂM
-        if (percent < 20) {
-            sliderFill.style.background = 'var(--info)'; // Xanh dương
-        } else if (percent < 50) {
-            sliderFill.style.background = 'var(--success)'; // Xanh lá
-        } else if (percent < 80) {
-            sliderFill.style.background = 'var(--warning)'; // Vàng / Cam
-        } else {
-            sliderFill.style.background = 'var(--danger)'; // Đỏ tại 80% trở lên
+    function resizeTrailCanvas() {
+        const rect = swipeZone.parentElement.getBoundingClientRect();
+        trailCanvas.width = rect.width;
+        trailCanvas.height = rect.height;
+    }
+    window.addEventListener('resize', resizeTrailCanvas);
+
+    function drawTrail() {
+        tCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+        if (trailPoints.length < 2) return;
+
+        tCtx.beginPath();
+        tCtx.moveTo(trailPoints[0].x, trailPoints[0].y);
+        for(let i = 1; i < trailPoints.length; i++) {
+            // Draw smooth curve
+            const xc = (trailPoints[i].x + trailPoints[i-1].x) / 2;
+            const yc = (trailPoints[i].y + trailPoints[i-1].y) / 2;
+            tCtx.quadraticCurveTo(trailPoints[i-1].x, trailPoints[i-1].y, xc, yc);
         }
+        
+        tCtx.strokeStyle = 'rgba(16, 185, 129, 0.8)'; // Green success glow
+        tCtx.lineWidth = 6;
+        tCtx.lineCap = 'round';
+        tCtx.shadowBlur = 15;
+        tCtx.shadowColor = 'rgba(16, 185, 129, 1)';
+        tCtx.stroke();
+    }
 
-        // KÍCH HOẠT ĐĂNG NHẬP THÀNH CÔNG KHI ĐẠT 80%
-        if (percent >= 80) {
-            authTriggered = true;
-            sliderFill.style.boxShadow = "0 0 20px var(--danger-glow)";
+    // Fade effect for trail
+    setInterval(() => {
+        if(trailPoints.length > 0 && !isSwiping) {
+            trailPoints.shift(); // Remove oldest point to fade out
+            drawTrail();
+        } else if (trailPoints.length > 20) {
+            trailPoints.shift(); // Keep array small when moving
+        }
+    }, 20);
+
+    swipeZone.addEventListener('pointerdown', (e) => {
+        if(swipeTriggered) return;
+        isSwiping = true;
+        startX = e.clientX;
+        trailPoints = [];
+        swipeZone.setPointerCapture(e.pointerId);
+    });
+
+    swipeZone.addEventListener('pointermove', (e) => {
+        if (!isSwiping || swipeTriggered) return;
+        
+        // Cập nhật tọa độ chuột cho Canvas vệt kéo
+        const rect = trailCanvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        trailPoints.push({ x: x, y: y });
+        drawTrail();
+        
+        let deltaX = e.clientX - startX;
+        
+        // Vuốt qua phải đủ xa (150px) -> Kích hoạt đăng nhập
+        if (deltaX > 150) {
+            swipeTriggered = true;
+            isSwiping = false;
             
-            // Thay đổi Icon thành ổ khóa mở
-            sliderThumb.innerHTML = `
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                    <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
-                </svg>
-            `; 
-            sliderText.innerHTML = `<span style="color: var(--danger)">Xác thực thành công!</span>`;
+            // Chớp sáng xanh toàn màn hình đăng nhập
+            tCtx.fillStyle = "rgba(16, 185, 129, 0.2)";
+            tCtx.fillRect(0, 0, trailCanvas.width, trailCanvas.height);
             
-            // Haptic Feedback API cho máy Android
             if(navigator.vibrate) navigator.vibrate([50, 50, 50]);
             
-            setTimeout(loginAdmin, 600);
-        }
-    }
-
-    sliderThumb.addEventListener('pointerdown', (e) => {
-        if(authTriggered) return;
-        isDragging = true;
-        sliderThumb.style.transition = 'none';
-        sliderFill.style.transition = 'background 0.3s'; // Giữ mượt màu
-        sliderThumb.setPointerCapture(e.pointerId); // Khóa con trỏ vào thumb để kéo mượt cả khi ra ngoài
-    });
-
-    sliderThumb.addEventListener('pointermove', (e) => {
-        if (!isDragging) return;
-        updateSlider(e.clientX);
-    });
-
-    sliderThumb.addEventListener('pointerup', (e) => {
-        if (!isDragging) return;
-        isDragging = false;
-        sliderThumb.releasePointerCapture(e.pointerId);
-        
-        // Nếu nhả tay ra trước khi đạt 80% -> Bật ngược trở lại (Snap back)
-        if (!authTriggered) {
-            sliderThumb.style.transition = 'left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
-            sliderFill.style.transition = 'width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s';
-            sliderThumb.style.left = '4px';
-            sliderFill.style.width = '60px'; // Quay về kích thước mặc định (chỉ bao bọc cái thumb)
-            sliderText.innerHTML = `Kéo để mở khóa (0%)`;
-            sliderFill.style.background = 'var(--info)';
+            setTimeout(() => {
+                loginAdmin();
+                initSwipeTrail();
+            }, 300);
         }
     });
 
-    function resetSlider() {
-        authTriggered = false;
-        sliderThumb.style.transition = 'left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
-        sliderFill.style.transition = 'width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s';
-        sliderThumb.style.left = '4px';
-        sliderFill.style.width = '60px';
-        sliderFill.style.background = 'var(--info)';
-        sliderFill.style.boxShadow = 'none';
-        sliderText.innerHTML = `Kéo để mở khóa (0%)`;
-        
-        // Reset Icon mũi tên
-        sliderThumb.innerHTML = `
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="13 17 18 12 13 7"></polyline>
-                <polyline points="6 17 11 12 6 7"></polyline>
-            </svg>
-        `;
-    }
+    swipeZone.addEventListener('pointerup', (e) => {
+        if (!isSwiping) return;
+        isSwiping = false;
+        swipeZone.releasePointerCapture(e.pointerId);
+    });
 
     function loginAdmin() {
-        showToast("Truy cập hệ thống quản trị", "success");
+        showToast("Welcome", "success");
         document.getElementById("loginSection").classList.add("hidden"); 
         document.getElementById("adminPanel").classList.remove("hidden");
         fetchAndRenderAdminData();
     }
 
     // --- 12. LOGIC DASHBOARD QUẢN TRỊ VIÊN ---
+    let rawExcelDataExport = ""; 
+    
     async function fetchAndRenderAdminData() {
         const tableContainer = document.getElementById("excelTable");
         
@@ -1667,7 +1836,7 @@
             if(!snapshot.exists()) {
                 tableContainer.innerHTML = `
                     <div style="padding: 40px; color: var(--text-muted); text-align: center; font-weight: 600;">
-                        Không có dữ liệu trong tuần này.
+                        ${t('emptyData')}
                     </div>
                 `;
                 document.getElementById("totalUsers").innerText = "0"; 
@@ -1675,25 +1844,26 @@
                 return;
             }
             
-            const data = snapshot.val(); 
+            const data = snapshot.val() || {}; 
             let countUsers = 0;
             let countShifts = 0;
             
             // Khởi tạo bảng HTML và dữ liệu Excel thô
-            let htmlTable = `<table><thead><tr><th>Định danh nhân sự</th>`;
-            htmlTable += DAYS.map(day => `<th>${day}</th>`).join('');
+            let htmlTable = `<table><thead><tr><th>${t('staffIdentity')}</th>`;
+            htmlTable += DAYS.map(day => `<th>${t('dayShort_' + day)}</th>`).join('');
             htmlTable += `</tr></thead><tbody>`;
             
-            rawExcelDataExport = `Định Danh Nhân Sự\t${DAYS.join('\t')}\n`;
+            rawExcelDataExport = `${t('staffIdentity')}\t${DAYS.map(day => t('dayShort_' + day)).join('\t')}\n`;
             
             // Sắp xếp danh sách tên nhân viên theo Alphabet
             const sortedNames = Object.keys(data).sort();
             
             sortedNames.forEach(employeeName => {
+                const employeeData = data[employeeName] || {};
                 countUsers++; 
                 
                 // Lấy chữ cái đầu tiên làm Avatar Placeholder
-                const avatarChar = employeeName.charAt(0).toUpperCase();
+                const avatarChar = String(employeeName).charAt(0).toUpperCase();
                 
                 htmlTable += `
                     <tr>
@@ -1705,14 +1875,16 @@
                 
                 rawExcelDataExport += `${employeeName}\t`;
                 
+                const lichData = (employeeData && typeof employeeData === 'object') ? employeeData.lich : null;
+
                 DAYS.forEach((day, index) => {
-                    const shiftRegistered = data[employeeName].lich?.[day]; 
+                    const shiftRegistered = lichData ? lichData[day] : null; 
                     
                     if(shiftRegistered) countShifts++;
                     
-                    // Tìm class CSS tương ứng với mã ca làm (C1, C2...)
-                    const shiftInfoObj = SHIFTS.find(s => s.id === shiftRegistered);
-                    const cssBadgeClass = shiftRegistered ? shiftInfoObj?.class : 'badge-none';
+                    // Tìm class CSS tương ứng với mã ca làm
+                    const shiftInfoObj = shiftRegistered ? SHIFTS.find(s => s.id === shiftRegistered) : null;
+                    const cssBadgeClass = shiftInfoObj ? shiftInfoObj.class : (shiftRegistered ? 'badge-double' : 'badge-none');
                     const displayValue = shiftRegistered || '-';
                     
                     htmlTable += `<td><span class="shift-badge ${cssBadgeClass}">${displayValue}</span></td>`;
@@ -1730,7 +1902,8 @@
             animateNumberCounter("totalShifts", 0, countShifts, 800);
             
         } catch(error) { 
-            showToast("Lỗi khi tải dữ liệu từ máy chủ", "error"); 
+            console.error("Firebase fetch error:", error);
+            showToast("Error: " + (error.message || "Please check again"), "error"); 
         }
     }
 
@@ -1738,39 +1911,39 @@
     
     // Copy bảng dữ liệu ra format Excel
     document.getElementById("copyBtn").onclick = () => {
-        if(!rawExcelDataExport) return showToast("Bảng dữ liệu đang trống", "warning");
+        if(!rawExcelDataExport) return showToast(t('emptyData'), "warning");
         
         navigator.clipboard.writeText(rawExcelDataExport)
-            .then(() => showToast("Đã copy toàn bộ dữ liệu. Hãy dán vào Excel/Sheets.", "success"))
-            .catch(() => showToast("Trình duyệt từ chối quyền Copy", "error"));
+            .then(() => showToast("Copied Data", "success"))
+            .catch(() => showToast("Error Copying", "error"));
     };
     
     // Lệnh Mở Lịch Đăng Ký
     document.getElementById("unlockBtn").onclick = async () => { 
-        if(confirm("Mở lại hệ thống đăng ký ca làm?")) { 
+        if(confirm("Confirm action?")) { 
             await set(ref(db,"settings/lock"), false); 
-            showToast("Hệ thống đã được MỞ khóa", "success"); 
+            showToast("Success", "success"); 
         } 
     };
     
     // Lệnh Khóa Lịch Đăng Ký
     document.getElementById("lockBtn").onclick = async () => { 
-        if(confirm("Ép đóng hệ thống đăng ký ngay lập tức?")) { 
+        if(confirm("Confirm action?")) { 
             await set(ref(db,"settings/lock"), true); 
-            showToast("Hệ thống đã KHÓA", "warning"); 
+            showToast("Locked", "warning"); 
         } 
     };
     
     // Lệnh Xóa Dữ Liệu (Reset Tuần Mới)
     document.getElementById("clearBtn").onclick = async () => {
-        if(confirm("CẢNH BÁO QUAN TRỌNG: Bạn đang yêu cầu xóa sạch dữ liệu.\nHành động này không thể hoàn tác. Tiếp tục?")) {
-            const validationPin = prompt("Xin lỗi vì sự bất tiện, nhưng để thực hiện Lệnh XÓA TOÀN BỘ DATA, bạn vẫn cần nhập mã PIN khẩn cấp (2005):");
+        if(confirm("DANGER: Are you sure?")) {
+            const validationPin = prompt("Enter PIN:");
             if(validationPin === "2005") { 
                 await remove(ref(db,"dangKy")); 
-                showToast("Dữ liệu hệ thống đã được dọn dẹp sạch sẽ", "success"); 
+                showToast("Cleared", "success"); 
                 fetchAndRenderAdminData(); // Tải lại bảng điều khiển rỗng
             } else {
-                showToast("Lệnh xóa bị hủy do nhập sai mã PIN", "error");
+                showToast("Invalid PIN", "error");
             }
         }
     };
@@ -1795,6 +1968,141 @@
         
         window.requestAnimationFrame(step);
     }
+
+    // =========================================================
+    // 15. EASTER EGG: PHYSICS GRAVITY FALL (KHÔNG TRỌNG LỰC)
+    // =========================================================
+    let isGravityActive = false;
+    let logoClickCount = 0;
+    
+    // Lắng nghe sự kiện click 5 lần vào Logo
+    const brandLogo = document.querySelector('.brand-logo');
+    brandLogo.addEventListener('click', () => {
+        if(isGravityActive) return;
+        logoClickCount++;
+        if(logoClickCount >= 5) {
+            activateGravityEasterEgg();
+        }
+        // Reset bộ đếm nếu không click đủ nhanh trong 2 giây
+        setTimeout(() => { logoClickCount = 0; }, 2000);
+    });
+
+    // Lắng nghe sự kiện lắc điện thoại (Device Motion)
+    let lastX, lastY, lastZ;
+    window.addEventListener('devicemotion', (event) => {
+        if (isGravityActive) return;
+        let accel = event.accelerationIncludingGravity;
+        if(!accel || accel.x === null) return;
+        
+        let deltaX = Math.abs(lastX ? accel.x - lastX : 0);
+        let deltaY = Math.abs(lastY ? accel.y - lastY : 0);
+        let deltaZ = Math.abs(lastZ ? accel.z - lastZ : 0);
+        
+        // Ngưỡng lắc (threshold) khá cao để tránh kích hoạt nhầm
+        if (deltaX + deltaY + deltaZ > 40) { 
+            activateGravityEasterEgg();
+        }
+        
+        lastX = accel.x; 
+        lastY = accel.y; 
+        lastZ = accel.z;
+    });
+
+    // Kích hoạt Engine Vật Lý
+    function activateGravityEasterEgg() {
+        isGravityActive = true;
+        showToast("⚠️ GRAVITY FAILURE", "warning");
+        if(navigator.vibrate) navigator.vibrate([100, 50, 100]);
+
+        // Tạo nút Khôi Phục (Reset)
+        const resetBtn = document.createElement('button');
+        resetBtn.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px; vertical-align: middle;">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg> Khóa & Khôi Phục
+        `;
+        resetBtn.style.cssText = "position:fixed; top: max(24px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); z-index: 999999; padding: 14px 24px; border-radius: 20px; background: var(--danger); color: white; font-weight: 800; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 10px 25px rgba(239, 68, 68, 0.6); cursor: pointer; display: flex; align-items: center; font-family: inherit;";
+        document.body.appendChild(resetBtn);
+        
+        // Tải lại trang khi bấm Khôi Phục để đưa mọi thứ về chuẩn
+        resetBtn.onclick = () => window.location.reload();
+
+        // Lấy tất cả các khối lớn trên màn hình để thả rơi
+        const elements = document.querySelectorAll('.card, .header');
+        const physicsElements = [];
+
+        elements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            
+            // Đóng băng kích thước và vị trí hiện tại
+            el.style.width = rect.width + 'px';
+            el.style.height = rect.height + 'px';
+            el.style.position = 'fixed';
+            el.style.top = rect.top + 'px';
+            el.style.left = rect.left + 'px';
+            el.style.margin = '0';
+            el.style.transition = 'none'; // Tắt CSS Animation
+            el.style.zIndex = '9999';
+
+            physicsElements.push({
+                el: el,
+                x: rect.left,
+                y: rect.top,
+                vx: (Math.random() - 0.5) * 15, // Gia tốc ngang ngẫu nhiên
+                vy: -5 - Math.random() * 10,    // Lực nảy lên ban đầu
+                rotation: 0,
+                vr: (Math.random() - 0.5) * 10  // Gia tốc xoay ngẫu nhiên
+            });
+        });
+
+        // Thông số vật lý
+        const gravity = 0.8;
+        const bounce = 0.5;
+        
+        // Vòng lặp vật lý (Physics Loop)
+        function updatePhysics() {
+            if(!isGravityActive) return;
+            
+            physicsElements.forEach(p => {
+                p.vy += gravity; // Áp dụng trọng lực
+                p.x += p.vx;
+                p.y += p.vy;
+                p.rotation += p.vr;
+
+                // Xử lý va chạm đáy màn hình
+                if (p.y + p.el.offsetHeight > window.innerHeight) {
+                    p.y = window.innerHeight - p.el.offsetHeight;
+                    p.vy *= -bounce; // Nảy ngược lại
+                    p.vx *= 0.95;    // Lực ma sát ngang
+                    p.vr *= 0.95;    // Lực ma sát xoay
+                }
+                
+                // Xử lý va chạm hai bên viền màn hình
+                if (p.x < 0) {
+                    p.x = 0;
+                    p.vx *= -bounce;
+                    p.vr *= -0.8;
+                } else if (p.x + p.el.offsetWidth > window.innerWidth) {
+                    p.x = window.innerWidth - p.el.offsetWidth;
+                    p.vx *= -bounce;
+                    p.vr *= -0.8;
+                }
+
+                // Render ra DOM
+                p.el.style.top = p.y + 'px';
+                p.el.style.left = p.x + 'px';
+                p.el.style.transform = `rotate(${p.rotation}deg)`;
+            });
+            
+            requestAnimationFrame(updatePhysics);
+        }
+        
+        requestAnimationFrame(updatePhysics);
+    }
+
+    // Call init language on load
+    updateLanguageUI();
 </script>
 
 </body>
