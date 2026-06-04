@@ -48,7 +48,7 @@
         }
 
         /* =========================================================
-           02. RESET & BASE (iOS OPTIMIZED)
+           02. RESET & BASE
         ========================================================= */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { touch-action: manipulation; -webkit-text-size-adjust: 100%; }
@@ -57,11 +57,11 @@
             background-color: var(--bg-base); color: var(--text-main);
             transition: background-color 0.5s ease, color 0.5s ease;
             min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; position: relative;
-            -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased;
         }
         .mono { font-family: 'JetBrains Mono', monospace; }
 
-        input, select, textarea, button, input[type="text"], input[type="number"], .form-control {
+        input, select, textarea, button, input[type="text"] {
             font-size: 16px !important; touch-action: manipulation;
         }
 
@@ -69,7 +69,7 @@
            03. BACKGROUND EFFECTS
         ========================================================= */
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
-        .mesh-blob { position: fixed; border-radius: 50%; filter: blur(120px); -webkit-filter: blur(120px); z-index: 0; opacity: 0.35; animation: blob-bounce 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; will-change: transform; }
+        .mesh-blob { position: fixed; border-radius: 50%; filter: blur(120px); -webkit-filter: blur(120px); z-index: 0; opacity: 0.35; animation: blob-bounce 25s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; }
         .blob-1 { top: -10%; left: -10%; width: 55vw; height: 55vw; background: var(--blob-1); animation-delay: 0s; }
         .blob-2 { bottom: -20%; right: -10%; width: 50vw; height: 50vw; background: var(--blob-2); animation-delay: -5s; }
 
@@ -102,7 +102,7 @@
 
         .header-controls { display: flex; align-items: center; gap: 10px; }
         
-        .lang-toggle { background: var(--bg-glass); border: 1px solid var(--border-glass); color: var(--text-main); height: 38px; padding: 0 28px 0 14px; border-radius: 19px; font-weight: 700; font-family: inherit; font-size: 13px !important; cursor: pointer; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); outline: none; -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; transition: 0.3s; }
+        .lang-toggle { background: var(--bg-glass); border: 1px solid var(--border-glass); color: var(--text-main); height: 38px; padding: 0 28px 0 14px; border-radius: 19px; font-weight: 700; font-family: inherit; font-size: 13px !important; cursor: pointer; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); outline: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; transition: 0.3s; }
         .lang-toggle:focus { border-color: var(--primary); }
 
         .theme-toggle { background: var(--bg-glass); border: 1px solid var(--border-glass); color: var(--text-main); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); flex-shrink: 0; }
@@ -116,13 +116,50 @@
         }
 
         /* =========================================================
-           05. GLASS CARD COMPONENTS
+           05. GLASS CARD & LINK HẤP DẪN
         ========================================================= */
         .card { background: var(--bg-glass-heavy); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius: 32px; padding: 36px 28px; box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255,255,255,0.1); border: 1px solid var(--border-glass); margin-bottom: 24px; animation: scaleIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; opacity: 0; transform: translateY(30px); }
         @keyframes scaleIn { to { opacity: 1; transform: translateY(0); } }
         .card-header { text-align: center; margin-bottom: 32px; }
         .card-title { font-size: 28px; font-weight: 800; letter-spacing: -1px; margin-bottom: 6px; }
-        .card-subtitle { color: var(--text-muted); font-size: 14px; font-weight: 500; }
+        
+        /* UI Mới: Link AnCafe và Slogan Animated */
+        .ancafe-link {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            color: var(--primary); font-weight: 800; text-decoration: none; font-size: 14px;
+            padding: 8px 24px; border-radius: 20px;
+            background: var(--primary-light); border: 1px solid rgba(239, 68, 68, 0.2);
+            box-shadow: 0 4px 15px var(--primary-glow); 
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-top: 8px; margin-bottom: 16px;
+        }
+        .ancafe-link:hover {
+            transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 25px var(--primary-glow);
+        }
+        .ancafe-link:active {
+            transform: translateY(0) scale(0.95);
+        }
+
+        .slogan-container {
+            position: relative; height: 20px; overflow: hidden; width: 100%;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .slogan-text {
+            position: absolute; width: 100%; text-align: center;
+            font-size: 13.5px; font-weight: 600; color: var(--text-muted); font-style: italic;
+            opacity: 0; transform: translateX(40px);
+            animation: slideSlogan 12s infinite cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .slogan-1 { animation-delay: 0s; }
+        .slogan-2 { animation-delay: 3s; }
+        .slogan-3 { animation-delay: 6s; }
+        .slogan-4 { animation-delay: 9s; }
+
+        @keyframes slideSlogan {
+            0% { opacity: 0; transform: translateX(40px); }
+            5%, 20% { opacity: 1; transform: translateX(0); }
+            25%, 100% { opacity: 0; transform: translateX(-40px); }
+        }
 
         /* =========================================================
            06. PREMIUM STATUS PANEL
@@ -171,7 +208,7 @@
         .st-desc { font-size: 13px; font-weight: 600; color: var(--text-muted); line-height: 1.2; letter-spacing: 0.3px;}
 
         /* =========================================================
-           07. FORMS & BẢN NÂNG CẤP SELECT
+           07. FORMS & DROPDOWN UI
         ========================================================= */
         .input-wrapper { position: relative; margin-bottom: 24px; }
         .input-label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
@@ -273,7 +310,6 @@
         tr:hover td { background: rgba(255,255,255,0.05); }
         td:first-child { text-align: left; position: sticky; left: 0; background: var(--bg-glass-heavy); z-index: 5; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 12px; box-shadow: 2px 0 5px rgba(0,0,0,0.05); border-left: 3px solid transparent; transition: 0.2s; }
         tr:hover td:first-child { border-left: 3px solid var(--primary); }
-        .avatar { width: 30px; height: 30px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--info)); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
 
         .shift-badge { display: inline-flex; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 11px; font-family: 'JetBrains Mono', monospace; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .badge-c1 { background: var(--info-bg); color: var(--info); border: 1px solid rgba(59, 130, 246, 0.3); } .badge-c2 { background: var(--warning-bg); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); } .badge-c3 { background: rgba(168, 85, 247, 0.15); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.3); } .badge-f { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); } .badge-double { background: var(--primary-bg); color: var(--primary); border: 1px solid rgba(220, 38, 38, 0.4); box-shadow: 0 0 10px var(--primary-light);} .badge-none { background: transparent; color: var(--border-glass); box-shadow: none;}
@@ -406,7 +442,24 @@
     <main class="card" id="userCard">
         <div class="card-header">
             <h2 class="card-title" data-i18n="title">Đăng Ký Ca Làm</h2>
-            <div class="card-subtitle"><a href="https://ancafe.vn" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 700;">ancafe.vn</a></div>
+            
+            <!-- Phần Link & Slogan Update -->
+            <a href="https://ancafe.vn" target="_blank" class="ancafe-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+                Khám phá ancafe.vn
+            </a>
+            <div class="slogan-container">
+                <span class="slogan-text slogan-1">"Nơi chốn thoải mái. Cảm giác thân thuộc."</span>
+                <span class="slogan-text slogan-2">"Hương vị đậm đà. Khởi nguồn sáng tạo."</span>
+                <span class="slogan-text slogan-3">"Góc nhỏ an yên giữa lòng thành phố."</span>
+                <span class="slogan-text slogan-4">"Thưởng thức cà phê. Kết nối đam mê."</span>
+            </div>
+            <!-- Kết thúc phần Link & Slogan -->
+
         </div>
         
         <div id="lockStatus">
@@ -559,7 +612,7 @@
             dayShort_T2: "월", dayShort_T3: "화", dayShort_T4: "수", dayShort_T5: "목", dayShort_T6: "금", dayShort_T7: "토", dayShort_CN: "일",
             off: "OFF", sysLocked: "시스템 잠김", stopReg: "등록 접수 중지", reopenAt: "다시 열림", monday: "월요일", sysOpen: "시스템 열림", sysOnline: "시스템 온라인", autoLock: "자동 잠금", emptyData: "이번 주 데이터가 없습니다.", staffIdentity: "직원 신원",
             supportTitle: "알림 센터", 
-            supportDesc: "최상의 경험을 보장하기 위해 시스템 작동 중 어려움을 겪거나 문제를 발견하면 <strong style='color: var(--primary); font 시즈: 15px;'>host PhuongAnh</strong> 에게 문의하십시오. 즉시 처리하고 해결해 드리겠습니다.",
+            supportDesc: "최상의 경험을 보장하기 위해 시스템 작동 중 어려움을 겪거나 문제를 발견하면 <strong style='color: var(--primary); font-size: 15px;'>host PhuongAnh</strong> 에게 문의하십시오. 즉시 처리하고 해결해 드리겠습니다.",
             dayTitle: "날짜", listTitle: "직원 명단"
         },
         ja: {
@@ -940,7 +993,6 @@
                         const shiftInfoObj = SHIFTS.find(s => s.id === shiftRegistered);
                         const cssBadgeClass = shiftInfoObj ? shiftInfoObj.class : 'badge-double';
                         
-                        // Tag ui style cho từng nhân viên đăng ký ca
                         dayShiftsHTML.push(`
                             <div style="display: inline-flex; align-items: center; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 8px; margin: 4px 8px 4px 0; border: 1px solid var(--border-glass);">
                                 <span style="font-weight: 700; margin-right: 8px;">${employeeName}</span>
