@@ -116,14 +116,13 @@
         }
 
         /* =========================================================
-           05. GLASS CARD & LINK HẤP DẪN
+           05. GLASS CARD & LINK ANCAFE
         ========================================================= */
         .card { background: var(--bg-glass-heavy); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius: 32px; padding: 36px 28px; box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255,255,255,0.1); border: 1px solid var(--border-glass); margin-bottom: 24px; animation: scaleIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; opacity: 0; transform: translateY(30px); }
         @keyframes scaleIn { to { opacity: 1; transform: translateY(0); } }
         .card-header { text-align: center; margin-bottom: 32px; }
         .card-title { font-size: 28px; font-weight: 800; letter-spacing: -1px; margin-bottom: 6px; }
         
-        /* UI Mới: Link AnCafe và Slogan Animated */
         .ancafe-link {
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             color: var(--primary); font-weight: 800; text-decoration: none; font-size: 14px;
@@ -131,35 +130,30 @@
             background: var(--primary-light); border: 1px solid rgba(239, 68, 68, 0.2);
             box-shadow: 0 4px 15px var(--primary-glow); 
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            margin-top: 8px; margin-bottom: 16px;
+            margin-top: 8px; margin-bottom: 8px;
         }
-        .ancafe-link:hover {
-            transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 25px var(--primary-glow);
-        }
-        .ancafe-link:active {
-            transform: translateY(0) scale(0.95);
-        }
+        .ancafe-link:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 25px var(--primary-glow); }
+        .ancafe-link:active { transform: translateY(0) scale(0.95); }
 
+        /* =========================================================
+           05.5 SLOGAN - ĐÁNH MÁY & DI CHUYỂN
+        ========================================================= */
         .slogan-container {
-            position: relative; height: 20px; overflow: hidden; width: 100%;
-            display: flex; justify-content: center; align-items: center;
+            position: relative; width: 100%; height: 22px; overflow: hidden;
+            margin-bottom: 16px;
         }
-        .slogan-text {
-            position: absolute; width: 100%; text-align: center;
-            font-size: 13.5px; font-weight: 600; color: var(--text-muted); font-style: italic;
-            opacity: 0; transform: translateX(40px);
-            animation: slideSlogan 12s infinite cubic-bezier(0.34, 1.56, 0.64, 1);
+        .slogan-scroller {
+            position: absolute; display: flex; align-items: center;
+            white-space: nowrap; width: max-content;
+            animation: slideLeft 15s linear infinite;
         }
-        .slogan-1 { animation-delay: 0s; }
-        .slogan-2 { animation-delay: 3s; }
-        .slogan-3 { animation-delay: 6s; }
-        .slogan-4 { animation-delay: 9s; }
-
-        @keyframes slideSlogan {
-            0% { opacity: 0; transform: translateX(40px); }
-            5%, 20% { opacity: 1; transform: translateX(0); }
-            25%, 100% { opacity: 0; transform: translateX(-40px); }
+        @keyframes slideLeft {
+            0% { left: 100%; transform: translateX(0); }
+            100% { left: -100%; transform: translateX(-100%); }
         }
+        .slogan-text { font-size: 13.5px; font-weight: 600; color: var(--text-muted); font-style: italic; }
+        .type-cursor { font-size: 14px; color: var(--primary); font-weight: 800; animation: blinkCursor 0.7s infinite; }
+        @keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         /* =========================================================
            06. PREMIUM STATUS PANEL
@@ -188,11 +182,7 @@
             box-shadow: 0 12px 35px rgba(239, 68, 68, 0.1), inset 0 0 0 1px rgba(239, 68, 68, 0.15);
         }
 
-        .st-icon-box {
-            position: relative; width: 56px; height: 56px; border-radius: 20px;
-            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-            z-index: 2;
-        }
+        .st-icon-box { position: relative; width: 56px; height: 56px; border-radius: 20px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; z-index: 2; }
         .sys-open .st-icon-box { background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); color: var(--success); box-shadow: 0 0 25px rgba(16, 185, 129, 0.3); }
         .sys-locked .st-icon-box { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: var(--danger); box-shadow: 0 0 25px rgba(239, 68, 68, 0.3); }
 
@@ -213,45 +203,27 @@
         .input-wrapper { position: relative; margin-bottom: 24px; }
         .input-label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
         .input-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; transition: 0.3s; }
-        .form-control { width: 100%; padding: 18px 20px 18px 52px; border-radius: 18px; border: 2px solid var(--border-glass); background: var(--input-bg); color: var(--text-main); font-family: inherit; font-weight: 600; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); -webkit-appearance: none; appearance: none; }
-        .form-control:focus { background: var(--bg-glass-heavy); border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-light); outline: none; }
+        .form-control { width: 100%; padding: 18px 20px 18px 52px; border-radius: 18px; border: 2px solid var(--border-glass); background: var(--input-bg); color: var(--text-main); font-family: inherit; font-weight: 600; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); outline: none; -webkit-appearance: none; appearance: none; }
+        .form-control:focus { background: var(--bg-glass-heavy); border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-light); }
         .form-control:focus + .input-icon { color: var(--primary); }
 
         .calendar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 32px; }
         
-        .day-card { 
-            background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: 20px; padding: 16px; 
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: inset 0 2px 10px rgba(0,0,0,0.02); 
-            position: relative; z-index: 1;
-        }
+        .day-card { background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: 20px; padding: 16px; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: inset 0 2px 10px rgba(0,0,0,0.02); position: relative; z-index: 1; }
         .day-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-soft); }
         .day-card:focus-within { border-color: var(--primary); background: var(--bg-glass-heavy); box-shadow: 0 8px 24px var(--primary-glow); }
         .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 800; font-size: 13px; color: var(--text-main); }
         .day-badge { font-size: 10px; padding: 4px 8px; border-radius: 6px; background: var(--border-glass); color: var(--text-muted); }
 
         .custom-dropdown { position: relative; width: 100%; font-family: inherit; }
-        .dropdown-selected {
-            width: 100%; padding: 14px 16px; border-radius: 14px; 
-            border: 2px solid transparent; background: var(--input-bg); 
-            color: var(--text-main); font-weight: 800; font-size: 14px; 
-            display: flex; justify-content: space-between; align-items: center;
-            cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); user-select: none;
-        }
+        .dropdown-selected { width: 100%; padding: 14px 16px; border-radius: 14px; border: 2px solid transparent; background: var(--input-bg); color: var(--text-main); font-weight: 800; font-size: 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); user-select: none; }
         .dropdown-selected:active { transform: scale(0.97); }
         .dropdown-selected .select-arrow { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); color: var(--text-muted); }
         
         .custom-dropdown.open .dropdown-selected { border-color: var(--primary); background: var(--bg-glass-heavy); box-shadow: 0 4px 20px var(--primary-light); }
         .custom-dropdown.open .select-arrow { transform: rotate(180deg); color: var(--primary); }
         
-        .dropdown-options {
-            position: absolute; top: calc(100% + 8px); left: 0; right: 0;
-            background: var(--bg-glass-heavy); border: 1px solid var(--border-glass);
-            border-radius: 16px; padding: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            z-index: 100; max-height: 220px; overflow-y: auto;
-            opacity: 0; visibility: hidden; transform: translateY(-10px) scale(0.95);
-            transform-origin: top center; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
+        .dropdown-options { position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: var(--bg-glass-heavy); border: 1px solid var(--border-glass); border-radius: 16px; padding: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.5); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); z-index: 100; max-height: 220px; overflow-y: auto; opacity: 0; visibility: hidden; transform: translateY(-10px) scale(0.95); transform-origin: top center; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .custom-dropdown.open .dropdown-options { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
         
         .dropdown-option { padding: 12px 16px; font-weight: 700; font-size: 14px; color: var(--text-main); border-radius: 10px; cursor: pointer; transition: 0.2s; margin-bottom: 4px; }
@@ -365,6 +337,50 @@
 
 <body>
 
+<!-- Tách riêng Script giao diện ra phía trước để đảm bảo TypeWriter & hiệu ứng 100% chạy mượt mà ngay khi tải trang -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const sloganTexts = [
+            "Nơi chốn thoải mái. Cảm giác thân thuộc.",
+            "Hương vị đậm đà. Khởi nguồn sáng tạo.",
+            "Góc nhỏ an yên giữa lòng thành phố.",
+            "Thưởng thức cà phê. Kết nối đam mê."
+        ];
+        let sloganIndex = 0;
+        let charIndex = 0;
+        let isDeletingSlogan = false;
+        const typewriterElement = document.getElementById("typewriter-text");
+
+        function typeWriterEffect() {
+            if (!typewriterElement) return;
+            const currentSlogan = sloganTexts[sloganIndex];
+            
+            if (isDeletingSlogan) {
+                typewriterElement.textContent = currentSlogan.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typewriterElement.textContent = currentSlogan.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeletingSlogan ? 30 : 60; // Tốc độ gõ chữ
+
+            if (!isDeletingSlogan && charIndex === currentSlogan.length) {
+                typeSpeed = 3000; // Dừng lâu một chút để người đọc kịp theo dõi trong lúc dòng chữ đang trôi
+                isDeletingSlogan = true;
+            } else if (isDeletingSlogan && charIndex === 0) {
+                isDeletingSlogan = false;
+                sloganIndex = (sloganIndex + 1) % sloganTexts.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeWriterEffect, typeSpeed);
+        }
+
+        setTimeout(typeWriterEffect, 500); // Khởi động hiệu ứng gõ chữ
+    });
+</script>
+
 <canvas id="bg-canvas"></canvas>
 <div class="mesh-blob blob-1"></div>
 <div class="mesh-blob blob-2"></div>
@@ -443,7 +459,6 @@
         <div class="card-header">
             <h2 class="card-title" data-i18n="title">Đăng Ký Ca Làm</h2>
             
-            <!-- Phần Link & Slogan Update -->
             <a href="https://ancafe.vn" target="_blank" class="ancafe-link">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -452,13 +467,13 @@
                 </svg>
                 Khám phá ancafe.vn
             </a>
+            
+            <!-- Kết hợp Typewriter và hiệu ứng trượt Marquee từ Phải sang Trái -->
             <div class="slogan-container">
-                <span class="slogan-text slogan-1">"Nơi chốn thoải mái. Cảm giác thân thuộc."</span>
-                <span class="slogan-text slogan-2">"Hương vị đậm đà. Khởi nguồn sáng tạo."</span>
-                <span class="slogan-text slogan-3">"Góc nhỏ an yên giữa lòng thành phố."</span>
-                <span class="slogan-text slogan-4">"Thưởng thức cà phê. Kết nối đam mê."</span>
+                <div class="slogan-scroller">
+                    <span id="typewriter-text" class="slogan-text"></span><span class="type-cursor">|</span>
+                </div>
             </div>
-            <!-- Kết thúc phần Link & Slogan -->
 
         </div>
         
@@ -993,6 +1008,7 @@
                         const shiftInfoObj = SHIFTS.find(s => s.id === shiftRegistered);
                         const cssBadgeClass = shiftInfoObj ? shiftInfoObj.class : 'badge-double';
                         
+                        // Tag ui style cho từng nhân viên đăng ký ca chung 1 dòng ngày đó
                         dayShiftsHTML.push(`
                             <div style="display: inline-flex; align-items: center; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 8px; margin: 4px 8px 4px 0; border: 1px solid var(--border-glass);">
                                 <span style="font-weight: 700; margin-right: 8px;">${employeeName}</span>
