@@ -90,10 +90,8 @@
         .header { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; gap: 16px; flex-wrap: wrap; }
         .brand-group { display: flex; flex-direction: row; align-items: center; gap: 12px; flex-wrap: wrap; }
         
-        /* LOGO AN CAFE NEW STYLE */
         .brand-logo { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; transition: transform 0.2s; }
         .brand-logo:active { transform: scale(0.95); }
-        .brand-logo img { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 12px var(--primary-glow); border: 1px solid var(--border-glass); }
         .brand-logo-text { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
         .brand-logo-title { font-weight: 800; font-size: 19px; letter-spacing: 0.5px; line-height: 1; text-transform: uppercase; color: var(--text-main); }
         .brand-logo-sub { font-size: 9px; font-weight: 800; color: var(--primary); letter-spacing: 1px; line-height: 1; text-transform: uppercase; }
@@ -127,7 +125,7 @@
         .card-subtitle { color: var(--text-muted); font-size: 14px; font-weight: 500; }
 
         /* =========================================================
-           06. PREMIUM STATUS PANEL (TẬP TRUNG, SIÊU HIỆN ĐẠI)
+           06. PREMIUM STATUS PANEL
         ========================================================= */
         .status-panel {
             display: flex; align-items: center; justify-content: center; gap: 20px;
@@ -173,7 +171,7 @@
         .st-desc { font-size: 13px; font-weight: 600; color: var(--text-muted); line-height: 1.2; letter-spacing: 0.3px;}
 
         /* =========================================================
-           07. FORMS & BẢN NÂNG CẤP SELECT (CUSTOM DROPDOWN UI)
+           07. FORMS & BẢN NÂNG CẤP SELECT
         ========================================================= */
         .input-wrapper { position: relative; margin-bottom: 24px; }
         .input-label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
@@ -194,7 +192,6 @@
         .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 800; font-size: 13px; color: var(--text-main); }
         .day-badge { font-size: 10px; padding: 4px 8px; border-radius: 6px; background: var(--border-glass); color: var(--text-muted); }
 
-        /* UI Select Mới */
         .custom-dropdown { position: relative; width: 100%; font-family: inherit; }
         .dropdown-selected {
             width: 100%; padding: 14px 16px; border-radius: 14px; 
@@ -340,7 +337,6 @@
     <header class="header">
         <div class="brand-group">
             <div class="brand-logo" style="gap: 10px;">
-                <img src="image.png" alt="An Café Logo" style="width: 38px; height: 38px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 12px var(--primary-glow); border: 1px solid var(--border-glass);">
                 <div class="brand-logo-text">
                     <span class="brand-logo-title">AN CAFÉ</span>
                     <span class="brand-logo-sub">WorkShift Pro</span>
@@ -410,7 +406,7 @@
     <main class="card" id="userCard">
         <div class="card-header">
             <h2 class="card-title" data-i18n="title">Đăng Ký Ca Làm</h2>
-            <div class="card-subtitle" data-i18n="subtitle">Hệ thống xếp lịch nội bộ | An Cafe & QuyChe Network</div>
+            <div class="card-subtitle"><a href="https://ancafe.vn" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 700;">ancafe.vn</a></div>
         </div>
         
         <div id="lockStatus">
@@ -430,7 +426,7 @@
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                 </svg>
-                <input type="text" id="name" class="form-control" placeholder="Ví dụ: Đăng Tùng..." data-i18n-placeholder="placeholder" autocomplete="off">
+                <input type="text" id="name" class="form-control" placeholder="Ví dụ: AnCafe..." data-i18n-placeholder="placeholder" autocomplete="off">
             </div>
         </div>
 
@@ -466,7 +462,7 @@
             <div class="dashboard-header-flex">
                 <div>
                     <h2 class="card-title" style="font-size: 20px; margin:0; text-align: left; display: flex; align-items: center; gap: 8px;">
-                        <span style="color: var(--primary); font-family: 'JetBrains Mono', monospace;">>_</span> <span data-i18n="dashboard">DASHBOARD</span>
+                        <span data-i18n="dashboard">DASHBOARD</span>
                     </h2>
                 </div>
                 <button id="logoutBtn" class="btn-exit" data-i18n="lockSys">Khóa Hệ Thống</button>
@@ -531,44 +527,49 @@
     // --- 0. MULTI-LANGUAGE SYSTEM (I18N) ---
     const i18n = {
         vi: {
-            realtime: "Đồng bộ realtime:", title: "Đăng Ký Ca Làm", subtitle: "Hệ thống xếp lịch nội bộ | An Cafe & QuyChe Network", employeeId: "Định danh nhân sự", placeholder: "Ví dụ: Đăng Tùng...", schedule: "Đăng ký lịch làm việc (Tuần này)", confirmBtn: "Xác Nhận Đăng Ký", managerBtn: "Truy Cập Khu Vực Quản Lý", secureAccess: "Secure Access", highPrivilege: "Hệ thống phân quyền cấp cao", dashboard: "DASHBOARD", lockSys: "Khóa Hệ Thống", totalEmp: "Tổng Nhân Sự", totalShifts: "Ca Đăng Ký", openShift: "Mở Lịch", lock: "Khóa", export: "Xuất File", cleanup: "Dọn Dẹp", designed: "Designed & Engineered by", rights: "All rights reserved.",
+            realtime: "Đồng bộ realtime:", title: "Đăng Ký Ca Làm", employeeId: "Định danh nhân sự", placeholder: "Ví dụ: AnCafe...", schedule: "Đăng ký lịch làm việc (Tuần này)", confirmBtn: "Xác Nhận Đăng Ký", managerBtn: "Truy Cập Khu Vực Quản Lý", secureAccess: "Secure Access", highPrivilege: "Hệ thống phân quyền cấp cao", dashboard: "DASHBOARD", lockSys: "Khóa Hệ Thống", totalEmp: "Tổng Nhân Sự", totalShifts: "Ca Đăng Ký", openShift: "Mở Lịch", lock: "Khóa", export: "Xuất File", cleanup: "Dọn Dẹp", designed: "Designed & Engineered by", rights: "All rights reserved.",
             dayFullName_T2: "Thứ 2", dayFullName_T3: "Thứ 3", dayFullName_T4: "Thứ 4", dayFullName_T5: "Thứ 5", dayFullName_T6: "Thứ 6", dayFullName_T7: "Thứ 7", dayFullName_CN: "Chủ Nhật",
             dayShort_T2: "T2", dayShort_T3: "T3", dayShort_T4: "T4", dayShort_T5: "T5", dayShort_T6: "T6", dayShort_T7: "T7", dayShort_CN: "CN",
             off: "OFF", sysLocked: "Hệ thống khóa", stopReg: "Ngưng nhận đăng ký", reopenAt: "Mở lại vào", monday: "Thứ 2", sysOpen: "Đang mở cửa", sysOnline: "Hệ thống trực tuyến", autoLock: "Khóa tự động", emptyData: "Không có dữ liệu trong tuần này.", staffIdentity: "Định danh nhân sự",
             supportTitle: "Trung Tâm Thông Báo", 
-            supportDesc: "Nhằm đảm bảo trải nghiệm tốt nhất, nếu bạn gặp bất kỳ khó khăn nào trong thao tác hoặc phát hiện điểm bất cập của hệ thống, vui lòng liên hệ <strong style='color: var(--primary); font-size: 15px;'>host PhuongAnh</strong>. Chúng tôi sẽ tiếp nhận và xử lý ngay lập tức."
+            supportDesc: "Nhằm đảm bảo trải nghiệm tốt nhất, nếu bạn gặp bất kỳ khó khăn nào trong thao tác hoặc phát hiện điểm bất cập của hệ thống, vui lòng liên hệ <strong style='color: var(--primary); font-size: 15px;'>host PhuongAnh</strong>. Chúng tôi sẽ tiếp nhận và xử lý ngay lập tức.",
+            dayTitle: "Ngày", listTitle: "Danh sách nhân sự đăng ký"
         },
         en: {
-            realtime: "Realtime sync:", title: "Shift Registration", subtitle: "Internal Scheduling System | An Cafe & QuyChe Network", employeeId: "Employee Identity", placeholder: "Example: Dang Tung...", schedule: "Register Work Shift (This week)", confirmBtn: "Confirm Registration", managerBtn: "Access Management Area", secureAccess: "Secure Access", highPrivilege: "High Privilege System", dashboard: "DASHBOARD", lockSys: "Lock System", totalEmp: "Total Staff", totalShifts: "Registered Shifts", openShift: "Open Shift", lock: "Lock", export: "Export", cleanup: "Clean Up", designed: "Designed & Engineered by", rights: "All rights reserved.",
+            realtime: "Realtime sync:", title: "Shift Registration", employeeId: "Employee Identity", placeholder: "Example: AnCafe...", schedule: "Register Work Shift (This week)", confirmBtn: "Confirm Registration", managerBtn: "Access Management Area", secureAccess: "Secure Access", highPrivilege: "High Privilege System", dashboard: "DASHBOARD", lockSys: "Lock System", totalEmp: "Total Staff", totalShifts: "Registered Shifts", openShift: "Open Shift", lock: "Lock", export: "Export", cleanup: "Clean Up", designed: "Designed & Engineered by", rights: "All rights reserved.",
             dayFullName_T2: "Monday", dayFullName_T3: "Tuesday", dayFullName_T4: "Wednesday", dayFullName_T5: "Thursday", dayFullName_T6: "Friday", dayFullName_T7: "Saturday", dayFullName_CN: "Sunday",
             dayShort_T2: "Mon", dayShort_T3: "Tue", dayShort_T4: "Wed", dayShort_T5: "Thu", dayShort_T6: "Fri", dayShort_T7: "Sat", dayShort_CN: "Sun",
             off: "OFF", sysLocked: "System Locked", stopReg: "Stop accepting registrations", reopenAt: "Reopens at", monday: "Monday", sysOpen: "System Open", sysOnline: "System Online", autoLock: "Auto lock", emptyData: "No data available this week.", staffIdentity: "Staff Identity",
             supportTitle: "Notification Center", 
-            supportDesc: "To ensure the best experience, if you encounter any difficulties or identify any system issues, please contact <strong style='color: var(--primary); font-size: 15px;'>host PhuongAnh</strong>. We will address and resolve them immediately."
+            supportDesc: "To ensure the best experience, if you encounter any difficulties or identify any system issues, please contact <strong style='color: var(--primary); font-size: 15px;'>host PhuongAnh</strong>. We will address and resolve them immediately.",
+            dayTitle: "Date", listTitle: "Registered Staff"
         },
         zh: {
-            realtime: "同步实时:", title: "排班注册", subtitle: "内部排班系统 | An Cafe & QuyChe Network", employeeId: "员工身份", placeholder: "示例：Dang Tung...", schedule: "注册工作班次（本周）", confirmBtn: "确认注册", managerBtn: "访问管理区", secureAccess: "安全访问", highPrivilege: "高权限系统", dashboard: "仪表板", lockSys: "锁定系统", totalEmp: "总员工", totalShifts: "注册班次", openShift: "开放班次", lock: "锁定", export: "导出", cleanup: "清理", designed: "设计与工程 by", rights: "保留所有权利.",
+            realtime: "同步实时:", title: "排班注册", employeeId: "员工身份", placeholder: "示例：AnCafe...", schedule: "注册工作班次（本周）", confirmBtn: "确认注册", managerBtn: "访问管理区", secureAccess: "安全访问", highPrivilege: "高权限系统", dashboard: "仪表板", lockSys: "锁定系统", totalEmp: "总员工", totalShifts: "注册班次", openShift: "开放班次", lock: "锁定", export: "导出", cleanup: "清理", designed: "设计与工程 by", rights: "保留所有权利.",
             dayFullName_T2: "星期一", dayFullName_T3: "星期二", dayFullName_T4: "星期三", dayFullName_T5: "星期四", dayFullName_T6: "星期五", dayFullName_T7: "星期六", dayFullName_CN: "星期日",
             dayShort_T2: "周一", dayShort_T3: "周二", dayShort_T4: "周三", dayShort_T5: "周四", dayShort_T6: "周五", dayShort_T7: "周六", dayShort_CN: "周日",
             off: "OFF", sysLocked: "系统已锁定", stopReg: "停止接受注册", reopenAt: "重新开放于", monday: "星期一", sysOpen: "系统开放", sysOnline: "系统在线", autoLock: "自动锁定", emptyData: "本周没有数据.", staffIdentity: "员工身份",
             supportTitle: "通知中心", 
-            supportDesc: "为了确保最佳体验，如果您在操作中遇到任何困难或发现系统问题，请联系 <strong style='color: var(--primary); font-size: 15px;'>host PhuongAnh</strong>。我们将立即处理并解决。"
+            supportDesc: "为了确保最佳体验，如果您在操作中遇到任何困难或发现系统问题，请联系 <strong style='color: var(--primary); font-size: 15px;'>host PhuongAnh</strong>。我们将立即处理并解决。",
+            dayTitle: "日期", listTitle: "员工名单"
         },
         ko: {
-            realtime: "실시간 동기화:", title: "근무 교대 등록", subtitle: "내부 일정 시스템 | An Cafe & QuyChe Network", employeeId: "직원 신원", placeholder: "예: Dang Tung...", schedule: "근무 교대 등록 (이번 주)", confirmBtn: "등록 확인", managerBtn: "관리 영역 접근", secureAccess: "보안 접근", highPrivilege: "고권한 시스템", dashboard: "대시보드", lockSys: "시스템 잠금", totalEmp: "총 직원", totalShifts: "등록된 교대", openShift: "교대 열기", lock: "잠금", export: "내보내기", cleanup: "정리", designed: "설계 및 엔지니어링 by", rights: "모든 권리 보유.",
+            realtime: "실시간 동기화:", title: "근무 교대 등록", employeeId: "직원 신원", placeholder: "예: AnCafe...", schedule: "근무 교대 등록 (이번 주)", confirmBtn: "등록 확인", managerBtn: "관리 영역 접근", secureAccess: "보안 접근", highPrivilege: "고권한 시스템", dashboard: "대시보드", lockSys: "시스템 잠금", totalEmp: "총 직원", totalShifts: "등록된 교대", openShift: "교대 열기", lock: "잠금", export: "내보내기", cleanup: "정리", designed: "설계 및 엔지니어링 by", rights: "모든 권리 보유.",
             dayFullName_T2: "월요일", dayFullName_T3: "화요일", dayFullName_T4: "수요일", dayFullName_T5: "목요일", dayFullName_T6: "금요일", dayFullName_T7: "토요일", dayFullName_CN: "일요일",
             dayShort_T2: "월", dayShort_T3: "화", dayShort_T4: "수", dayShort_T5: "목", dayShort_T6: "금", dayShort_T7: "토", dayShort_CN: "일",
             off: "OFF", sysLocked: "시스템 잠김", stopReg: "등록 접수 중지", reopenAt: "다시 열림", monday: "월요일", sysOpen: "시스템 열림", sysOnline: "시스템 온라인", autoLock: "자동 잠금", emptyData: "이번 주 데이터가 없습니다.", staffIdentity: "직원 신원",
             supportTitle: "알림 센터", 
-            supportDesc: "최상의 경험을 보장하기 위해 시스템 작동 중 어려움을 겪거나 문제를 발견하면 <strong style='color: var(--primary); font-size: 15px;'>host PhuongAnh</strong> 에게 문의하십시오. 즉시 처리하고 해결해 드리겠습니다."
+            supportDesc: "최상의 경험을 보장하기 위해 시스템 작동 중 어려움을 겪거나 문제를 발견하면 <strong style='color: var(--primary); font 시즈: 15px;'>host PhuongAnh</strong> 에게 문의하십시오. 즉시 처리하고 해결해 드리겠습니다.",
+            dayTitle: "날짜", listTitle: "직원 명단"
         },
         ja: {
-            realtime: "リアルタイム同期:", title: "シフト登録", subtitle: "内部スケジュールシステム | An Cafe & QuyChe Network", employeeId: "従業員ID", placeholder: "例：Dang Tung...", schedule: "シフト登録（今週）", confirmBtn: "登録の確認", managerBtn: "管理エリアへのアクセス", secureAccess: "セキュアアクセス", highPrivilege: "高権限システム", dashboard: "ダッシュボード", lockSys: "システムロック", totalEmp: "総従業員", totalShifts: "登録済みシフト", openShift: "シフトを開く", lock: "ロック", export: "エクスポート", cleanup: "クリーンアップ", designed: "設計とエンジニアリング by", rights: "全著作権所有.",
+            realtime: "リアルタイム同期:", title: "シフト登録", employeeId: "従業員ID", placeholder: "例：AnCafe...", schedule: "シフト登録（今週）", confirmBtn: "登録の確認", managerBtn: "管理エリアへのアクセス", secureAccess: "セキュアアクセス", highPrivilege: "高権限システム", dashboard: "ダッシュボード", lockSys: "システムロック", totalEmp: "総従業員", totalShifts: "登録済みシフト", openShift: "シフトを開く", lock: "ロック", export: "エクスポート", cleanup: "クリーンアップ", designed: "設計とエンジニアリング by", rights: "全著作権所有.",
             dayFullName_T2: "月曜日", dayFullName_T3: "火曜日", dayFullName_T4: "水曜日", dayFullName_T5: "木曜日", dayFullName_T6: "金曜日", dayFullName_T7: "土曜日", dayFullName_CN: "日曜日",
             dayShort_T2: "月", dayShort_T3: "火", dayShort_T4: "水", dayShort_T5: "木", dayShort_T6: "金", dayShort_T7: "土", dayShort_CN: "日",
             off: "OFF", sysLocked: "システムロック中", stopReg: "登録受付停止", reopenAt: "再開時間", monday: "月曜日", sysOpen: "システム稼働中", sysOnline: "システムオンライン", autoLock: "自動ロック", emptyData: "今週のデータはありません。", staffIdentity: "従業員ID",
             supportTitle: "通知センター", 
-            supportDesc: "最高の体験を保証するため、操作中に困難が生じたり、システムの問題を発見した場合は、<strong style='color: var(--primary); font-size: 15px;'>host PhuongAnh</strong> にご連絡ください。直ちに対応し、解決いたします。"
+            supportDesc: "最高の体験を保証するため、操作中に困難が生じたり、システムの問題を発見した場合は、<strong style='color: var(--primary); font-size: 15px;'>host PhuongAnh</strong> にご連絡ください。直ちに対応し、解決いたします。",
+            dayTitle: "日付", listTitle: "スタッフリスト"
         }
     };
 
@@ -904,34 +905,68 @@
     // --- 12. LOGIC DASHBOARD QUẢN TRỊ VIÊN ---
     let rawExcelDataExport = ""; 
     async function fetchAndRenderAdminData() {
-        const tableContainer = document.getElementById("excelTable"); tableContainer.innerHTML = `<div style="padding: 40px; text-align: center;"><div class="skeleton" style="height: 150px; border-radius: 16px;"></div></div>`;
+        const tableContainer = document.getElementById("excelTable"); 
+        tableContainer.innerHTML = `<div style="padding: 40px; text-align: center;"><div class="skeleton" style="height: 150px; border-radius: 16px;"></div></div>`;
+        
         try {
             const snapshot = await get(ref(db, "dangKy"));
             if(!snapshot.exists()) {
-                tableContainer.innerHTML = `<div style="padding: 40px; color: var(--text-muted); text-align: center; font-weight: 600;">${t('emptyData')}</div>`; document.getElementById("totalUsers").innerText = "0"; document.getElementById("totalShifts").innerText = "0"; return;
+                tableContainer.innerHTML = `<div style="padding: 40px; color: var(--text-muted); text-align: center; font-weight: 600;">${t('emptyData')}</div>`; 
+                document.getElementById("totalUsers").innerText = "0"; 
+                document.getElementById("totalShifts").innerText = "0"; 
+                return;
             }
             
-            const data = snapshot.val() || {}; let countUsers = 0; let countShifts = 0;
-            let htmlTable = `<table><thead><tr><th>${t('staffIdentity')}</th>`; htmlTable += DAYS.map(day => `<th>${t('dayShort_' + day)}</th>`).join(''); htmlTable += `</tr></thead><tbody>`;
-            rawExcelDataExport = `${t('staffIdentity')}\t${DAYS.map(day => t('dayShort_' + day)).join('\t')}\n`;
-            
+            const data = snapshot.val() || {}; 
             const sortedNames = Object.keys(data).sort();
-            sortedNames.forEach(employeeName => {
-                const employeeData = data[employeeName] || {}; countUsers++; const avatarChar = String(employeeName).charAt(0).toUpperCase();
-                htmlTable += `<tr><td><div class="avatar">${avatarChar}</div>${employeeName}</td>`; rawExcelDataExport += `${employeeName}\t`;
-                
-                const lichData = (employeeData && typeof employeeData === 'object') ? employeeData.lich : null;
-                DAYS.forEach((day, index) => {
-                    const shiftRegistered = lichData ? lichData[day] : null; if(shiftRegistered) countShifts++;
-                    const shiftInfoObj = shiftRegistered ? SHIFTS.find(s => s.id === shiftRegistered) : null; const cssBadgeClass = shiftInfoObj ? shiftInfoObj.class : (shiftRegistered ? 'badge-double' : 'badge-none'); const displayValue = shiftRegistered || '-';
-                    htmlTable += `<td><span class="shift-badge ${cssBadgeClass}">${displayValue}</span></td>`; rawExcelDataExport += `${displayValue}${index === DAYS.length - 1 ? '' : '\t'}`;
-                });
-                htmlTable += `</tr>`; rawExcelDataExport += `\n`;
-            });
-            tableContainer.innerHTML = htmlTable + `</tbody></table>`;
-            animateNumberCounter("totalUsers", 0, countUsers, 800); animateNumberCounter("totalShifts", 0, countShifts, 800);
+            let countUsers = sortedNames.length; 
+            let countShifts = 0;
             
-        } catch(error) { console.error("Firebase fetch error:", error); showToast("Error: " + (error.message || "Please check again"), "error"); }
+            let htmlTable = `<table><thead><tr><th style="width: 100px;">${t('dayTitle') || 'Ngày'}</th><th style="text-align: left;">${t('listTitle') || 'Danh sách nhân sự đăng ký'}</th></tr></thead><tbody>`;
+            rawExcelDataExport = `${t('dayTitle') || 'Ngày'}\t${t('listTitle') || 'Danh sách nhân sự đăng ký'}\n`;
+            
+            DAYS.forEach(day => {
+                const dayName = t('dayFullName_' + day);
+                let dayShiftsHTML = [];
+                let dayShiftsExport = [];
+                
+                sortedNames.forEach(employeeName => {
+                    const employeeData = data[employeeName] || {};
+                    const lichData = (employeeData && typeof employeeData === 'object') ? employeeData.lich : null;
+                    const shiftRegistered = lichData ? lichData[day] : null;
+                    
+                    if (shiftRegistered) {
+                        countShifts++;
+                        const shiftInfoObj = SHIFTS.find(s => s.id === shiftRegistered);
+                        const cssBadgeClass = shiftInfoObj ? shiftInfoObj.class : 'badge-double';
+                        
+                        // Tag ui style cho từng nhân viên đăng ký ca
+                        dayShiftsHTML.push(`
+                            <div style="display: inline-flex; align-items: center; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 8px; margin: 4px 8px 4px 0; border: 1px solid var(--border-glass);">
+                                <span style="font-weight: 700; margin-right: 8px;">${employeeName}</span>
+                                <span class="shift-badge ${cssBadgeClass}" style="transform: scale(0.9); padding: 4px 8px;">${shiftRegistered}</span>
+                            </div>
+                        `);
+                        dayShiftsExport.push(`${employeeName} (${shiftRegistered})`);
+                    }
+                });
+                
+                const displayList = dayShiftsHTML.length > 0 ? dayShiftsHTML.join('') : `<span style="color: var(--text-muted); font-style: italic;">-</span>`;
+                const rawExportList = dayShiftsExport.length > 0 ? dayShiftsExport.join(', ') : '-';
+                
+                htmlTable += `<tr><td><strong>${dayName}</strong></td><td style="text-align: left; white-space: normal;">${displayList}</td></tr>`;
+                rawExcelDataExport += `${dayName}\t${rawExportList}\n`;
+            });
+            htmlTable += `</tbody></table>`;
+            
+            tableContainer.innerHTML = htmlTable;
+            animateNumberCounter("totalUsers", 0, countUsers, 800); 
+            animateNumberCounter("totalShifts", 0, countShifts, 800);
+            
+        } catch(error) { 
+            console.error("Firebase fetch error:", error); 
+            showToast("Error: " + (error.message || "Please check again"), "error"); 
+        }
     }
 
     // --- 13. CÁC HÀNH ĐỘNG CỦA QUẢN TRỊ VIÊN ---
@@ -991,4 +1026,3 @@
 
 </body>
 </html>
-
